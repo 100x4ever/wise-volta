@@ -27,29 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return img;
   }
 
-  function getImgPath(src) {
-    if (!src || typeof src !== 'string' || src.trim() === '') return 'images/lieutenant_new_antioch.jpg';
-    let clean = src.replace(/\\/g, '/').trim();
-    if (clean.startsWith('/')) clean = clean.substring(1);
-
-    let isPort8002 = window.location.port === "8002" || !window.location.pathname.includes('/game_engine/');
-    
-    // If running on port 8002, root IS game_engine, so strip game_engine/ prefix if present
-    if (isPort8002) {
-      if (clean.startsWith('game_engine/')) {
-        clean = clean.replace('game_engine/', '');
-      }
-      if (!clean.startsWith('images/')) {
-        clean = 'images/' + clean;
-      }
-      return clean;
-    } else {
-      // If running on port 8000 (master app root), ensure game_engine/ prefix
-      if (!clean.startsWith('game_engine/')) {
-        clean = 'game_engine/' + clean;
-      }
-      return clean;
-    }
+    function getImgPath(src) {
+    if (!src) return '';
+    let clean = src.replace(/^game_engine\//, '').replace(/^images\//, '').replace(/^\//, '');
+    return 'images/' + clean;
   }
 
   const DISPLAY_WIDTH = 840;

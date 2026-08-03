@@ -547,30 +547,20 @@
   <script src="app.js"></script>
 
   <!-- COMMANDER AUTHENTICATION MODAL -->
-  <div class="modal-overlay hidden" id="authModalOverlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:9999;">
-    <div class="modal-card glass-card" style="width:380px; padding:24px; border:1px solid var(--gold-glow); background:#0c0e14;">
+    <div class="modal-overlay hidden" id="authModalOverlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:9999;">
+    <div class="modal-card glass-card" style="width:360px; padding:24px; border:1px solid var(--gold-glow); background:#0c0e14;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #222; padding-bottom:8px;">
-        <h3 style="color:var(--gold-glow); font-family:var(--font-roman); margin:0;">☩ COMMANDER AUTHENTICATION</h3>
+        <h3 style="color:var(--gold-glow); font-family:var(--font-roman); margin:0;">☩ COMMANDER LOGIN</h3>
         <button type="button" id="btnCloseAuthModal" style="background:none; border:none; color:#888; font-size:1.2rem; cursor:pointer;">✕</button>
       </div>
 
-      <div style="display:flex; gap:10px; margin-bottom:14px;">
-        <button type="button" id="btnTabLogin" style="flex:1; padding:6px; background:var(--gold-glow); color:#000; font-weight:bold; border:none; cursor:pointer;">LOGIN</button>
-        <button type="button" id="btnTabRegister" style="flex:1; padding:6px; background:#1e2430; color:#fff; font-weight:bold; border:1px solid #444; cursor:pointer;">REGISTER</button>
-      </div>
-
-      <form id="authForm" style="display:flex; flex-direction:column; gap:10px;">
+      <form id="authForm" style="display:flex; flex-direction:column; gap:12px;">
         <div>
-          <label style="font-size:0.75rem; color:var(--steel-grey); display:block; margin-bottom:4px;">COMMANDER NAME / USERNAME:</label>
-          <input type="text" id="authUsername" required style="width:100%; padding:8px; background:#000; border:1px solid #333; color:#fff; font-family:var(--font-mono);">
+          <label style="font-size:0.75rem; color:var(--steel-grey); display:block; margin-bottom:4px;">ENTER YOUR COMMANDER USERNAME:</label>
+          <input type="text" id="authUsername" placeholder="e.g. TrenchMaster_99" required style="width:100%; padding:10px; background:#000; border:1px solid var(--gold-glow); color:#fff; font-family:var(--font-mono); font-size:0.9rem;">
         </div>
 
         <div>
-          <label style="font-size:0.75rem; color:var(--steel-grey); display:block; margin-bottom:4px;">SECRET PASSPHRASE:</label>
-          <input type="password" id="authPassword" required style="width:100%; padding:8px; background:#000; border:1px solid #333; color:#fff; font-family:var(--font-mono);">
-        </div>
-
-        <div id="avatarSelectRow" style="display:none;">
           <label style="font-size:0.75rem; color:var(--steel-grey); display:block; margin-bottom:4px;">COMMANDER CREST / AVATAR:</label>
           <select id="authAvatar" style="width:100%; padding:8px; background:#000; border:1px solid #333; color:#fff;">
             <option value="🎖️">🎖️ Field Marshal</option>
@@ -583,8 +573,8 @@
 
         <div id="authErrorMsg" style="color:#ff8a80; font-size:0.75rem; display:none;"></div>
 
-        <button type="submit" id="btnAuthSubmit" style="margin-top:10px; padding:10px; background:var(--blood-bright); color:#fff; font-weight:bold; border:none; cursor:pointer; font-family:var(--font-roman);">
-          LOG IN TO COMMAND VAULT
+        <button type="submit" id="btnAuthSubmit" style="margin-top:8px; padding:12px; background:var(--blood-bright); color:#fff; font-weight:bold; border:none; cursor:pointer; font-family:var(--font-roman); font-size:0.85rem;">
+          LOG IN / ENTER VAULT ➔
         </button>
       </form>
     </div>

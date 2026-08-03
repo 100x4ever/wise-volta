@@ -2,10 +2,10 @@ import http.server
 import socketserver
 import json
 import sqlite3
-import hashlib
 import os
 import secrets
 import urllib.parse
+import mimetypes
 
 PORT = int(os.environ.get("PORT", 8000))
 DATA_DIR = os.environ.get("DATA_DIR", "./data")
@@ -19,8 +19,6 @@ def init_db():
     c.execute('''CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT UNIQUE,
-                    password_hash TEXT,
-                    salt TEXT,
                     avatar TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )''')
@@ -47,12 +45,6 @@ def init_db():
     conn.close()
 
 init_db()
-
-def hash_password(password, salt=None):
-    if not salt:
-        salt = secrets.token_hex(16)
-    hashed = hashlib.sha256((password + salt).encode('utf-8')).hexdigest()
-    return hashed, salt
 
 class MasterHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
@@ -89,6 +81,28 @@ class MasterHandler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def serve_image_file(self, rel_path):
+        filename = os.path.basename(rel_path)
+        candidates = [
+            os.path.join(".", rel_path.lstrip("/")),
+            os.path.join(".", "game_engine", "images", filename),
+            os.path.join(".", "warband_builder", "images", filename),
+            os.path.join(".", "images", filename)
+        ]
+        for candidate in candidates:
+            if os.path.exists(candidate) and os.path.isfile(candidate):
+                mime, _ = mimetypes.guess_type(candidate)
+                mime = mime or "image/jpeg"
+                with open(candidate, "rb") as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header("Content-Type", mime)
+                self.send_header("Content-Length", str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+                return True
+        return False
+
     def do_POST(self):
         parsed_path = urllib.parse.urlparse(self.path).path
         content_len = int(self.headers.get('Content-Length', 0))
@@ -99,48 +113,23 @@ class MasterHandler(http.server.SimpleHTTPRequestHandler):
         except Exception:
             req_data = {}
 
-        if parsed_path == '/api/auth/register':
+        if parsed_path in ['/api/auth/login', '/api/auth/register', '/api/auth/username']:
             username = req_data.get('username', '').strip()
-            password = req_data.get('password', '').strip()
             avatar = req_data.get('avatar', '🎖️')
 
-            if not username or not password:
-                return self.send_json({"error": "Username and password required"}, 400)
-
-            pwd_hash, salt = hash_password(password)
-            conn = sqlite3.connect(DB_PATH)
-            c = conn.cursor()
-            try:
-                c.execute('INSERT INTO users (username, password_hash, salt, avatar) VALUES (?, ?, ?, ?)',
-                          (username, pwd_hash, salt, avatar))
-                user_id = c.lastrowid
-                token = secrets.token_hex(32)
-                c.execute('INSERT INTO sessions (token, user_id) VALUES (?, ?)', (token, user_id))
-                conn.commit()
-                conn.close()
-                return self.send_json({"token": token, "user": {"id": user_id, "username": username, "avatar": avatar}})
-            except sqlite3.IntegrityError:
-                conn.close()
-                return self.send_json({"error": "Username already exists"}, 400)
-
-        elif parsed_path == '/api/auth/login':
-            username = req_data.get('username', '').strip()
-            password = req_data.get('password', '').strip()
+            if not username:
+                return self.send_json({"error": "Username required"}, 400)
 
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
-            c.execute('SELECT id, password_hash, salt, avatar FROM users WHERE username = ?', (username,))
+            c.execute('SELECT id, username, avatar FROM users WHERE LOWER(username) = LOWER(?)', (username,))
             row = c.fetchone()
 
             if not row:
-                conn.close()
-                return self.send_json({"error": "Invalid username or password"}, 401)
-
-            user_id, stored_hash, salt, avatar = row
-            check_hash, _ = hash_password(password, salt)
-            if check_hash != stored_hash:
-                conn.close()
-                return self.send_json({"error": "Invalid username or password"}, 401)
+                c.execute('INSERT INTO users (username, avatar) VALUES (?, ?)', (username, avatar))
+                user_id = c.lastrowid
+            else:
+                user_id, username, avatar = row
 
             token = secrets.token_hex(32)
             c.execute('INSERT INTO sessions (token, user_id) VALUES (?, ?)', (token, user_id))
@@ -163,26 +152,15 @@ class MasterHandler(http.server.SimpleHTTPRequestHandler):
             conn.close()
             return self.send_json({"success": True, "id": w_id})
 
-        elif parsed_path == '/api/campaigns':
-            user = self.get_session_user()
-            if not user:
-                return self.send_json({"error": "Unauthorized"}, 401)
-
-            c_id = req_data.get('id', f"c_{secrets.token_hex(8)}")
-            c_name = req_data.get('name', 'Untitled Campaign')
-            conn = sqlite3.connect(DB_PATH)
-            c = conn.cursor()
-            c.execute('''INSERT OR REPLACE INTO campaigns (id, user_id, name, data, updated_at)
-                         VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)''', (c_id, user['id'], c_name, json.dumps(req_data)))
-            conn.commit()
-            conn.close()
-            return self.send_json({"success": True, "id": c_id})
-
         else:
             return self.send_json({"error": "Not Found"}, 404)
 
     def do_GET(self):
         parsed_path = urllib.parse.urlparse(self.path).path
+
+        if parsed_path.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg')):
+            if self.serve_image_file(parsed_path):
+                return
 
         if parsed_path == '/api/auth/me':
             user = self.get_session_user()
@@ -201,18 +179,6 @@ class MasterHandler(http.server.SimpleHTTPRequestHandler):
             conn.close()
             warbands = [json.loads(r[0]) for r in rows]
             return self.send_json({"warbands": warbands})
-
-        elif parsed_path == '/api/campaigns':
-            user = self.get_session_user()
-            if not user:
-                return self.send_json({"error": "Unauthorized"}, 401)
-            conn = sqlite3.connect(DB_PATH)
-            c = conn.cursor()
-            c.execute('SELECT data FROM campaigns WHERE user_id = ? ORDER BY updated_at DESC', (user['id'],))
-            rows = c.fetchall()
-            conn.close()
-            campaigns = [json.loads(r[0]) for r in rows]
-            return self.send_json({"campaigns": campaigns})
 
         else:
             super().do_GET()
