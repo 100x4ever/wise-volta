@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trench Crusade - Tactical Battlefield Map & Game Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Special+Elite&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <!-- Top HUD Navigation Bar -->
+    <header class="game-header">
+      <div class="game-logo">
+        <span class="cross">☩</span>
+        <div>
+          <h1>TRENCH CRUSADE</h1>
+          <p class="subtitle">TACTICAL BATTLEFIELD MAP & GAME ENGINE • v1.0.2</p>
+        </div>
+      </div>
+
+      <!-- Phase & Turn Tracker HUD with Alternating Activation Lock Indicator -->
+      <div class="turn-phase-hud">
+        <div class="turn-box">
+          <span class="hud-label">GAME TURN</span>
+          <strong id="hudTurnNum">TURN 1 / 6</strong>
+        </div>
+        <div class="phase-box">
+          <span class="hud-label">CURRENT PHASE</span>
+          <strong id="hudPhaseName" class="phase-highlight">1. INITIATIVE PHASE</strong>
+        </div>
+        
+        <!-- Active Turn Lock Indicator -->
+        <div class="turn-lock-box" id="turnLockBox">
+          <span class="hud-label">ACTIVATION TURN LOCK</span>
+          <strong id="hudActivePlayer" style="color:var(--blood-bright); font-family:var(--font-roman); font-size:0.85rem;">PLAYER 1 TURN</strong>
+        </div>
+
+        <button type="button" class="btn-next-phase" id="btnNextPhase">ADVANCE PHASE ➔</button>
+      </div>
+
+      <!-- Global Resource & VP Scoreboard HUD -->
+      <div class="resource-pools-hud">
+        <div class="pool-item" style="border-color:var(--gold-glow);">
+          <span>🏆 P1 VP:</span>
+          <strong id="vpPlayer1" style="color:var(--gold-glow); font-size:1.1rem;">0</strong>
+          <button type="button" class="btn-mini" id="btnAddVpP1">+</button>
+        </div>
+        <div class="pool-item" style="border-color:#3878b8;">
+          <span>🏆 P2 VP:</span>
+          <strong id="vpPlayer2" style="color:#3878b8; font-size:1.1rem;">0</strong>
+          <button type="button" class="btn-mini" id="btnAddVpP2">+</button>
+        </div>
+        <div class="pool-item">
+          <span>🩸 BLOOD:</span>
+          <strong id="poolBlood">3</strong>
+          <button type="button" class="btn-mini" id="btnAddBlood">+</button>
+        </div>
+        <div class="pool-item">
+          <span>✨ BLESSING:</span>
+          <strong id="poolBlessing">3</strong>
+          <button type="button" class="btn-mini" id="btnAddBlessing">+</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Game Workspace -->
+    <main class="game-workspace">
+      <!-- Left Panel: Roster, Map Pack & Scenario Drawer -->
+      <aside class="sidebar-drawer glass-card">
+        <h2 class="panel-title">📜 SCENARIO & WIN CONDITIONS</h2>
+
+        <div class="form-group">
+          <label>SELECT GAMEPLAY SCENARIO</label>
+          <select id="selScenario">
+            <option value="scen_1">1. CLASH OF PATROLS (Central Relic Control)</option>
+            <option value="scen_2">2. NO MAN'S LAND BREAKTHROUGH (Escort)</option>
+            <option value="scen_3">3. RELIC RECOVERY (Artifact Extraction)</option>
+            <option value="scen_4">4. TRENCH SIEGE & BUNKER ASSAULT</option>
+            <option value="scen_5">5. MUSTARD GAS EXTRACTION</option>
+            <option value="scen_6">6. BLEEDING ALTAR & GOETIC RITUAL</option>
+          </select>
+        </div>
+
+        <div class="scenario-details-box" id="scenarioDetailsBox" style="background:#0b0d11; border:1px solid var(--gold-glow); padding:8px; font-size:0.7rem; margin-bottom:8px;">
+          <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:2px;" id="scenTitle">1. CLASH OF PATROLS</div>
+          <div id="scenObjective">OBJECTIVE: Control central Relic Shrine (+3 VP). First Blood grants +1 VP.</div>
+          <div id="scenDeed" style="color:#ffb3b3; margin-top:3px;">GLORIOUS DEED: Slay enemy Commander (+2 VP).</div>
+        </div>
+
+        <h2 class="panel-title" style="margin-top: 6px;">🪖 WARBAND DEPLOYMENT</h2>
+        
+        <div class="form-group">
+          <label>SELECT WARBAND 1 (PLAYER 1)</label>
+          <select id="selWarbandP1">
+            <option value="vault_0">Order of the Crimson Trench (New Antioch)</option>
+            <option value="default_tp">Procession of the Bleeding Cross (Trench Pilgrims)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>SELECT WARBAND 2 (PLAYER 2 / ENEMY)</label>
+          <select id="selWarbandP2">
+            <option value="default_hl">Heretic Legion Black Grail Host</option>
+            <option value="default_is">Iron Sultanate Alchemist Force</option>
+          </select>
+        </div>
+
+                <button type="button" class="btn-primary" id="btnDeployBoth">⚔️ DEPLOY TO BATTLEFIELD</button>
+
+        <div style="margin-top: 6px;">
+          <input type="file" id="fileImportWarband" accept=".json" style="display: none;" />
+          <button type="button" class="btn-primary" id="btnImportWarband" style="background: linear-gradient(180deg, #1f2b38, #0f1721); border: 1px solid #386b99; color: #8ab4f8; margin-top: 4px;">
+            📥 IMPORT WARBAND FILE (.JSON)
+          </button>
+        </div>
+
+        <!-- Map Pack & Random Map Generator -->
+        <h2 class="panel-title" style="margin-top: 10px;">MAP PACK & GENERATOR</h2>
+        
+        <div class="form-group">
+          <label>BATTLEFIELD MAP PACK (8 MAPS)</label>
+          <select id="selMapPreset">
+            <option value="map_1">1. Frontline Trenches of Antioch</option>
+            <option value="map_2">2. No Man's Land Crater Field</option>
+            <option value="map_3">3. Ruined Cathedral Spire & Watchtowers</option>
+            <option value="map_4">4. Mustard Gas Swamps of Verdun</option>
+            <option value="map_5">5. Fortified Redoubt & Pillbox Complex</option>
+            <option value="map_6">6. The Blood River Crossing</option>
+            <option value="map_7">7. Shrine of the Bleeding Martyr</option>
+            <option value="map_8">8. Hellfire Artillery Sector</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn-primary" id="btnRandomMap" style="background:linear-gradient(180deg, #1e3a5f, #0d1e33); border-color:#3878b8;">
+          🎲 GENERATE RANDOM MAP
+        </button>
+
+        <!-- Custom Terrain Tools -->
+        <h2 class="panel-title" style="margin-top: 10px;">TERRAIN & ELEVATION TOOLS</h2>
+        <div class="terrain-tools-grid">
+          <button type="button" class="btn-terrain-tool" data-type="building">🏰 Add Ruined Building (+1 Hit Elev)</button>
+          <button type="button" class="btn-terrain-tool" data-type="trench">🧱 Add Trench Wall (+1 Cover)</button>
+          <button type="button" class="btn-terrain-tool" data-type="wire">🦔 Add Barbed Wire (Difficult)</button>
+          <button type="button" class="btn-terrain-tool" data-type="gas">☣️ Add Mustard Gas Zone</button>
+          <button type="button" class="btn-terrain-tool" data-type="shrine">✝️ Add Relic Shrine (Objective)</button>
+        </div>
+
+        <!-- Board View Toggles -->
+        <div class="board-toggles-box">
+          <label><input type="checkbox" id="chkShowGrid" checked> Show 1" Tactical Grid</label>
+          <label><input type="checkbox" id="chkShowRanges" checked> Show Range Circles</label>
+          <label><input type="checkbox" id="chkShowDeployment" checked> Show Scenario Deployment Lines</label>
+        </div>
+
+        <div class="sidebar-actions" style="margin-top:auto;">
+          <button type="button" class="btn-danger" id="btnClearBoard">🗑️ RESET BATTLEFIELD</button>
+        </div>
+      </aside>
+
+      <!-- Center: 2D Tactical Battlefield Canvas -->
+      <section class="canvas-wrapper glass-card">
+        <!-- Active Map Name & Modifiers Banner -->
+        <div class="map-modifier-banner" id="mapModifierBanner">
+          <span class="map-title-text" id="txtMapTitle">MAP 1: FRONTLINE TRENCHES OF ANTIOCH</span>
+          <span class="map-rules-text" id="txtMapModifiers">MODIFIERS: +1 Armour in Trenches • +1 High Ground Hit from Watchtowers</span>
+        </div>
+
+        <div class="canvas-header-toolbar">
+          <span id="txtActiveTool">ACTIVE TOOL: SELECT UNIT TOKEN</span>
+          <div class="tool-btn-group">
+            <button type="button" class="tool-btn active" id="toolSelect">👆 Select Model</button>
+            <button type="button" class="tool-btn" id="toolRuler">📏 Measure Distance</button>
+            <button type="button" class="tool-btn" id="toolShoot">🔫 Resolve Shoot</button>
+            <button type="button" class="tool-btn" id="toolFight">🗡️ Resolve Fight</button>
+          </div>
+        </div>
+
+        <div class="canvas-container">
+          <canvas id="battleCanvas" width="840" height="680"></canvas>
+        </div>
+
+        <div class="canvas-footer-info">
+          <span id="txtMeasurementInfo">Click a unit token to display its Full-Art Card. Click equipment slots or abilities on the card to execute actions.</span>
+          <span id="txtElevationInfo" class="status-ok">HIGH GROUND BONUS: +1 Ranged Hit for models at Elevated Height ($\ge 2"$).</span>
+        </div>
+      </section>
+
+      <!-- Right Panel: Authentic Full-Art Trading Card Inspector -->
+      <aside class="sidebar-drawer glass-card right-panel-card" style="padding:10px; width:380px;">
+        <h2 class="panel-title" style="margin-bottom:6px;">🎴 FULL-ART PLAYER CARD</h2>
+        
+        <div id="inspectorContent" class="inspector-card-container">
+          <div class="empty-inspector-msg">CLICK ANY UNIT TOKEN ON THE MAP TO DISPLAY ITS FULL-ART PLAYER CARD WITH INTERACTIVE WEAPONS, ABILITIES & ACTION CONTROLS.</div>
+        </div>
+
+        <!-- Combat & Event Log Box -->
+        <h2 class="panel-title" style="margin-top: 8px; margin-bottom:4px;">📜 BATTLE LOG</h2>
+        <div class="combat-log-box" id="combatLogBox">
+          <div class="log-entry sys">[SYSTEM] Game initialized. Select any token on the map to display its full-art player card.</div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- Combat Dice Resolver Popover Modal -->
+  <div class="modal-overlay hidden" id="combatModalOverlay">
+    <div class="combat-modal glass-card">
+      <div class="modal-header">
+        <h2 id="combatModalTitle">⚔️ COMBAT RESOLVER & MARKER SELECTION</h2>
+        <span class="modal-close" id="btnCloseCombatModal">✕</span>
+      </div>
+      
+      <div class="combat-resolver-body" id="combatResolverBody">
+        <!-- Dynamic combat simulation layout -->
+      </div>
+
+      <div class="modal-actions" style="margin-top:14px;">
+        <button type="button" class="btn-primary" id="btnExecuteRoll">🎲 EXECUTE ROLL WITH MARKERS</button>
+        <button type="button" class="btn-secondary" id="btnCloseCombatBtn">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyword Codex Rule Definition & Ability Activation Modal -->
+  <div class="modal-overlay hidden" id="codexModalOverlay">
+    <div class="codex-modal glass-card">
+      <div class="modal-header">
+        <h2 id="codexTitle">☩ TRENCH CODEX: RULE DEFINITION & ABILITY EFFECT</h2>
+        <span class="modal-close" id="btnCloseCodexModal">✕</span>
+      </div>
+      
+      <div class="codex-body" id="codexBody">
+        <div class="codex-name-row">
+          <h3 id="codexKwName">KEYWORD NAME</h3>
+          <span class="codex-cat-badge" id="codexCategory">CATEGORIZATION</span>
+        </div>
+        <p class="codex-description" id="codexDescription">Detailed rule explanation will appear here.</p>
+        <div class="codex-impact-box" id="codexImpactBox">
+          <strong>GAMEPLAY IMPACT:</strong> <span id="codexImpact">Mechanic effect</span>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top:14px; display:flex; flex-direction:column; gap:8px;">
+        <button type="button" class="btn-primary" id="btnActivateAbilityEffect" style="background:linear-gradient(180deg, var(--gold-glow), #a68426); color:#000; font-weight:900;">
+          ⚡ INITIATE / ACTIVATE ABILITY EFFECT NOW
+        </button>
+        <button type="button" class="btn-secondary" id="btnCloseCodexBtn" style="width:100%;">CLOSE RULEBOOK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trench Crusade - Tactical Engine, Warband Vault & PvP Lobby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Special+Elite&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="game_engine/style.css">
+</head>
+<body>
+  <!-- Hidden File Input for Importing Warband JSON -->
+  <input type="file" id="fileImportWarbandJson" accept=".json" style="display:none;">
+
+  <div class="app-container">
+    <!-- Top Master Header -->
+    <header class="master-header">
+      <div class="header-branding" id="navHome" style="cursor:pointer;">
+        <span class="cross">☩</span>
+        <div>
+          <h1>TRENCH CRUSADE</h1>
+          <p class="subtitle">TACTICAL ENGINE • WARBAND VAULT • PVP LOBBY v1.0.2</p>
+        </div>
+      </div>
+
+            <!-- Master Umbrella 3-Port Navigation Tabs -->
+      <nav class="master-nav">
+        <button type="button" class="nav-tab active" data-tab="tabHome">📜 HOME HUB</button>
+        <a href="http://localhost:8001" class="nav-tab-link" style="color:var(--bone-bright); text-decoration:none; padding:8px 14px; font-weight:bold; font-size:0.8rem;">🪖 WARBAND BUILDER (8001)</a>
+        <a href="http://localhost:8002" class="nav-tab-link highlight-gameplay" style="color:var(--gold-glow); text-decoration:none; padding:8px 14px; font-weight:bold; font-size:0.85rem; border:1px solid var(--gold-glow); background:rgba(229,193,88,0.15); border-radius:3px;">⚔️ GAMEPLAY ENGINE (8002) ↗</a>
+        <button type="button" class="nav-tab" data-tab="tabProfile">🏆 WARBAND VAULT</button>
+      </nav>
+
+      <!-- Active User Quick Status -->
+      <div class="header-profile-badge">
+        <span id="txtHeaderProfileAvatar">🎖️</span>
+        <span id="txtHeaderProfileName">Commander TrenchMaster</span>
+      </div>
+    </header>
+
+    <!-- Main View Router Container -->
+    <main class="master-views-container">
+
+      <!-- ==================== VIEW 1: HOME PORTAL ==================== -->
+      <section class="tab-view active" id="tabHome">
+        <div class="portal-hero glass-card">
+          <h2>THE GREAT WAR OF 1914 IS FOUGHT IN THE TRENCHES OF HELL</h2>
+          <p>Draft your sacred or unholy warband rosters, customize weapons and relic armor, test tactical grid movements in the solo sandbox, or compete live in real-time PvP lobby matches.</p>
+        </div>
+
+        <div class="portal-grid">
+          <div class="portal-card glass-card" id="cardLaunchBuilder">
+            <div class="card-icon">🪖</div>
+            <h3>WARBAND BUILDER & VAULT</h3>
+            <p>Draft 700D/1000D warband lists with official trading card artwork, equipment slot pills, and real-time budget auditing.</p>
+            <button type="button" class="btn-primary">LAUNCH BUILDER ➔</button>
+          </div>
+
+          <div class="portal-card glass-card" id="cardLaunchSandbox" onclick="window.location.href='http://localhost:8002'">
+            <div class="card-icon">⚔️</div>
+            <h3>GOLDEN GAMEPLAY ENGINE (PORT 8002)</h3>
+            <p>Full 2D Tactical map engine with maps, tokens, LoS rays, AoE grenades, Vault deployment, and auto-turns.</p>
+            <a href="http://localhost:8002" class="btn-primary" style="display:inline-block; text-decoration:none; text-align:center;">LAUNCH GAMEPLAY ENGINE (8002) ➔</a>
+          </div>
+
+          <div class="portal-card glass-card" id="cardLaunchPvp">
+            <div class="card-icon">🌐</div>
+            <h3>MULTIPLAYER PVP LOBBY</h3>
+            <p>Host or join peer-to-peer multiplayer rooms, share room codes, and sync turn activations across clients.</p>
+            <button type="button" class="btn-primary">LAUNCH LOBBY ➔</button>
+          </div>
+
+          <div class="portal-card glass-card" id="cardLaunchProfile">
+            <div class="card-icon">👤</div>
+            <h3>COMMANDER PROFILE</h3>
+            <p>Manage your savefiles, exported warband JSONs, win/loss stats, and glorious combat deeds.</p>
+            <button type="button" class="btn-primary">VIEW PROFILE ➔</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 2: WARBAND BUILDER WITH GLORY SYSTEM ==================== -->
+      <section class="tab-view" id="tabBuilder">
+        <div class="main-layout" id="builderSection">
+          <!-- Left Column: Faction Selection & Roster Overview -->
+          <aside class="sidebar-panel glass-card">
+            <h2 class="panel-title">1. WARBAND PROFILE & GLORY CONFIG</h2>
+            
+            <div class="form-group">
+              <label>WARBAND NAME</label>
+              <input type="text" id="txtWarbandName" value="Order of the Crimson Trench" placeholder="Enter Warband Name...">
+            </div>
+
+            <div class="form-group">
+              <label>FACTION</label>
+              <select id="selFaction">
+                <option value="new_antioch">Principality of New Antioch</option>
+                <option value="trench_pilgrims">Processions of the Trench Pilgrims</option>
+                <option value="iron_sultanate">The Iron Sultanate</option>
+                <option value="heretic_legions">Heretic Legions & Black Grail</option>
+                <option value="serpent_court">Court of the Seven-Headed Serpent</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>SUBFACTION / VARIANT</label>
+              <select id="selSubfaction">
+                <option value="standard">Standard Faction Force</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>DUCAT BUDGET</label>
+              <select id="selBudget">
+                <option value="700">700 Ducats (Standard Skirmish)</option>
+                <option value="1000">1000 Ducats (Campaign Force)</option>
+                <option value="500">500 Ducats (Patrol / Recon)</option>
+              </select>
+            </div>
+
+            <!-- GLORY POINTS BUDGET TRACKER -->
+            <div class="form-group">
+              <label>WARBAND GLORY POINTS (UNLOCKS HIDDEN UNITS)</label>
+              <select id="selGloryBudget">
+                <option value="0">0 Glory Points (Standard Roster)</option>
+                <option value="1">1 Glory Point (Unlocks Paladins & Cults)</option>
+                <option value="2">2 Glory Points (Unlocks Relic Tanks & Saints)</option>
+                <option value="3">3 Glory Points (Unlocks Demon Princes & Avatars)</option>
+              </select>
+            </div>
+
+            <!-- Real-time Budget Audit Box -->
+            <div class="budget-audit-box">
+              <div class="audit-row">
+                <span>DUCAT BUDGET:</span>
+                <strong id="auditBudget">700 Ducats</strong>
+              </div>
+              <div class="audit-row">
+                <span>TOTAL DUCATS SPENT:</span>
+                <strong id="auditSpent">0 Ducats</strong>
+              </div>
+              <div class="audit-row highlight">
+                <span>DUCATS REMAINING:</span>
+                <strong id="auditRemaining">700 Ducats</strong>
+              </div>
+              <div class="audit-row">
+                <span>GLORY POINTS SPENT:</span>
+                <strong id="auditGlory" style="color:var(--gold-glow);">0 / 0 GL</strong>
+              </div>
+              <div class="audit-row">
+                <span>FIELD STRENGTH:</span>
+                <strong id="auditModels">0 / 12 Models</strong>
+              </div>
+              <div class="audit-row">
+                <span>COMMAND STATUS:</span>
+                <strong id="auditLeader" class="status-warning">NO LEADER (REQUIRED)</strong>
+              </div>
+            </div>
+
+            <!-- Roster Actions -->
+            <div class="sidebar-actions">
+              <button type="button" class="btn-primary" id="btnSaveRoster">💾 SAVE ROSTER TO VAULT</button>
+              <button type="button" class="btn-secondary" id="btnExportJSON">📥 EXPORT JSON</button>
+              <button type="button" class="btn-secondary" id="btnImportJSON">📤 IMPORT WARBAND (JSON)</button>
+              <button type="button" class="btn-danger" id="btnClearRoster">🗑️ CLEAR ROSTER</button>
+            </div>
+          </aside>
+
+          <!-- Right Column: Recruitment Catalogue & Active Roster -->
+          <section class="content-panel">
+            <!-- Available Units Catalogue (Full-Art Cards Grid) -->
+            <div class="glass-card catalog-section">
+              <h2 class="panel-title">2. RECRUITMENT CATALOGUE (INCLUDES GLORY UNITS)</h2>
+              <div class="full-art-catalog-grid" id="unitCatalog">
+                <!-- Dynamically populated full-art unit cards -->
+              </div>
+            </div>
+
+            <!-- Current Active Roster List (Full-Art Cards with Overlay Equipment Slots) -->
+            <div class="glass-card roster-section">
+              <h2 class="panel-title">3. ACTIVE COMBAT ROSTER (FULL-ART OVERLAY CARDS)</h2>
+              <div class="full-art-roster-grid" id="activeRosterList">
+                <div class="empty-roster-msg">NO UNITS RECRUITED YET. SELECT UNITS FROM THE FULL-ART CATALOGUE ABOVE.</div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 3: EXACT 8002 SOLO SANDBOX ENGINE ==================== -->
+      <section class="tab-view" id="tabSandbox">
+        <div class="game-container" style="background:transparent; padding:0; height:100%;">
+          <!-- Top HUD Navigation Bar -->
+          <header class="game-header">
+            <div class="game-logo">
+              <span class="cross">☩</span>
+              <div>
+                <h1>TRENCH CRUSADE</h1>
+                <p class="subtitle">TACTICAL BATTLEFIELD MAP & GAME ENGINE • v1.0.2</p>
+              </div>
+            </div>
+
+            <!-- Phase & Turn Tracker HUD with Alternating Activation Lock Indicator -->
+            <div class="turn-phase-hud">
+              <div class="turn-box">
+                <span class="hud-label">GAME TURN</span>
+                <strong id="hudTurnNum">TURN 1 / 6</strong>
+              </div>
+              <div class="phase-box">
+                <span class="hud-label">CURRENT PHASE</span>
+                <strong id="hudPhaseName" class="phase-highlight">1. INITIATIVE PHASE</strong>
+              </div>
+              
+              <!-- Active Turn Lock Indicator -->
+              <div class="turn-lock-box" id="turnLockBox">
+                <span class="hud-label">ACTIVATION TURN LOCK</span>
+                <strong id="hudActivePlayer" style="color:var(--blood-bright); font-family:var(--font-roman); font-size:0.85rem;">PLAYER 1 TURN</strong>
+              </div>
+
+              <button type="button" class="btn-next-phase" id="btnNextPhase">ADVANCE PHASE ➔</button>
+            </div>
+
+            <!-- Global Resource & VP Scoreboard HUD -->
+            <div class="resource-pools-hud">
+              <div class="pool-item" style="border-color:var(--gold-glow);">
+                <span>🏆 P1 VP:</span>
+                <strong id="vpPlayer1" style="color:var(--gold-glow); font-size:1.1rem;">0</strong>
+                <button type="button" class="btn-mini" id="btnAddVpP1">+</button>
+              </div>
+              <div class="pool-item" style="border-color:#3878b8;">
+                <span>🏆 P2 VP:</span>
+                <strong id="vpPlayer2" style="color:#3878b8; font-size:1.1rem;">0</strong>
+                <button type="button" class="btn-mini" id="btnAddVpP2">+</button>
+              </div>
+              <div class="pool-item">
+                <span>🩸 BLOOD:</span>
+                <strong id="poolBlood">3</strong>
+                <button type="button" class="btn-mini" id="btnAddBlood">+</button>
+              </div>
+              <div class="pool-item">
+                <span>✨ BLESSING:</span>
+                <strong id="poolBlessing">3</strong>
+                <button type="button" class="btn-mini" id="btnAddBlessing">+</button>
+              </div>
+            </div>
+          </header>
+
+          <!-- Main Game Workspace -->
+          <main class="game-workspace">
+            <!-- Left Panel: Roster, Map Pack & Scenario Drawer -->
+            <aside class="sidebar-drawer glass-card">
+              <h2 class="panel-title">📜 SCENARIO & WIN CONDITIONS</h2>
+
+              <div class="form-group">
+                <label>SELECT GAMEPLAY SCENARIO</label>
+                <select id="selScenario">
+                  <option value="scen_1">1. CLASH OF PATROLS (Central Relic Control)</option>
+                  <option value="scen_2">2. NO MAN'S LAND BREAKTHROUGH (Escort)</option>
+                  <option value="scen_3">3. RELIC RECOVERY (Artifact Extraction)</option>
+                  <option value="scen_4">4. TRENCH SIEGE & BUNKER ASSAULT</option>
+                  <option value="scen_5">5. MUSTARD GAS EXTRACTION</option>
+                  <option value="scen_6">6. BLEEDING ALTAR & GOETIC RITUAL</option>
+                </select>
+              </div>
+
+              <div class="scenario-details-box" id="scenarioDetailsBox" style="background:#0b0d11; border:1px solid var(--gold-glow); padding:8px; font-size:0.7rem; margin-bottom:8px;">
+                <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:2px;" id="scenTitle">1. CLASH OF PATROLS</div>
+                <div id="scenObjective">OBJECTIVE: Control central Relic Shrine (+3 VP). First Blood grants +1 VP.</div>
+                <div id="scenDeed" style="color:#ffb3b3; margin-top:3px;">GLORIOUS DEED: Slay enemy Commander (+2 VP).</div>
+              </div>
+
+              <h2 class="panel-title" style="margin-top: 6px;">🪖 WARBAND DEPLOYMENT</h2>
+              
+              <div class="form-group">
+                <label>IMPORT VAULT WARBAND (PLAYER 1)</label>
+                <select id="selWarbandP1">
+                  <option value="default_na">Order of Antioch (New Antioch)</option>
+                  <option value="default_tp">Procession of the Bleeding Cross (Trench Pilgrims)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>IMPORT VAULT WARBAND (PLAYER 2 / ENEMY)</label>
+                <select id="selWarbandP2">
+                  <option value="default_hl">Heretic Legion Black Grail Host</option>
+                  <option value="default_is">Iron Sultanate Alchemist Force</option>
+                </select>
+              </div>
+
+              <button type="button" class="btn-primary" id="btnDeployBoth">⚔️ DEPLOY VAULT WARBANDS TO SANDBOX</button>
+              <button type="button" class="btn-secondary" id="btnImportSandboxJson" style="margin-top:6px; width:100%;">📤 IMPORT WARBAND FILE (.JSON)</button>
+
+              <!-- Map Pack & Random Map Generator -->
+              <h2 class="panel-title" style="margin-top: 10px;">MAP PACK & GENERATOR</h2>
+              
+              <div class="form-group">
+                <label>BATTLEFIELD MAP PACK (8 MAPS)</label>
+                <select id="selMapPreset">
+                  <option value="map_1">1. Frontline Trenches of Antioch</option>
+                  <option value="map_2">2. No Man's Land Crater Field</option>
+                  <option value="map_3">3. Ruined Cathedral Spire & Watchtowers</option>
+                  <option value="map_4">4. Mustard Gas Swamps of Verdun</option>
+                  <option value="map_5">5. Fortified Redoubt & Pillbox Complex</option>
+                  <option value="map_6">6. The Blood River Crossing</option>
+                  <option value="map_7">7. Shrine of the Bleeding Martyr</option>
+                  <option value="map_8">8. Hellfire Artillery Sector</option>
+                </select>
+              </div>
+
+              <button type="button" class="btn-primary" id="btnRandomMap" style="background:linear-gradient(180deg, #1e3a5f, #0d1e33); border-color:#3878b8;">
+                🎲 GENERATE RANDOM MAP
+              </button>
+
+              <!-- Custom Terrain Tools -->
+              <h2 class="panel-title" style="margin-top: 10px;">TERRAIN & ELEVATION TOOLS</h2>
+              <div class="terrain-tools-grid">
+                <button type="button" class="btn-terrain-tool" data-type="building">🏰 Add Ruined Building (+1 Hit Elev)</button>
+                <button type="button" class="btn-terrain-tool" data-type="trench">🧱 Add Trench Wall (+1 Cover)</button>
+                <button type="button" class="btn-terrain-tool" data-type="wire">🦔 Add Barbed Wire (Difficult)</button>
+                <button type="button" class="btn-terrain-tool" data-type="gas">☣️ Add Mustard Gas Zone</button>
+                <button type="button" class="btn-terrain-tool" data-type="shrine">✝️ Add Relic Shrine (Objective)</button>
+              </div>
+
+              <!-- Board View Toggles -->
+              <div class="board-toggles-box">
+                <label><input type="checkbox" id="chkShowGrid" checked> Show 1" Tactical Grid</label>
+                <label><input type="checkbox" id="chkShowRanges" checked> Show Range Circles</label>
+                <label><input type="checkbox" id="chkShowDeployment" checked> Show Scenario Deployment Lines</label>
+              </div>
+
+              <div class="sidebar-actions" style="margin-top:auto;">
+                <button type="button" class="btn-danger" id="btnClearBoard">🗑️ RESET BATTLEFIELD</button>
+              </div>
+            </aside>
+
+            <!-- Center: 2D Tactical Battlefield Canvas -->
+            <section class="canvas-wrapper glass-card">
+              <!-- Active Map Name & Modifiers Banner -->
+              <div class="map-modifier-banner" id="mapModifierBanner">
+                <span class="map-title-text" id="txtMapTitle">MAP 1: FRONTLINE TRENCHES OF ANTIOCH</span>
+                <span class="map-rules-text" id="txtMapModifiers">MODIFIERS: +1 Armour in Trenches • +1 High Ground Hit from Watchtowers</span>
+              </div>
+
+              <div class="canvas-header-toolbar">
+                <span id="txtActiveTool">ACTIVE TOOL: SELECT UNIT TOKEN</span>
+                <div class="tool-btn-group">
+                  <button type="button" class="tool-btn active" id="toolSelect">👆 Select Model</button>
+                  <button type="button" class="tool-btn" id="toolRuler">📏 Measure Distance</button>
+                  <button type="button" class="tool-btn" id="toolShoot">🔫 Resolve Shoot</button>
+                  <button type="button" class="tool-btn" id="toolFight">🗡️ Resolve Fight</button>
+                </div>
+              </div>
+
+              <div class="canvas-container">
+                <canvas id="battleCanvas" width="840" height="680"></canvas>
+              </div>
+
+              <div class="canvas-footer-info">
+                <span id="txtMeasurementInfo">Click a unit token to display its Full-Art Card. Click equipment slots or abilities on the card to execute actions.</span>
+                <span id="txtElevationInfo" class="status-ok">HIGH GROUND BONUS: +1 Ranged Hit for models at Elevated Height (≥ 2").</span>
+              </div>
+            </section>
+
+            <!-- Right Panel: Authentic Full-Art Trading Card Inspector -->
+            <aside class="sidebar-drawer glass-card right-panel-card" style="padding:10px; width:380px;">
+              <h2 class="panel-title" style="margin-bottom:6px;">🎴 FULL-ART PLAYER CARD</h2>
+              
+              <div id="inspectorContent" class="inspector-card-container">
+                <div class="empty-inspector-msg">CLICK ANY UNIT TOKEN ON THE MAP TO DISPLAY ITS FULL-ART PLAYER CARD WITH INTERACTIVE WEAPONS, ABILITIES & ACTION CONTROLS.</div>
+              </div>
+
+              <!-- Combat & Event Log Box -->
+              <h2 class="panel-title" style="margin-top: 8px; margin-bottom:4px;">📜 BATTLE LOG</h2>
+              <div class="combat-log-box" id="combatLogBox">
+                <div class="log-entry sys">[SYSTEM] Game initialized. Select any token on the map to display its full-art player card.</div>
+              </div>
+            </aside>
+          </main>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 4: MULTIPLAYER PVP LOBBY ==================== -->
+      <section class="tab-view" id="tabPvp">
+        <div class="pvp-layout glass-card">
+          <h2>🌐 REAL-TIME MULTIPLAYER PVP LOBBY</h2>
+          <p>Host a match or connect via Room Code to synchronize 2D Tactical battlefield activations with remote opponents.</p>
+
+          <!-- MULTIPLAYER VAULT WARBAND IMPORT SELECTOR -->
+          <div class="pvp-card" style="grid-column: 1 / -1; margin-bottom:15px; border-color:var(--gold-glow);">
+            <h3 style="color:var(--gold-glow);">🪖 IMPORT VAULT WARBAND FOR MULTIPLAYER MATCH</h3>
+            <p>Select your drafted warband from the Vault to bring into the multiplayer room session.</p>
+            <div class="form-group" style="margin-top:8px;">
+              <label>SELECT VAULT WARBAND</label>
+              <select id="selPvpVaultWarband">
+                <option value="default_na">Order of Antioch (New Antioch)</option>
+              </select>
+            </div>
+            <button type="button" class="btn-primary" id="btnPvpLoadVaultWarband" style="width:100%; margin-top:6px;">⚔️ LOCK VAULT WARBAND FOR MULTIPLAYER</button>
+          </div>
+
+          <div class="pvp-actions-grid">
+            <div class="pvp-card">
+              <h3>HOST NEW MATCH</h3>
+              <p>Generate a unique Room Code and host a match for Player 1 vs Player 2.</p>
+              <button type="button" class="btn-primary" id="btnPvpCreateRoom">🎮 CREATE ROOM CODE</button>
+              <div class="pvp-code-display" id="pvpHostCodeDisplay" style="display:none; margin-top:10px;">
+                <span>ROOM CODE:</span>
+                <strong id="txtRoomCode">TC-8842</strong>
+              </div>
+            </div>
+
+            <div class="pvp-card">
+              <h3>JOIN EXISTING MATCH</h3>
+              <p>Enter the 6-character Room Code provided by your opponent.</p>
+              <input type="text" id="pvpJoinCodeInput" placeholder="Enter Room Code (e.g. TC-8842)...">
+              <button type="button" class="btn-secondary" id="btnPvpJoinRoom">🔌 CONNECT TO ROOM</button>
+            </div>
+          </div>
+
+          <div class="pvp-status-box" id="pvpActiveStatus" style="display:none; margin-top:15px;">
+            <div class="status-indicator">● CONNECTED TO ROOM <span id="txtActiveRoomId">TC-8842</span> AS <span id="txtAssignedRole">PLAYER 1 (HOST)</span></div>
+            <button type="button" class="btn-primary" id="btnPvpLaunchEngine" style="margin-top:10px;">🚀 LAUNCH BATTLEFIELD SESSION ➔</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== VIEW 5: USER PROFILE & SAVEFILES ==================== -->
+      <section class="tab-view" id="tabProfile">
+        <div class="profile-layout glass-card">
+          <h2>👤 COMMANDER PROFILE & SAVED WARBANDS</h2>
+          
+          <div class="profile-header-box">
+            <div class="profile-avatar-large" id="txtProfileAvatarDisplay">🎖️</div>
+            <div class="profile-details">
+              <div class="form-group">
+                <label>COMMANDER NAME</label>
+                <input type="text" id="profNameInput" value="Commander TrenchMaster">
+              </div>
+              <div class="form-group">
+                <label>FACTION ALLEGIANCE</label>
+                <select id="profFactionSelect">
+                  <option value="New Antioch">Principality of New Antioch</option>
+                  <option value="Trench Pilgrims">Processions of the Trench Pilgrims</option>
+                  <option value="Iron Sultanate">The Iron Sultanate</option>
+                  <option value="Heretic Legions">Heretic Legions & Black Grail</option>
+                  <option value="Serpent Court">Court of the Seven-Headed Serpent</option>
+                </select>
+              </div>
+              <button type="button" class="btn-primary" id="btnSaveProfile">💾 SAVE PROFILE</button>
+            </div>
+          </div>
+
+          <div class="profile-stats-grid">
+            <div class="stat-card">
+              <span>TOTAL GAMES</span>
+              <strong id="statGames">12</strong>
+            </div>
+            <div class="stat-card">
+              <span>VICTORIES</span>
+              <strong id="statWins" style="color:var(--gold-glow);">8</strong>
+            </div>
+            <div class="stat-card">
+              <span>DEFEATS</span>
+              <strong id="statLosses" style="color:var(--blood-bright);">4</strong>
+            </div>
+            <div class="stat-card">
+              <span>GLORIOUS DEEDS</span>
+              <strong id="statDeeds">15</strong>
+            </div>
+          </div>
+
+          <div class="savefiles-box">
+            <h3>📂 SAVED WARBAND VAULT ROSTERS</h3>
+            <p>Manage, deploy, download, or import your saved warband JSON savefiles.</p>
+
+            <div id="vaultRosterList" style="margin-top:12px; display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px;">
+              <!-- Dynamically populated Vault cards -->
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:15px;">
+              <button type="button" class="btn-secondary" id="btnExportProfileJson">📥 EXPORT ALL SAVEFILES (JSON)</button>
+              <button type="button" class="btn-secondary" id="btnImportProfileJson">📤 IMPORT WARBAND (JSON)</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- KEYWORD RULE CODEX MODAL -->
+  <div class="modal-overlay hidden" id="codexModalOverlay">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3 id="codexKwName">COMMANDER</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseCodexModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="rule-cat-badge" id="codexCategory">WARBAND LEADERSHIP</div>
+        <p id="codexDescription">Model is an official Warband Leader. Grants aura bonuses and commands squad activations.</p>
+        <div class="rule-impact-box">
+          <strong>GAMEPLAY IMPACT:</strong>
+          <span id="codexImpact">Required for legal warband roster.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btnCloseCodexBtn">CLOSE CODEX</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EQUIPMENT CUSTOMIZATION MODAL -->
+  <div class="modal-overlay hidden" id="equipModalOverlay">
+    <div class="modal-card glass-card equip-modal">
+      <div class="modal-header">
+        <h3 id="equipModalTitle">EQUIPMENT CUSTOMIZATION</h3>
+        <button type="button" class="btn-close-modal" id="btnCloseEquipModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-subtitle" id="equipModalSubtitle">Select weapons, armor, or relics from the Master Armory.</p>
+
+        <!-- Equipment Category Accordion -->
+        <div class="equip-accordion-bar">
+          <button type="button" class="equip-acc-btn active" data-cat="ranged">🔫 RANGED</button>
+          <button type="button" class="equip-acc-btn" data-cat="melee">🗡️ MELEE</button>
+          <button type="button" class="equip-acc-btn" data-cat="armour">🛡️ ARMOUR</button>
+          <button type="button" class="equip-acc-btn" data-cat="shields">🛡️ SHIELDS</button>
+          <button type="button" class="equip-acc-btn" data-cat="grenades">💣 GRENADES</button>
+          <button type="button" class="equip-acc-btn" data-cat="equipment">🪖 GEAR</button>
+        </div>
+
+        <div class="equip-selection-list" id="equipSelectionList">
+          <!-- Dynamically populated equipment options -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="btnCloseModalBtn">DONE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic & Engine -->
+  <script src="game_engine/master_codex.js"></script>
+  <script src="game_engine/game.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

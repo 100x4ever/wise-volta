@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trench Crusade - Full Art Warband Builder & Keyword Codex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Special+Elite&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- 1914 WW1 Tactical Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="cross-icon">☩</div>
+        <div>
+          <h1>TRENCH CRUSADE</h1>
+          <p class="subtitle">FULL-ART WARBAND BUILDER & KEYWORD CODEX • v1.0.2</p>
+        </div>
+      </div>
+      <div class="status-badges">
+        <span class="badge badge-iron" id="budgetBadge">BUDGET: 700 DUCATS</span>
+        <span class="badge badge-blood" id="modelCountBadge">MODELS: 0 / 12</span>
+      </div>
+    </header>
+
+    <!-- Main Navigation Bar -->
+    <nav class="nav-bar">
+      <button class="nav-btn active" id="btnNavBuilder">WARBAND BUILDER</button>
+      <button class="nav-btn" id="btnNavVault">SAVED ROSTERS VAULT (<span id="vaultCount">0</span>)</button>
+    </nav>
+
+    <!-- Section 1: Warband Builder Interface -->
+    <main class="main-layout" id="builderSection">
+      <!-- Left Column: Faction Selection & Roster Overview -->
+      <aside class="sidebar-panel glass-card">
+        <h2 class="panel-title">1. WARBAND PROFILE CONFIG</h2>
+        
+        <div class="form-group">
+          <label>WARBAND NAME</label>
+          <input type="text" id="txtWarbandName" value="Order of the Crimson Trench" placeholder="Enter Warband Name...">
+        </div>
+
+        <div class="form-group">
+          <label>FACTION</label>
+          <select id="selFaction">
+            <option value="new_antioch">Principality of New Antioch</option>
+            <option value="trench_pilgrims">Processions of the Trench Pilgrims</option>
+            <option value="iron_sultanate">The Iron Sultanate</option>
+            <option value="heretic_legions">Heretic Legions & Black Grail</option>
+            <option value="serpent_court">Court of the Seven-Headed Serpent</option>
+            <option value="mercenaries">Mercenaries & Outcasts</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>SUBFACTION / VARIANT</label>
+          <select id="selSubfaction">
+            <option value="standard">Standard Faction Force</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>DUCAT BUDGET</label>
+          <select id="selBudget">
+            <option value="700">700 Ducats (Standard Skirmish)</option>
+            <option value="1000">1000 Ducats (Campaign Force)</option>
+            <option value="500">500 Ducats (Patrol / Recon)</option>
+          </select>
+        </div>
+
+        <!-- Real-time Budget Audit Box -->
+        <div class="budget-audit-box">
+          <div class="audit-row">
+            <span>DUCAT BUDGET:</span>
+            <strong id="auditBudget">700 Ducats</strong>
+          </div>
+          <div class="audit-row">
+            <span>TOTAL DUCATS SPENT:</span>
+            <strong id="auditSpent">0 Ducats</strong>
+          </div>
+          <div class="audit-row highlight">
+            <span>DUCATS REMAINING:</span>
+            <strong id="auditRemaining">700 Ducats</strong>
+          </div>
+          <div class="audit-row">
+            <span>FIELD STRENGTH:</span>
+            <strong id="auditModels">0 / 12 Models</strong>
+          </div>
+          <div class="audit-row">
+            <span>COMMAND STATUS:</span>
+            <strong id="auditLeader" class="status-warning">NO LEADER (REQUIRED)</strong>
+          </div>
+        </div>
+
+        <!-- Roster Actions -->
+        <div class="sidebar-actions">
+          <button type="button" class="btn-primary" id="btnSaveRoster">💾 SAVE ROSTER TO VAULT</button>
+          <button type="button" class="btn-secondary" id="btnExportJSON">📥 EXPORT JSON</button>
+          <button type="button" class="btn-danger" id="btnClearRoster">🗑️ CLEAR ROSTER</button>
+        </div>
+      </aside>
+
+      <!-- Right Column: Recruitment Catalogue & Active Roster -->
+      <section class="content-panel">
+        <!-- Available Units Catalogue (Full-Art Cards Grid) -->
+        <div class="glass-card catalog-section">
+          <h2 class="panel-title">2. RECRUITMENT CATALOGUE (FULL-ART CARDS)</h2>
+          <div class="full-art-catalog-grid" id="unitCatalog">
+            <!-- Dynamically populated full-art unit cards -->
+          </div>
+        </div>
+
+        <!-- Current Active Roster List (Full-Art Cards with Overlay Equipment Slots) -->
+        <div class="glass-card roster-section">
+          <h2 class="panel-title">3. ACTIVE COMBAT ROSTER (FULL-ART OVERLAY CARDS)</h2>
+          <div class="full-art-roster-grid" id="activeRosterList">
+            <div class="empty-roster-msg">NO UNITS RECRUITED YET. SELECT UNITS FROM THE FULL-ART CATALOGUE ABOVE.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Section 2: Saved Rosters Vault -->
+    <main class="main-layout hidden" id="vaultSection">
+      <div class="glass-card vault-card">
+        <h2 class="panel-title">SAVED WARBAND ROSTERS VAULT</h2>
+        <div class="vault-grid" id="vaultGrid">
+          <div class="empty-vault-msg">NO SAVED ROSTERS IN VAULT YET. BUILD A WARBAND AND CLICK "SAVE ROSTER TO VAULT".</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Select Equipment Drawer / Modal -->
+  <div class="modal-overlay hidden" id="equipModalOverlay">
+    <div class="equip-modal glass-card">
+      <div class="modal-header">
+        <h2 id="equipModalTitle">SELECT EQUIPMENT</h2>
+        <span class="modal-close" id="btnCloseEquipModal">✕</span>
+      </div>
+      <p class="modal-subtitle" id="equipModalSubtitle">Select valid items to equip into this model's slot.</p>
+
+      <!-- Equipment Category Accordions / Filter Buttons -->
+      <div class="equip-accordion-bar">
+        <button class="equip-acc-btn active" data-cat="ranged">Ranged Weapons</button>
+        <button class="equip-acc-btn" data-cat="melee">Melee Weapons</button>
+        <button class="equip-acc-btn" data-cat="armour">Armour</button>
+        <button class="equip-acc-btn" data-cat="shields">Shields</button>
+        <button class="equip-acc-btn" data-cat="grenades">Grenades</button>
+        <button class="equip-acc-btn" data-cat="equipment">Equipment & Special</button>
+      </div>
+
+      <!-- Equipment Selection List -->
+      <div class="equip-selection-list" id="equipSelectionList">
+        <!-- Dynamically rendered equipment options -->
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="btnCloseModalBtn">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyword Codex Rule Definition Modal -->
+  <div class="modal-overlay hidden" id="codexModalOverlay">
+    <div class="codex-modal glass-card">
+      <div class="modal-header">
+        <h2 id="codexTitle">☩ TRENCH CODEX: RULE DEFINITION</h2>
+        <span class="modal-close" id="btnCloseCodexModal">✕</span>
+      </div>
+      
+      <div class="codex-body" id="codexBody">
+        <div class="codex-name-row">
+          <h3 id="codexKwName">KEYWORD NAME</h3>
+          <span class="codex-cat-badge" id="codexCategory">CATEGORIZATION</span>
+        </div>
+        <p class="codex-description" id="codexDescription">Detailed rule explanation will appear here.</p>
+        <div class="codex-impact-box" id="codexImpactBox">
+          <strong>GAMEPLAY IMPACT:</strong> <span id="codexImpact">Mechanic effect</span>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top:14px;">
+        <button type="button" class="btn-primary" id="btnCloseCodexBtn" style="width:100%;">CLOSE RULEBOOK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="builder.js"></script>
+</body>
+</html>

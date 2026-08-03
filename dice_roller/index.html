@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trench Crusade - Tactical Field Dice Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Special+Elite&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- 1914 Field Manual Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="cross-icon">☩</div>
+        <div>
+          <h1>TRENCH CRUSADE</h1>
+          <p class="subtitle">TACTICAL FIELD DICE ENGINE • AUTOMATED MODIFIERS & MARKER PROMPT v1.0.2</p>
+        </div>
+      </div>
+      <div class="status-badges">
+        <span class="badge badge-iron">AUTO-CALCULATOR: ACTIVE</span>
+        <span class="badge badge-blood" id="warbandStatusBadge">MARKER WINDOW: OPEN</span>
+      </div>
+    </header>
+
+    <!-- Main Command Interface -->
+    <main class="main-grid">
+      <!-- Left Column: Tactical Control Panel -->
+      <section class="control-panel glass-card">
+        <!-- Mode Tabs -->
+        <div class="mode-tabs">
+          <button class="tab-btn active" data-mode="success">SUCCESS CHECK</button>
+          <button class="tab-btn" data-mode="injury">INJURY CHECK</button>
+          <button class="tab-btn" data-mode="bloodbath">BLOODBATH</button>
+          <button class="tab-btn" data-mode="morale">MORALE CHECK</button>
+          <button class="tab-btn" data-mode="d3">D3 / ROLL-OFF</button>
+        </div>
+
+        <!-- Mode Information Banner -->
+        <div class="mode-info" id="modeInfo">
+          <h3>Standard Success Check</h3>
+          <p>Roll 2D6 + Dice Modifiers vs Target Number 7+ for Ranged Hits, Melee Hits, Spells, and Actions.</p>
+        </div>
+
+        <!-- Unit & Tactical Presets Auto-Calculator -->
+        <div class="preset-section">
+          <div class="preset-header">UNIT & ENVIRONMENT PRESETS</div>
+          <div class="preset-grid">
+            <div class="preset-item">
+              <label>ATTACKER STAT</label>
+              <select id="selAttackerStat">
+                <option value="0">Standard (+0 DICE)</option>
+                <option value="1">Ranged/Melee +1 DICE</option>
+                <option value="2" selected>Sniper / Veteran +2 DICE</option>
+                <option value="3">Elite Leader +3 DICE</option>
+                <option value="-1">Penalized -1 DICE</option>
+              </select>
+            </div>
+            <div class="preset-item">
+              <label>TARGET COVER</label>
+              <select id="selCover">
+                <option value="0">Open Ground (No Cover)</option>
+                <option value="-1" selected>In Cover (-1 DICE)</option>
+                <option value="-2">Heavy Trench Fortification (-2 DICE)</option>
+              </select>
+            </div>
+            <div class="preset-item">
+              <label>RANGE / POSITIONS</label>
+              <select id="selPosition">
+                <option value="0">Standard Range</option>
+                <option value="-1">Long Range (-1 DICE)</option>
+                <option value="1">Elevated Position (+1 DICE)</option>
+                <option value="2">Point Blank / Aim Action (+2 DICE)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parameters Form -->
+        <div class="controls-form">
+          <!-- Pool Modifiers (+DICE / -DICE) -->
+          <div class="control-group" id="dicePoolGroup">
+            <label class="control-label">
+              <span>MANUAL DICE ADJUSTMENTS (+DICE / -DICE)</span>
+              <span class="info-tag">[1-TO-1 CANCELLATION]</span>
+            </label>
+            <div class="counter-row">
+              <div class="counter-box">
+                <span class="counter-label">+DICE (HIGHEST)</span>
+                <div class="counter-controls">
+                  <button type="button" class="btn-step" id="btnDecPlus">-</button>
+                  <span class="counter-val" id="valPlusDice">0</span>
+                  <button type="button" class="btn-step" id="btnIncPlus">+</button>
+                </div>
+              </div>
+              <div class="counter-cancel-indicator" id="cancelIndicator">
+                CALCULATED NET: <span id="netDiceText">2D6 (STANDARD)</span>
+              </div>
+              <div class="counter-box">
+                <span class="counter-label">-DICE (LOWEST)</span>
+                <div class="counter-controls">
+                  <button type="button" class="btn-step" id="btnDecMinus">-</button>
+                  <span class="counter-val" id="valMinusDice">0</span>
+                  <button type="button" class="btn-step" id="btnIncMinus">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auto-Calculation Audit Box -->
+          <div class="audit-box" id="auditBox">
+            <div class="audit-title">AUTOMATED MODIFIER BREAKDOWN</div>
+            <div class="audit-lines" id="auditLines">
+              <div>• Base Dice Pool: <strong>2D6</strong></div>
+              <div>• Attacker Stat: <strong>+2 DICE</strong></div>
+              <div>• Target in Cover: <strong>-1 DICE</strong></div>
+              <div class="audit-highlight">• Total Calculated Pool: <strong>3D6 (Pick 2 Highest)</strong></div>
+            </div>
+          </div>
+
+          <!-- Flat Modifiers & Armour -->
+          <div class="form-row">
+            <div class="control-group" id="flatModGroup">
+              <label class="control-label">FLAT MODIFIER (+/- TOTAL)</label>
+              <div class="counter-controls single-counter">
+                <button type="button" class="btn-step" id="btnDecFlat">-</button>
+                <span class="counter-val" id="valFlatMod">0</span>
+                <button type="button" class="btn-step" id="btnIncFlat">+</button>
+              </div>
+            </div>
+
+            <div class="control-group hidden" id="armourGroup">
+              <label class="control-label">TARGET ARMOUR RATING</label>
+              <div class="counter-controls single-counter">
+                <button type="button" class="btn-step" id="btnDecArmour">-</button>
+                <span class="counter-val" id="valArmour">0</span>
+                <button type="button" class="btn-step" id="btnIncArmour">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tactical Toggles -->
+          <div class="toggles-row">
+            <label class="checkbox-container" id="riskyToggle">
+              <input type="checkbox" id="chkRisky">
+              <span class="checkmark"></span>
+              <span class="label-text">RISKY SUCCESS CHECK <small>(FAILURE ENDS ACTIVATION IMMEDIATELY)</small></span>
+            </label>
+
+            <label class="checkbox-container hidden" id="deadlyToggle">
+              <input type="checkbox" id="chkDeadly">
+              <span class="checkmark"></span>
+              <span class="label-text">DEADLY KEYWORD <small>(4D6 BLOODBATH POOL)</small></span>
+            </label>
+
+            <label class="checkbox-container hidden" id="targetDownToggle">
+              <input type="checkbox" id="chkTargetDown">
+              <span class="checkmark"></span>
+              <span class="label-text">TARGET IS DOWN <small>(+1 MELEE INJURY / 3 MARKER BLOODBATH)</small></span>
+            </label>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button type="button" class="btn-roll" id="btnOpenMarkerPrompt">
+              <span class="roll-icon">🩸</span>
+              <span id="btnRollText">INITIATE ROLL & SPEND MARKERS</span>
+            </button>
+            <button type="button" class="btn-reset" id="btnResetControls">RESET</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Resolution Arena & History -->
+      <section class="results-panel glass-card">
+        <h2 class="panel-title">TACTICAL RESOLUTION ARENA</h2>
+
+        <!-- Dice Container -->
+        <div class="dice-arena" id="diceArena">
+          <div class="dice-placeholder">
+            <span class="placeholder-icon">☩</span>
+            <p>SET PARAMETERS AND CLICK <strong>INITIATE ROLL</strong> TO OPEN MARKER WINDOW</p>
+          </div>
+        </div>
+
+        <!-- Result Banner -->
+        <div class="result-banner hidden" id="resultBanner">
+          <div class="result-title" id="resultTitle">SUCCESS</div>
+          <div class="result-breakdown" id="resultBreakdown">Total: 8 (Dice: 5 + 3)</div>
+          <div class="result-details" id="resultDetails">Target hit! Proceed to Injury Roll.</div>
+        </div>
+
+        <!-- Field Ledger History Log -->
+        <div class="history-section">
+          <div class="history-header">
+            <h3>CASUALTY & COMBAT LEDGER</h3>
+            <button class="btn-text-only" id="btnClearHistory">CLEAR LEDGER</button>
+          </div>
+          <div class="history-list" id="historyList">
+            <div class="empty-history">NO ENGAGEMENTS RECORDED IN CURRENT SESSION.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Marker Spending Modal Prompt -->
+  <div class="modal-overlay hidden" id="markerModalOverlay">
+    <div class="marker-modal glass-card">
+      <div class="modal-header">
+        <h2>🩸 SPENDING WINDOW: BLOOD & BLESSING MARKERS</h2>
+        <span class="modal-close" id="btnCloseModal">✕</span>
+      </div>
+      <p class="modal-subtitle">Rules Window: Players may spend available markers to modify the upcoming dice roll before rolling.</p>
+      
+      <div class="marker-prompt-grid">
+        <!-- Attacker Blessing Markers -->
+        <div class="marker-card">
+          <div class="marker-card-title">ATTACKER BLESSING MARKERS</div>
+          <p class="marker-desc">Spend Blessing Markers on self for <strong>+1 DICE</strong> on Success Roll per marker spent.</p>
+          <div class="marker-counter-row">
+            <button type="button" class="btn-step" id="btnDecBlessing">-</button>
+            <span class="marker-val" id="valSpentBlessing">0</span>
+            <button type="button" class="btn-step" id="btnIncBlessing">+</button>
+          </div>
+        </div>
+
+        <!-- Target / Opponent Blood Markers -->
+        <div class="marker-card">
+          <div class="marker-card-title" id="bloodMarkerTitle">TARGET BLOOD MARKERS</div>
+          <p class="marker-desc" id="bloodMarkerDesc">Spend Blood Markers on target for <strong>+1 INJURY DICE</strong> or spend against opponent for <strong>-1 DICE</strong> on Success Roll.</p>
+          <div class="marker-counter-row">
+            <button type="button" class="btn-step" id="btnDecBlood">-</button>
+            <span class="marker-val" id="valSpentBlood">0</span>
+            <button type="button" class="btn-step" id="btnIncBlood">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Net Result Preview -->
+      <div class="marker-preview-box">
+        <div>NET MARKER MODIFIERS APPLIED: <strong id="markerNetText">0</strong></div>
+        <div class="preview-final-pool">FINAL DICE POOL: <strong id="markerFinalPoolText">2D6 (STANDARD)</strong></div>
+      </div>
+
+      <!-- Confirm & Roll Button -->
+      <div class="modal-actions">
+        <button type="button" class="btn-roll" id="btnConfirmAndRoll">
+          <span>⚡ CONFIRM MARKERS & EXECUTE ROLL</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
