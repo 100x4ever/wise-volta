@@ -373,34 +373,695 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Official Subfactions & Faction Special Rules Registry
   const masterSubfactions = {
-    new_antioch: [
-      { id: "na_standard", name: "Principality Line Force (Combined Arms)", rule: "Combined Arms: Reroll 1 failed Initiative tie-breaker per battle." },
-      { id: "na_prussia", name: "Free State of Prussia Stosstruppen", rule: "Infiltration Tactics: Stosstruppen gain +1 Attack die on Trench Charges." },
-      { id: "na_mech", name: "Mechanized Heavy Detachment", rule: "Armor Superiority: Heavy Infantry gain +1 Armour rating vs Ranged Attacks." },
-      { id: "na_red_brigade", name: "The Red Brigade Shock Troops", rule: "Close Quarters Assault: Shotguns and SMGs gain +1 to hit within 6"." }
-    ],
-    trench_pilgrims: [
-      { id: "tp_relic", name: "Procession of the Sacred Relic", rule: "Sacred Zeal: Allied models gain +1 Courage near Relic Flagellants." },
-      { id: "tp_martyr", name: "Martyr Penitent Order", rule: "Self-Sacrifice: When a Martyr is taken Out of Action, adjacent allies gain +1 Courage." },
-      { id: "tp_monastery", name: "Monastery of the Sacred Heart", rule: "Holy Armor: Heavy Pilgrim Knights gain +1 Armour vs Fire & Gas." }
-    ],
-    heretic_legions: [
-      { id: "hl_grail", name: "Black Grail Host (Plague & Contagion)", rule: "Contagion Wounds: Melee wounds inflict Contagion markers dealing end-of-turn damage." },
-      { id: "hl_avarice", name: "Warband of Avarice (Gilded Armor)", rule: "Gilded Armor: Knights of Avarice ignore the first Blood Marker penalty each turn." },
-      { id: "hl_goetic", name: "Cult of the Goetic Warlock", rule: "Hellfire Channeling: Goetic Warlocks gain +18" spell blast radius." }
-    ],
-    iron_sultanate: [
-      { id: "is_jabirean", name: "Jabirean Alchemists (Gas & Fire)", rule: "Chemical Superiority: Alchemist forces ignore friendly Poison Gas hazards." },
-      { id: "is_janissary", name: "Janissary Heavy Corps", rule: "Rifle Discipline: Janissaries ignore Long-Range Shooting penalties." },
-      { id: "is_brazen", name: "Brazen Bull Siege Battery (Alchemical Engine)", rule: "Alchemical Siege Engine: Brazen Bull deals +2 Melee Injury modifier." },
-      { id: "is_fidai", name: "Order of the Fidai Assassins (Alamut)", rule: "Silent Assassination: Fidai Assassins gain +2 to hit against enemy Leaders." }
-    ],
-    court_serpent: [
-      { id: "cs_ambassador", name: "Court of the Seven-Headed Serpent", rule: "Subtle Corruption: Serpent Sorcerers reduce enemy Courage by -1." },
-      { id: "cs_locust", name: "Pit Locust Swarm", rule: "Flying Toxins: Flying monstrosities ignore terrain restrictions." },
-      { id: "cs_hydra", name: "Hydra Construct Cult", rule: "Multi-Headed Assault: Hydra Construct gains +2 Melee Attack dice." }
-    ]
-  };
+  "heretic_legion": [
+    {
+      "id": "hl_standard",
+      "name": "Heretic Legion Standard Force",
+      "rule": "Infernal Zeal: Reroll 1 failed Courage test per battle."
+    },
+    {
+      "id": "hl_naval",
+      "name": "Heretic Naval Raiders",
+      "rule": "Boarding Tactics: Shotguns and Cutlasses gain +1 to hit on Charges."
+    },
+    {
+      "id": "hl_ghosts",
+      "name": "Trench Ghosts",
+      "rule": "Ethereal Terror: Enemy units hit take an immediate Morale check."
+    },
+    {
+      "id": "hl_avarice",
+      "name": "Knights of Avarice",
+      "rule": "Gilded Armor: Knights of Avarice ignore the first Blood Marker penalty each turn."
+    }
+  ],
+  "iron_sultanate": [
+    {
+      "id": "is_standard",
+      "name": "Iron Sultanate Standard Force",
+      "rule": "Sultan's Favor: Reroll 1 failed Initiative tie-breaker."
+    },
+    {
+      "id": "is_fidai",
+      "name": "Fidai of Alamut (Cabal of Assassins)",
+      "rule": "Silent Assassination: Fidai Assassins gain +2 to hit against enemy Leaders."
+    },
+    {
+      "id": "is_wisdom",
+      "name": "House of Wisdom",
+      "rule": "Mechanical Mastery: Golems and Homunculi ignore Pinning & Fear."
+    },
+    {
+      "id": "is_defenders",
+      "name": "Defenders of the Iron Wall",
+      "rule": "Fortress Discipline: Sultanate Sappers and Heavy Riflemen gain +1 Armour in Trench Cover."
+    }
+  ],
+  "new_antioch": [
+    {
+      "id": "na_standard",
+      "name": "Principality Line Force",
+      "rule": "Combined Arms: May reroll 1 failed Initiative tie-breaker per battle."
+    },
+    {
+      "id": "na_papal",
+      "name": "Papal States Intervention Force",
+      "rule": "Holy Order: Papal Guards gain +1 Courage near Officers."
+    },
+    {
+      "id": "na_eire",
+      "name": "Eire Rangers",
+      "rule": "Emerald Sharpshooters: Ranged attacks ignore target cover bonuses beyond 12\"."
+    },
+    {
+      "id": "na_prussia",
+      "name": "Stosstruppen of the Free State of Prussia",
+      "rule": "Infiltration Tactics: Stosstruppen gain +1 Attack die on Trench Charges."
+    },
+    {
+      "id": "na_alba",
+      "name": "Kingdom of Alba Assault Detatchment",
+      "rule": "Highland Charge: Greatswords deal +1 Injury roll modifier on Charges."
+    },
+    {
+      "id": "na_abyssinia",
+      "name": "Expeditionary Forces of Abyssinia",
+      "rule": "Lion of Judah: Abyssinian Mechanized Infantry gain +1 Wounds."
+    },
+    {
+      "id": "na_red_brigade",
+      "name": "The Red Brigade",
+      "rule": "Close Quarters Assault: Shotguns and SMGs gain +1 to hit within 6\"."
+    }
+  ],
+  "trench_pilgrims": [
+    {
+      "id": "tp_standard",
+      "name": "Procession of the Sacred Relic",
+      "rule": "Sacred Zeal: Allied models gain +1 Courage near Relic Flagellants."
+    },
+    {
+      "id": "tp_affliction",
+      "name": "Procession of the Sacred Affliction",
+      "rule": "Holy Stigmata: Ecclesiastic Prisoners gain +1 Attack die when wounded."
+    },
+    {
+      "id": "tp_tenth_plague",
+      "name": "Cavalcade of the Tenth Plague",
+      "rule": "Day of His Wrath: War Prophet can execute Day of His Wrath Armor-Ignoring Action."
+    },
+    {
+      "id": "tp_methodius",
+      "name": "War Pilgrimage of Saint Methodius",
+      "rule": "Methodius Blessing: Stigmatic Nuns and Anchorite Shrines gain +1 Armour."
+    }
+  ]
+};
+
+  const masterUnits = {
+  "new_antioch": [
+    {
+      "id": "UNIT_NA_LIEUTENANT",
+      "name": "Lieutenant of New Antioch",
+      "cat": "Leader",
+      "cost": 70,
+      "max": 1,
+      "isLeader": true,
+      "img": "images/lieutenant_new_antioch.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+      "baseKeywords": [
+        "COMMANDER",
+        "INHERENT LEADERSHIP"
+      ],
+      "equip": [
+        "Automatic Pistol",
+        "Trench Sword",
+        "Body Armour"
+      ]
+    },
+    {
+      "id": "UNIT_NA_EIRE_LT",
+      "name": "Eire Lieutenant",
+      "cat": "Subfaction Leader",
+      "cost": 75,
+      "max": 1,
+      "isLeader": true,
+      "img": "images/lieutenant_new_antioch.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+      "baseKeywords": [
+        "COMMANDER",
+        "EMERALD SHARPSHOOTER"
+      ],
+      "equip": [
+        "Scoped Rifle",
+        "Trench Sword"
+      ]
+    },
+    {
+      "id": "UNIT_NA_ALBA_LT",
+      "name": "Highland Lieutenant",
+      "cat": "Subfaction Leader",
+      "cost": 75,
+      "max": 1,
+      "isLeader": true,
+      "img": "images/stosstruppen_veteran.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +3 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+      "baseKeywords": [
+        "COMMANDER",
+        "HIGHLAND CHARGE"
+      ],
+      "equip": [
+        "Highland Greatsword",
+        "Pistol"
+      ]
+    },
+    {
+      "id": "UNIT_NA_SNIPER_PRIEST",
+      "name": "Sniper Priest",
+      "cat": "Specialist",
+      "cost": 50,
+      "max": 2,
+      "isLeader": false,
+      "img": "images/sniper_priest.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: -1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+      "baseKeywords": [
+        "DEADEYE AIM",
+        "DIVINE GUIDANCE",
+        "SNIPER"
+      ],
+      "equip": [
+        "Bolt-Action Sniper Rifle"
+      ]
+    },
+    {
+      "id": "UNIT_NA_STOSSTRUPPEN",
+      "name": "Stosstruppen of Prussia",
+      "cat": "Elite",
+      "cost": 60,
+      "max": 4,
+      "isLeader": false,
+      "img": "images/stosstruppen_veteran.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+",
+      "baseKeywords": [
+        "TRENCH RAID",
+        "SHOCK TROOPER"
+      ],
+      "equip": [
+        "Submachine Gun",
+        "Trench Knife"
+      ]
+    },
+    {
+      "id": "UNIT_NA_ALBA_SHOCK",
+      "name": "Highland Shocktrooper",
+      "cat": "Elite",
+      "cost": 65,
+      "max": 4,
+      "isLeader": false,
+      "img": "images/stosstruppen_veteran.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +3 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+",
+      "baseKeywords": [
+        "TRENCH RAID",
+        "HIGHLAND CHARGE"
+      ],
+      "equip": [
+        "Highland Claymore",
+        "Trench Axe"
+      ]
+    },
+    {
+      "id": "UNIT_NA_ABYSSINIA_MECH",
+      "name": "Abyssinian Mechanized Infantry",
+      "cat": "Heavy Elite",
+      "cost": 80,
+      "max": 3,
+      "isLeader": false,
+      "img": "images/mechanized_infantry.jpg",
+      "fullStats": "MOVE: 5\" | RANGED: +2 | MELEE: +1 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 8+",
+      "baseKeywords": [
+        "HEAVY",
+        "ARMOUR +2"
+      ],
+      "equip": [
+        "Abyssinian Heavy Rifle",
+        "Heavy Plate"
+      ]
+    },
+    {
+      "id": "UNIT_NA_PAPAL_GUARD",
+      "name": "Papal States Guard",
+      "cat": "Elite Guard",
+      "cost": 65,
+      "max": 3,
+      "isLeader": false,
+      "img": "images/papal_states_guard.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 1 | COURAGE: 9+",
+      "baseKeywords": [
+        "SHIELD",
+        "PARRY",
+        "ARMOUR +2"
+      ],
+      "equip": [
+        "Papal Halberd",
+        "Trench Shield"
+      ]
+    },
+    {
+      "id": "UNIT_NA_TROOPER",
+      "name": "Trench Trooper",
+      "cat": "Trooper",
+      "cost": 35,
+      "max": 12,
+      "isLeader": false,
+      "img": "images/trench_trooper.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+      "baseKeywords": [
+        "LINE INFANTRY",
+        "GRIM DISCIPLINE"
+      ],
+      "equip": [
+        "Bolt-Action Rifle",
+        "Trench Knife"
+      ]
+    },
+    {
+      "id": "UNIT_NA_DOCTOR",
+      "name": "Trench Doctor (Medic)",
+      "cat": "Specialist",
+      "cost": 45,
+      "max": 2,
+      "isLeader": false,
+      "img": "images/trench_doctor.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+      "baseKeywords": [
+        "FIELD SURGEON",
+        "TREAT WOUNDS",
+        "MEDIC"
+      ],
+      "equip": [
+        "Field Surgeon Kit"
+      ]
+    }
+  ],
+  "heretic_legion": [
+    {
+      "id": "UNIT_HL_LORD_TUMORS",
+      "name": "Heretic Lord of Tumors",
+      "cat": "Leader",
+      "cost": 80,
+      "max": 1,
+      "isLeader": true,
+      "img": "images/lord_of_tumours.jpg",
+      "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+",
+      "baseKeywords": [
+        "COMMANDER",
+        "BLACK GRAIL PLAGUE",
+        "REGENERATION"
+      ],
+      "equip": [
+        "Cleaver of Tumours"
+      ]
+    },
+    {
+      "id": "UNIT_HL_WARLOCK",
+      "name": "Goetic Warlock",
+      "cat": "Specialist",
+      "cost": 65,
+      "max": 2,
+      "isLeader": false,
+      "img": "images/goetic_warlock.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+",
+      "baseKeywords": [
+        "GOETIC SORCERY",
+        "DIVINE GUIDANCE"
+      ],
+      "equip": [
+        "Hellfire Wand"
+      ]
+    },
+    {
+      "id": "UNIT_HL_PLAGUE_KNIGHT",
+      "name": "Black Grail Plague Knight",
+      "cat": "Elite",
+      "cost": 70,
+      "max": 3,
+      "isLeader": false,
+      "img": "images/plague_knight.jpg",
+      "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+",
+      "baseKeywords": [
+        "DISEASE AURA",
+        "ARMOUR +2",
+        "REGENERATION"
+      ],
+      "equip": [
+        "Plague Greatsword"
+      ]
+    },
+    {
+      "id": "UNIT_HL_KNIGHT_AVARICE",
+      "name": "Knight of Avarice",
+      "cat": "Subfaction Elite",
+      "cost": 75,
+      "max": 2,
+      "isLeader": false,
+      "img": "images/knight_of_avarice.jpg",
+      "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+",
+      "baseKeywords": [
+        "ARMOUR +2",
+        "PARRY"
+      ],
+      "equip": [
+        "Gilded Heavy Shotgun"
+      ]
+    },
+    {
+      "id": "UNIT_HL_TRENCH_GHOST",
+      "name": "Trench Ghost",
+      "cat": "Subfaction Elite",
+      "cost": 65,
+      "max": 3,
+      "isLeader": false,
+      "img": "images/trench_ghost.jpg",
+      "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 9+",
+      "baseKeywords": [
+        "ETHEREAL TERROR",
+        "TRENCH RAID"
+      ],
+      "equip": [
+        "Ghost Cutlass"
+      ]
+    },
+    {
+      "id": "UNIT_HL_TROOPER",
+      "name": "Heretic Trooper",
+      "cat": "Trooper",
+      "cost": 30,
+      "max": 12,
+      "isLeader": false,
+      "img": "images/heretic_trooper.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+",
+      "baseKeywords": [
+        "LINE INFANTRY",
+        "FANATIC"
+      ],
+      "equip": [
+        "Bolt-Action Rifle"
+      ]
+    },
+    {
+      "id": "UNIT_HL_YOKE_FIEND",
+      "name": "Yoke Fiend",
+      "cat": "Beast",
+      "cost": 40,
+      "max": 3,
+      "isLeader": false,
+      "img": "images/yoke_fiend.jpg",
+      "fullStats": "MOVE: 7\" | RANGED: - | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
+      "baseKeywords": [
+        "BEAST",
+        "RENDING LIMBS"
+      ],
+      "equip": [
+        "Barbed Chains"
+      ]
+    },
+    {
+      "id": "UNIT_HL_THRALL",
+      "name": "Wretched Thrall",
+      "cat": "Chaff Trooper",
+      "cost": 15,
+      "max": 20,
+      "isLeader": false,
+      "img": "images/wretched_thrall.jpg",
+      "fullStats": "MOVE: 5\" | RANGED: -1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 5+",
+      "baseKeywords": [
+        "LINE INFANTRY"
+      ],
+      "equip": [
+        "Rusty Blade"
+      ]
+    }
+  ],
+  "iron_sultanate": [
+    {
+      "id": "UNIT_IS_ALCHEMIST",
+      "name": "Jabirean Alchemist",
+      "cat": "Leader",
+      "cost": 75,
+      "max": 1,
+      "isLeader": true,
+      "img": "images/jabirean_alchemist.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+      "baseKeywords": [
+        "COMMANDER",
+        "GAS HAZARD",
+        "GAS IMMUNE"
+      ],
+      "equip": [
+        "Alchemical Flamethrower"
+      ]
+    },
+    {
+      "id": "UNIT_IS_FIDAI_MASTER",
+      "name": "Master Assassin of Alamut",
+      "cat": "Subfaction Leader",
+      "cost": 85,
+      "max": 1,
+      "isLeader": true,
+      "img": "images/fidai_assassin.jpg",
+      "fullStats": "MOVE: 8\" | RANGED: +2 | MELEE: +4 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+      "baseKeywords": [
+        "COMMANDER",
+        "SILENT ASSASSINATION"
+      ],
+      "equip": [
+        "Dual Poison Daggers"
+      ]
+    },
+    {
+      "id": "UNIT_IS_FIDAI_ACOLYTE",
+      "name": "Fidai Assassin Acolyte",
+      "cat": "Subfaction Elite",
+      "cost": 65,
+      "max": 3,
+      "isLeader": false,
+      "img": "images/fidai_assassin.jpg",
+      "fullStats": "MOVE: 8\" | RANGED: +1 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 8+",
+      "baseKeywords": [
+        "SHOCK TROOPER",
+        "VENOMOUS"
+      ],
+      "equip": [
+        "Poison Dagger"
+      ]
+    },
+    {
+      "id": "UNIT_IS_GOLEM",
+      "name": "House of Wisdom Golem / Homunculus",
+      "cat": "Subfaction Construct",
+      "cost": 95,
+      "max": 2,
+      "isLeader": false,
+      "img": "images/hydra_construct.jpg",
+      "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 10+",
+      "baseKeywords": [
+        "HEAVY CONSTRUCT",
+        "MECHANICAL MASTERY"
+      ],
+      "equip": [
+        "Clockwork Fists"
+      ]
+    },
+    {
+      "id": "UNIT_IS_BRAZEN_BULL",
+      "name": "Brazen Bull Alchemical Engine",
+      "cat": "Monstrous Construct",
+      "cost": 120,
+      "max": 1,
+      "isLeader": false,
+      "img": "images/brazen_bull.jpg",
+      "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +4 | ARMOUR: 3 | WOUNDS: 4 | COURAGE: 10+",
+      "baseKeywords": [
+        "HEAVY CONSTRUCT",
+        "MONSTROUS STRENGTH"
+      ],
+      "equip": [
+        "Alchemical Horns"
+      ]
+    },
+    {
+      "id": "UNIT_IS_JANISSARY",
+      "name": "Janissary Heavy Rifleman",
+      "cat": "Elite",
+      "cost": 55,
+      "max": 4,
+      "isLeader": false,
+      "img": "images/janissary.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+",
+      "baseKeywords": [
+        "SNIPER",
+        "LINE INFANTRY"
+      ],
+      "equip": [
+        "Heavy Rifle"
+      ]
+    },
+    {
+      "id": "UNIT_IS_AZAB",
+      "name": "Azab Warrior",
+      "cat": "Trooper",
+      "cost": 30,
+      "max": 12,
+      "isLeader": false,
+      "img": "images/azab_warrior.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+      "baseKeywords": [
+        "LINE INFANTRY"
+      ],
+      "equip": [
+        "Musket"
+      ]
+    },
+    {
+      "id": "UNIT_IS_SAPPER",
+      "name": "Wall Guard Sapper",
+      "cat": "Specialist",
+      "cost": 45,
+      "max": 2,
+      "isLeader": false,
+      "img": "images/wall_guard_sapper.jpg",
+      "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
+      "baseKeywords": [
+        "IGNORE COVER",
+        "BLAST 4"
+      ],
+      "equip": [
+        "Demolition Satchel"
+      ]
+    }
+  ],
+  "trench_pilgrims": [
+    {
+      "id": "UNIT_TP_WAR_PROPHET",
+      "name": "Trench Pilgrim War Prophet",
+      "cat": "Leader",
+      "cost": 70,
+      "max": 1,
+      "isLeader": true,
+      "img": "images/war_prophet.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+      "baseKeywords": [
+        "COMMANDER",
+        "HOLY FERVOUR"
+      ],
+      "equip": [
+        "Trench Shotgun"
+      ]
+    },
+    {
+      "id": "UNIT_TP_METHODIUS_PROPHET",
+      "name": "War Prophet of Saint Methodius",
+      "cat": "Subfaction Leader",
+      "cost": 75,
+      "max": 1,
+      "isLeader": true,
+      "img": "images/war_prophet.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 10+",
+      "baseKeywords": [
+        "COMMANDER",
+        "METHODIUS BLESSING"
+      ],
+      "equip": [
+        "Methodius Mace"
+      ]
+    },
+    {
+      "id": "UNIT_TP_STIGMATIC_NUN",
+      "name": "Stigmatic Nun",
+      "cat": "Subfaction Specialist",
+      "cost": 50,
+      "max": 3,
+      "isLeader": false,
+      "img": "images/martyr_penitent.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 9+",
+      "baseKeywords": [
+        "HOLY STIGMATA",
+        "DIVINE GUIDANCE"
+      ],
+      "equip": [
+        "Flagellant Whip"
+      ]
+    },
+    {
+      "id": "UNIT_TP_ANCHORITE_SHRINE",
+      "name": "Anchorite Shrine",
+      "cat": "Subfaction Heavy",
+      "cost": 110,
+      "max": 1,
+      "isLeader": false,
+      "img": "images/anchorite_shrine.jpg",
+      "fullStats": "MOVE: 4\" | RANGED: +1 | MELEE: +3 | ARMOUR: 3 | WOUNDS: 4 | COURAGE: 10+",
+      "baseKeywords": [
+        "HEAVY CONSTRUCT",
+        "METHODIUS BLESSING"
+      ],
+      "equip": [
+        "Shrine Cannon"
+      ]
+    },
+    {
+      "id": "UNIT_TP_COMMUNICANT",
+      "name": "Communicant Giant",
+      "cat": "Heavy Elite",
+      "cost": 100,
+      "max": 1,
+      "isLeader": false,
+      "img": "images/communicant_giant.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: -1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 8+",
+      "baseKeywords": [
+        "HEAVY CONSTRUCT",
+        "MONSTROUS STRENGTH"
+      ],
+      "equip": [
+        "Greatsword"
+      ]
+    },
+    {
+      "id": "UNIT_TP_MARTYR",
+      "name": "Martyr Penitent",
+      "cat": "Trooper",
+      "cost": 30,
+      "max": 6,
+      "isLeader": false,
+      "img": "images/martyr_penitent.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: -1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 10+",
+      "baseKeywords": [
+        "BLOOD SACRIFICE",
+        "MARTYRDOM"
+      ],
+      "equip": [
+        "Demo Charge"
+      ]
+    },
+    {
+      "id": "UNIT_TP_PILGRIM",
+      "name": "Trench Pilgrim",
+      "cat": "Trooper",
+      "cost": 25,
+      "max": 15,
+      "isLeader": false,
+      "img": "images/trench_pilgrim.jpg",
+      "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+      "baseKeywords": [
+        "ZEALOT",
+        "LINE INFANTRY"
+      ],
+      "equip": [
+        "Bolt-Action Rifle"
+      ]
+    }
+  ]
+};
 
   // Comprehensive Master Unit Catalog across all 5 Factions and Subfactions
   const masterUnits = {
