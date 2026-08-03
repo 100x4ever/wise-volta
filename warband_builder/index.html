@@ -43,16 +43,22 @@
           <input type="text" id="txtWarbandName" value="Order of the Crimson Trench" placeholder="Enter Warband Name...">
         </div>
 
-        <div class="form-group">
+                <div class="form-group">
           <label>FACTION</label>
           <select id="selFaction">
             <option value="new_antioch">Principality of New Antioch</option>
             <option value="trench_pilgrims">Processions of the Trench Pilgrims</option>
             <option value="iron_sultanate">The Iron Sultanate</option>
             <option value="heretic_legions">Heretic Legions & Black Grail</option>
-            <option value="serpent_court">Court of the Seven-Headed Serpent</option>
-            <option value="mercenaries">Mercenaries & Outcasts</option>
+            <option value="court_serpent">Court of the Seven-Headed Serpent</option>
           </select>
+        </div>
+
+        <div class="form-group" style="margin-top:10px;">
+          <label>SUBFACTION VARIANT & SPECIAL RULE</label>
+          <select id="selSubfaction" style="width:100%; padding:8px; background:#000; border:1px solid var(--gold-glow); color:#fff;">
+          </select>
+          <div id="txtSubfactionRule" style="font-size:0.72rem; color:var(--gold-glow); margin-top:6px; background:rgba(229,193,88,0.1); padding:6px; border:1px dashed var(--gold-glow);"></div>
         </div>
 
         <div class="form-group">
