@@ -1,11 +1,11 @@
 {
   "name": "wise-volta-trench-crusade",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Trench Crusade Master Portal, Tactical Engine, Warband Vault & Campaign Manager",
-  "main": "server.js",
+  "main": "server.py",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "python server.py",
+    "dev": "python server.py"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

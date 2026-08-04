@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trench Crusade - Tactical Engine, Warband Vault & PvP Lobby</title>
+  <meta name="description" content="Trench Crusade Master Portal - Tactical 2D engine, warband builder & vault, campaign manager, and real-time multiplayer PvP lobby.">
+  <meta property="og:title" content="Trench Crusade - Tactical Engine & Warband Vault">
+  <meta property="og:description" content="Draft warband rosters, customize weapons & relic armor, and command tactical battlefield simulations.">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Special+Elite&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -29,9 +32,9 @@
             <!-- Master Umbrella Navigation Tabs -->
       <nav class="master-nav">
         <button type="button" class="nav-tab active" id="btnTabHome" data-tab="tabHome">📜 HOME HUB</button>
-        <button type="button" class="nav-tab" id="btnTabBuilder" data-tab="tabBuilderEmbedded">🪖 WARBAND BUILDER</button>
-        <button type="button" class="nav-tab highlight-gameplay" id="btnTabEngine" data-tab="tabEngineEmbedded" style="border:1px solid var(--gold-glow); background:rgba(229,193,88,0.15);">⚔️ TACTICAL ENGINE</button>
-        <button type="button" class="nav-tab" id="btnTabProfile" data-tab="tabVaultView">🏆 WARBAND VAULT</button>
+        <button type="button" class="nav-tab" id="btnTabBuilder" data-tab="tabBuilder">🪖 WARBAND BUILDER</button>
+        <button type="button" class="nav-tab highlight-gameplay" id="btnTabEngine" data-tab="tabSandbox" style="border:1px solid var(--gold-glow); background:rgba(229,193,88,0.15);">⚔️ TACTICAL ENGINE</button>
+        <button type="button" class="nav-tab" id="btnTabProfile" data-tab="tabProfile">🏆 WARBAND VAULT</button>
       </nav>
 
       <!-- Active User Quick Status -->
@@ -59,11 +62,11 @@
             <button type="button" class="btn-primary">LAUNCH BUILDER ➔</button>
           </div>
 
-          <div class="portal-card glass-card" id="cardLaunchSandbox" onclick="window.location.href='/game_engine/index.html'">
+          <div class="portal-card glass-card" id="cardLaunchSandbox">
             <div class="card-icon">⚔️</div>
             <h3>GOLDEN GAMEPLAY ENGINE</h3>
             <p>Full 2D Tactical map engine with maps, tokens, LoS rays, AoE grenades, Vault deployment, and auto-turns.</p>
-            <a href="/game_engine/index.html" class="btn-primary" style="display:inline-block; text-decoration:none; text-align:center;">LAUNCH GAMEPLAY ENGINE ➔</a>
+            <button type="button" class="btn-primary">LAUNCH GAMEPLAY ENGINE ➔</button>
           </div>
 
           <div class="portal-card glass-card" id="cardLaunchPvp">
@@ -355,7 +358,7 @@
               </div>
 
               <div class="canvas-container">
-                <canvas id="battleCanvas" width="840" height="680"></canvas>
+                <canvas id="battleCanvas" width="840" height="680" role="img" aria-label="Trench Crusade 2D Tactical Battlefield Map"></canvas>
               </div>
 
               <div class="canvas-footer-info">
@@ -620,7 +623,7 @@
         <div id="profileSaveMsg" style="font-size:0.75rem; color:#4caf50; display:none;">Profile updated successfully!</div>
 
         <div style="display:flex; gap:10px; margin-top:10px;">
-          <button type="submit" id="btnSaveProfile" style="flex:1; padding:10px; background:var(--gold-glow); color:#000; font-weight:bold; border:none; cursor:pointer;">
+          <button type="submit" id="btnSaveProfileModal" style="flex:1; padding:10px; background:var(--gold-glow); color:#000; font-weight:bold; border:none; cursor:pointer;">
             💾 SAVE PROFILE
           </button>
           <button type="button" id="btnLogoutUser" style="padding:10px; background:rgba(244,67,54,0.2); color:#f44336; border:1px solid #f44336; cursor:pointer;">

@@ -1044,8 +1044,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnOpenAuthModal) {
     btnOpenAuthModal.addEventListener('click', () => {
-      let token = localStorage.getItem('trench_auth_token');
-      if (token && currentUser) {
+      let token = localStorage.getItem('tc_auth_token');
+      if (token) {
         openProfileModal();
       } else {
         if (authModalOverlay) authModalOverlay.classList.remove('hidden');
@@ -1062,9 +1062,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (profileEditForm) {
     profileEditForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      let newName = txtEditProfileName.value.strip ? txtEditProfileName.value.strip() : txtEditProfileName.value.trim();
+      let newName = txtEditProfileName.value.trim();
       let newAvatar = selEditProfileAvatar.value;
-      let token = localStorage.getItem('trench_auth_token');
+      let token = localStorage.getItem('tc_auth_token');
 
       if (!token) return;
 
@@ -1077,10 +1077,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let data = await res.json();
 
         if (res.ok && data.user) {
-          currentUser = data.user;
-          updateHeaderUserBadge(currentUser);
-          if (profNameDisplay) profNameDisplay.textContent = currentUser.username.toUpperCase();
-          if (profAvatarDisplay) profAvatarDisplay.textContent = currentUser.avatar;
+          userProfile.name = data.user.username;
+          userProfile.avatar = data.user.avatar;
+          renderUserProfile();
+          if (profNameDisplay) profNameDisplay.textContent = data.user.username.toUpperCase();
+          if (profAvatarDisplay) profAvatarDisplay.textContent = data.user.avatar;
           if (profileSaveMsg) {
             profileSaveMsg.style.display = 'block';
             setTimeout(() => { profileSaveMsg.style.display = 'none'; }, 2500);
@@ -1094,10 +1095,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnLogoutUser) {
     btnLogoutUser.addEventListener('click', () => {
-      localStorage.removeItem('trench_auth_token');
-      currentUser = null;
+      localStorage.removeItem('tc_auth_token');
+      currentUserToken = null;
       if (profileModalOverlay) profileModalOverlay.classList.add('hidden');
       if (txtHeaderProfileName) txtHeaderProfileName.textContent = 'LOG IN / REGISTER';
       if (txtHeaderProfileAvatar) txtHeaderProfileAvatar.textContent = '🎖️';
     });
   }
+
+  // GLOBAL KEYBOARD ACCESSIBILITY: ESCAPE TO CLOSE OPEN MODALS
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'Escape') {
+      const overlays = [authModalOverlay, profileModalOverlay, document.getElementById('codexModalOverlay'), document.getElementById('equipModalOverlay')];
+      overlays.forEach(overlay => {
+        if (overlay && !overlay.classList.contains('hidden')) {
+          overlay.classList.add('hidden');
+        }
+      });
+    }
+  });
