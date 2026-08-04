@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "ETERNAL APPETENCE": {
+      cat: "Great Hunger Stance",
+      desc: "At start of Turn, choose Famine (+1 Move & +1 Melee die) or Consumption (Heal 1 Wound/Marker when enemy dies within 6").",
+      impact: "Dynamic Turn Stance: Famine vs Consumption"
+    },
+    "THE GREAT MAW": {
+      cat: "Monstrous Cannibal",
+      desc: "Loping cannibal giant available at 1000D warband cost. Devours enemy models in close combat.",
+      impact: "Devouring Monstrous Melee Giant"
+    },
+    "BUTCHER KNIGHTS": {
+      cat: "Hunger Knight Upgrade",
+      desc: "Plague Knights in a Great Hunger warband gain +1 Attack die on Charge Actions.",
+      impact: "+1 Melee Die on Charge"
+    },
+
+
     "THE BEREAVED": {
       cat: "Dirge Subfaction Rule",
       desc: "Thralls in a Dirge warband are The Bereaved (Cost: 30D, Ranged +0 DICE). Can equip Ranged Weapons, Grenades, Musical Instruments, and Troop Flags.",
