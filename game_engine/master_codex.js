@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "RAMPANT CHARGE": {
+      cat: "Highland Charge Trait",
+      desc: "All models gain IGNORE DEFENDED OBSTACLE keyword during Charge Actions.",
+      impact: "Ignore Defended Obstacles on Charge"
+    },
+    "CELTIC MACHINE ARMOUR": {
+      cat: "Highland Heavy Plate",
+      desc: "Celtic Machine Armour maintains full D6" Charge Bonus (not reduced to D3").",
+      impact: "Full D6" Heavy Charge Bonus"
+    },
+    "HIGHLAND STRENGTH": {
+      cat: "Highland Warrior Strength",
+      desc: "Lieutenant and Shock Troopers gain STRONG keyword at no extra cost.",
+      impact: "STRONG Keyword on Officers & Shock"
+    },
+
+
     "EXPERT FIRETEAMS": {
       cat: "Prussian Assault Tactics",
       desc: "Can assign up to 3 Fireteams (2 models each) for synchronized paired activations.",
