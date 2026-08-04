@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "FAST AS LIGHTNING": {
+      cat: "Naval Raider Trait",
+      desc: "Add +1 DICE to Risky Success rolls for Dash Actions taken by Heretic Naval Raider models.",
+      impact: "+1 Dash Risky Success Die"
+    },
+    "CLOSE ASSAULT WEAPONS": {
+      cat: "Naval Raider Armory",
+      desc: "Submachine Guns cost only 25 Ducats for Heretic Naval Raider warbands.",
+      impact: "Discounted SMG Cost (25D)"
+    },
+    "LIGHT TROOPS": {
+      cat: "Naval Raider Restriction",
+      desc: "Naval Raider warbands cannot include more than 2 Anointed models or more than 1 Artillery Witch.",
+      impact: "Max 2 Anointed • Max 1 Artillery Witch"
+    },
+    "LET SLEEPING DOGS LIE": {
+      cat: "Naval Raider Restriction",
+      desc: "Heretic Naval Raider warbands cannot include War Wolf Assault Beasts.",
+      impact: "No War Wolf Assault Beasts"
+    },
+
+
     "UNSEEN ADVANCE": {
       cat: "Naval Raider Stealth",
       desc: "Heretic Naval Raiders deploy in infiltration stealth and gain +1 to hit on Charge Actions with close assault weapons.",
