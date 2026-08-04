@@ -1368,7 +1368,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
   {
-    "id": "UNIT_IS_DERVISH"  { "id": "UNIT_IS_DERVISH", "name": "Isma'ili Dervish Monk", "cat": "Subfaction Skirmisher", "cost": 55, "max": 4, "isLeader": false, "img": "images/dervish_monk.jpg", "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 9+", "baseKeywords": ["WHIRLING DERVISH", "IGNORE OFF-HAND WEAPON"], "equip": ["Dual Curved Scimitars"] },
+    "id": "UNIT_IS_KAVASS"  { "id": "UNIT_IS_KAVASS", "name": "Kavass Guardian", "cat": "Subfaction Guard", "cost": 35, "max": 3, "isLeader": false, "img": "images/kavass_guardian.jpg", "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", "baseKeywords": ["KAVASS GUARDIANS", "ALCHEMICAL SHIELD"], "equip": ["Alchemical Halberd", "Brass Body Armour"] },
+  { "id": "UNIT_IS_DERVISH"  { "id": "UNIT_IS_KAVASS"  { "id": "UNIT_IS_KAVASS", "name": "Kavass Guardian", "cat": "Subfaction Guard", "cost": 35, "max": 3, "isLeader": false, "img": "images/kavass_guardian.jpg", "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", "baseKeywords": ["KAVASS GUARDIANS", "ALCHEMICAL SHIELD"], "equip": ["Alchemical Halberd", "Brass Body Armour"] },
+  { "id": "UNIT_IS_DERVISH", "name": "Isma'ili Dervish Monk", "cat": "Subfaction Skirmisher", "cost": 55, "max": 4, "isLeader": false, "img": "images/dervish_monk.jpg", "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 9+", "baseKeywords": ["WHIRLING DERVISH", "IGNORE OFF-HAND WEAPON"], "equip": ["Dual Curved Scimitars"] },
   { "id": "UNIT_IS_FIDAI_ACOLYTE",
     "name": "Fidai Assassin Acolyte",
     "cat": "Subfaction Elite",
@@ -1533,7 +1535,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     {
-      "id": "UNIT_IS_DERVISH"  { "id": "UNIT_IS_DERVISH", "name": "Isma'ili Dervish Monk", "cat": "Subfaction Skirmisher", "cost": 55, "max": 4, "isLeader": false, "img": "images/dervish_monk.jpg", "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 9+", "baseKeywords": ["WHIRLING DERVISH", "IGNORE OFF-HAND WEAPON"], "equip": ["Dual Curved Scimitars"] },
+      "id": "UNIT_IS_KAVASS"  { "id": "UNIT_IS_KAVASS", "name": "Kavass Guardian", "cat": "Subfaction Guard", "cost": 35, "max": 3, "isLeader": false, "img": "images/kavass_guardian.jpg", "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", "baseKeywords": ["KAVASS GUARDIANS", "ALCHEMICAL SHIELD"], "equip": ["Alchemical Halberd", "Brass Body Armour"] },
+  { "id": "UNIT_IS_DERVISH"  { "id": "UNIT_IS_KAVASS"  { "id": "UNIT_IS_KAVASS", "name": "Kavass Guardian", "cat": "Subfaction Guard", "cost": 35, "max": 3, "isLeader": false, "img": "images/kavass_guardian.jpg", "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", "baseKeywords": ["KAVASS GUARDIANS", "ALCHEMICAL SHIELD"], "equip": ["Alchemical Halberd", "Brass Body Armour"] },
+  { "id": "UNIT_IS_DERVISH", "name": "Isma'ili Dervish Monk", "cat": "Subfaction Skirmisher", "cost": 55, "max": 4, "isLeader": false, "img": "images/dervish_monk.jpg", "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 9+", "baseKeywords": ["WHIRLING DERVISH", "IGNORE OFF-HAND WEAPON"], "equip": ["Dual Curved Scimitars"] },
   { "id": "UNIT_IS_FIDAI_ACOLYTE",
       "name": "Fidai Assassin Acolyte",
       "cat": "Subfaction Elite",

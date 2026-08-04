@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "KAVASS GUARDIANS": {
+      cat: "House of Wisdom Bodyguards",
+      desc: "Up to 3 Azebs upgraded to Kavass Guardians (+5D each). Melee characteristic increases to +0 DICE.",
+      impact: "+0 Melee Die • Sworn Library Bodyguards"
+    },
+    "TAKWIN HOMUNCULUS": {
+      cat: "Alchemical Construct",
+      desc: "1 Takwin Homunculus construct paired with each Jabirean Alchemist. Shares alchemical formulas and ignores Fear.",
+      impact: "Paired Alchemist Construct"
+    },
+    "WEAPON COLLECTIONS": {
+      cat: "Library Armory Access",
+      desc: "Can purchase 1 item from New Antioch Armoury AND 1 item from Trench Pilgrims Armoury.",
+      impact: "Cross-Faction Armoury Access (Antioch & Pilgrims)"
+    },
+
+
     "KILLING SQUAD FIRETEAM": {
       cat: "Fidai Tactics",
       desc: "Assign 2 models to a Killing Squad Fireteam. Both models gain FIRETEAM keyword and perform synchronized activations.",
