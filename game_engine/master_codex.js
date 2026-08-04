@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "FACE THY FEARS": {
+      cat: "Sacred Affliction Faith",
+      desc: "Spurns Iron Capirotes relying on pure faith alone. Cannot wear Iron Capirotes.",
+      impact: "No Iron Capirotes Allowed"
+    },
+    "PUNISHING MILLSTONES ATTACK": {
+      cat: "Sacred Affliction Execution",
+      desc: "Add +1 INJURY DIE to all melee attacks made against enemy targets that are DOWN.",
+      impact: "+1 Injury Die vs Down Enemies"
+    },
+    "RELIC ARMOURY ACCESS": {
+      cat: "Holy Icon Relics",
+      desc: "Holy Icon Shields cost 20D without ELITE restriction; Holy Icon Armour costs 30D.",
+      impact: "20D / 30D Holy Icon Gear"
+    },
+
+
     "HOLY MARTYRDOM": {
       cat: "Trench Pilgrim Zeal",
       desc: "When a friendly Pilgrim model is killed in battle, all nearby allies gain +1 Courage for the turn.",
