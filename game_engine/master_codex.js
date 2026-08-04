@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "KILLING SQUAD FIRETEAM": {
+      cat: "Fidai Tactics",
+      desc: "Assign 2 models to a Killing Squad Fireteam. Both models gain FIRETEAM keyword and perform synchronized activations.",
+      impact: "2-Model Synchronized Fireteam"
+    },
+    "WHIRLING DERVISH": {
+      cat: "Dervish Combat Dance",
+      desc: "Dervish warrior monks ignore off-hand weapon penalties and gain +1 Attack die when dual-wielding curved scimitars.",
+      impact: "Dual-Wield Dance • No Off-Hand Penalty"
+    },
+    "DERVISHES OF ALAMUT": {
+      cat: "Subfaction Warrior Monks",
+      desc: "Sworn to poverty and lethal blade combat. Fast skirmishers replacing heavy Janissaries.",
+      impact: "0-4 Fast Dual-Wield Skirmishers"
+    },
+
+
     "SILENT ASSASSINATION": {
       cat: "Fidai Assassin Trait",
       desc: "Fidai Master Assassins gain +2 to hit on all melee and ranged attack rolls targeting enemy LEADER models.",

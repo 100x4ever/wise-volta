@@ -1368,7 +1368,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   },
   {
-    "id": "UNIT_IS_FIDAI_ACOLYTE",
+    "id": "UNIT_IS_DERVISH"  { "id": "UNIT_IS_DERVISH", "name": "Isma'ili Dervish Monk", "cat": "Subfaction Skirmisher", "cost": 55, "max": 4, "isLeader": false, "img": "images/dervish_monk.jpg", "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 9+", "baseKeywords": ["WHIRLING DERVISH", "IGNORE OFF-HAND WEAPON"], "equip": ["Dual Curved Scimitars"] },
+  { "id": "UNIT_IS_FIDAI_ACOLYTE",
     "name": "Fidai Assassin Acolyte",
     "cat": "Subfaction Elite",
     "cost": 65,
@@ -1532,7 +1533,8 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     {
-      "id": "UNIT_IS_FIDAI_ACOLYTE",
+      "id": "UNIT_IS_DERVISH"  { "id": "UNIT_IS_DERVISH", "name": "Isma'ili Dervish Monk", "cat": "Subfaction Skirmisher", "cost": 55, "max": 4, "isLeader": false, "img": "images/dervish_monk.jpg", "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 9+", "baseKeywords": ["WHIRLING DERVISH", "IGNORE OFF-HAND WEAPON"], "equip": ["Dual Curved Scimitars"] },
+  { "id": "UNIT_IS_FIDAI_ACOLYTE",
       "name": "Fidai Assassin Acolyte",
       "cat": "Subfaction Elite",
       "cost": 65,
