@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "SWISS GUARD": {
+      cat: "Papal States Trait",
+      desc: "Lieutenant and up to 4 models gain NEGATE FEAR keyword at no extra cost.",
+      impact: "Negate Fear on Up to 5 Units"
+    },
+    "SUPREME BLESSING": {
+      cat: "Papal States Holy Relic",
+      desc: "Warband receives a free Supreme Pontiff's Crucifix granting holy aura and morale protection.",
+      impact: "Free Supreme Pontiff's Crucifix"
+    },
+    "LECTOR PRIEST": {
+      cat: "Trench Cleric Lector",
+      desc: "Lector reads holy scripture under fire, granting +1 Courage and Holy Order aura to nearby allies.",
+      impact: "+1 Courage Scripture Aura"
+    },
+
+
     "COMBINED ARMS": {
       cat: "New Antioch Line Force",
       desc: "Combined Arms tactic: Reroll 1 failed Initiative tie-breaker roll per battle.",
