@@ -1,6 +1,38 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "LAW OF HELL": {
+      cat: "Warband Rule",
+      desc: "If a Wretched takes an enemy ELITE model Out of Action, it gains freedom! Immediately removed from game and no longer counts for Morale casualties.",
+      impact: "Wretched Freedom on Elite Kill • Morale Immunity"
+    },
+    "BLESSINGS OF THE SERPENT MOON": {
+      cat: "Goetic Spell",
+      desc: "GOETIC (2/4/6) Spell: Cast before Injury Roll. Add -1 Injury Modifier for every 2 Blood Markers spent.",
+      impact: "-1 Injury Penalty per 2 Blood Markers"
+    },
+    "SEARING FLAMES": {
+      cat: "Crown of Hellfire",
+      desc: "When ending Activation, place 1 Blood Marker next to every enemy model within 1" (unless Negate Fire).",
+      impact: "1" End-of-Turn Blood Marker Aura"
+    },
+    "SUCKED DRY": {
+      cat: "Armour of the Fly",
+      desc: "After Fight Action, make extra Melee Attack with +1 DICE. If hit, place 1 Blood Marker on target.",
+      impact: "Extra Melee Attack • Inflicts Blood Marker"
+    },
+    "SINISTER WHISPERS": {
+      cat: "Urn of Bitter Ashes",
+      desc: "Ranged attacks targeting this model (or allies within 3") suffer -1 DICE to hit.",
+      impact: "-1 Ranged Hit Die Aura (3")"
+    },
+    "DARK BLESSING": {
+      cat: "Wretched Sacrifice",
+      desc: "When a Wretched is taken Out of Action, place 1 Blessing Marker next to the nearest friendly Elite model.",
+      impact: "Grants Blessing Marker to Nearby Elite"
+    },
+
+
     "LEFT-HAND PATH": {
       cat: "Goetic Spell",
       desc: "GOETIC (2): When taking a Move, Charge, or Dash ACTION into terrain, spellcaster can teleport to any other terrain piece >1" from enemies.",
