@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "MARKSMANSHIP OF THE IRON WALL": {
+      cat: "Elevated Position Sniper Bonus",
+      desc: "Models firing from an Elevated Position gain +2 DICE to Ranged Attack rolls (instead of +1).",
+      impact: "+2 Ranged Dice on High Ground"
+    },
+    "SIEGE JEZZAIL TEAMS": {
+      cat: "Paired Spotter Team",
+      desc: "Siege Jezzails gain +1 DICE to hit when paired with a friendly spotter model within 1".",
+      impact: "+1 Ranged Die with Spotter"
+    },
+    "SILAHDAR COMMANDER": {
+      cat: "Iron Wall Commander",
+      desc: "Personal bodyguard commander of the Sultan. Gains STRONG keyword, Alaybozan, and Anqā Guard plate.",
+      impact: "STRONG Keyword • Alaybozan & Anqā Guard"
+    },
+    "SAPPER CORPS": {
+      cat: "Double-Strength Demolition",
+      desc: "Can include up to 4 Sultanate Sappers with demolition satchels and field artillery.",
+      impact: "0-4 Sultanate Sappers"
+    },
+
+
     "KAVASS GUARDIANS": {
       cat: "House of Wisdom Bodyguards",
       desc: "Up to 3 Azebs upgraded to Kavass Guardians (+5D each). Melee characteristic increases to +0 DICE.",
