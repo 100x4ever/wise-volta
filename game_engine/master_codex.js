@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "SHORT RANGE MARKSMANSHIP": {
+      cat: "Abyssinian Tactics",
+      desc: "Lieutenant and Yeomen gain +1 DICE to hit on all Ranged Attacks at Short Range.",
+      impact: "+1 Ranged Die at Short Range"
+    },
+    "CHEWA WARRIOR NOBLES": {
+      cat: "Solomonic Elite",
+      desc: "Chewa elite warriors gain +1 Melee die and immune to pin when fighting in close quarters.",
+      impact: "+1 Melee Die • Pin Immunity"
+    },
+    "VANGUARD FLANKING": {
+      cat: "Abyssinian Envelopment",
+      desc: "Up to 4 Yeomen gain Flanking (+5D) to deploy along any battlefield edge >=8" from enemies.",
+      impact: "Battlefield Edge Flanking Deployment"
+    },
+    "HOLY WARRIORS OF ETHIOPIA": {
+      cat: "Abyssinian Healers",
+      desc: "Holy Warriors dedicated to Saint George with Arise and Be Healed! and Blessed Psalm prayers.",
+      impact: "Dual Healing & Banishing Prayers"
+    },
+
+
     "RAMPANT CHARGE": {
       cat: "Highland Charge Trait",
       desc: "All models gain IGNORE DEFENDED OBSTACLE keyword during Charge Actions.",
