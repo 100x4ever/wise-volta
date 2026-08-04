@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "LATENT BERSERKER": {
+      cat: "Eire Bloodline Rage",
+      desc: "Meta-Christ blood communion triggers battle-rage. Gains NEGATE FEAR and Blood Markers are NEVER placed on them.",
+      impact: "Blood Marker Immunity • Negate Fear"
+    },
+    "FIANNA WARRIOR HUNTERS": {
+      cat: "Eire Elite Guerrillas",
+      desc: "Fianna guerrillas gain INFILTRATOR and SKIRMISHER keywords for stealth mobility.",
+      impact: "Infiltrator & Skirmisher Mobility"
+    },
+    "CARNYX WAR HORN": {
+      cat: "Celtic Relic Instrument",
+      desc: "Carnyx war horn grants FEAR keyword to terrify nearby enemy units.",
+      impact: "Fear Aura War Horn"
+    },
+    "HIT AND RUN TACTICS": {
+      cat: "Eire Retreat Evasion",
+      desc: "Enemies suffer -1 DICE to Melee Attack rolls when targeting an Eire Ranger making a Retreat.",
+      impact: "-1 Enemy Hit Die on Retreat"
+    },
+
+
     "SWISS GUARD": {
       cat: "Papal States Trait",
       desc: "Lieutenant and up to 4 models gain NEGATE FEAR keyword at no extra cost.",
