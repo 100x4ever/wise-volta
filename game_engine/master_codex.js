@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "EXPERT FIRETEAMS": {
+      cat: "Prussian Assault Tactics",
+      desc: "Can assign up to 3 Fireteams (2 models each) for synchronized paired activations.",
+      impact: "Up to 3 Synchronized Fireteams"
+    },
+    "MASTERS OF THE GRENADE": {
+      cat: "Prussian Shock Assault",
+      desc: "Prussian Shock Troopers carry specialist grenades and SMGs for trench clearing.",
+      impact: "Specialist Grenade & SMG Assault"
+    },
+    "PRUSSIAN TROOP SELECTION": {
+      cat: "Prussian Roster Limits",
+      desc: "Must include 2-8 Shock Troopers. Max 1 Sniper Priest or 1 Mechanized Heavy Infantry.",
+      impact: "2-8 Shock Troopers • Max 1 Heavy/Sniper"
+    },
+
+
     "LATENT BERSERKER": {
       cat: "Eire Bloodline Rage",
       desc: "Meta-Christ blood communion triggers battle-rage. Gains NEGATE FEAR and Blood Markers are NEVER placed on them.",
