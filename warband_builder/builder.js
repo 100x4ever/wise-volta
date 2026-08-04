@@ -477,22 +477,204 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "cult_black_grail": [
-    {
-      "id": "cbg_standard",
-      "name": "Cult of the Black Grail (Standard Host)",
-      "rule": "Black Grail Contagion: Wounds in combat inflict Contagion markers dealing end-of-turn damage."
-    },
-    {
-      "id": "cbg_dirge",
-      "name": "Dirge of the Great Hegemon",
-      "rule": "Artillery Barrage: Artillery Witches gain 24\" Blast 4 Hellfire barrage."
-    },
-    {
-      "id": "cbg_hunger",
-      "name": "The Great Hunger",
-      "rule": "Ravenous Afflicted: Grail Thralls gain +1 Attack die when charging."
-    }
-  ],
+  {
+    "id": "UNIT_CBG_LORD_TUMORS",
+    "name": "Lord of Tumors",
+    "cat": "Leader",
+    "cost": 85,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/lord_of_tumours.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "BLACK GRAIL PLAGUE",
+      "REGENERATION",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Scythe of Pestilence"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_EXECUTOR",
+    "name": "The Executor (Dirge Commander)",
+    "cat": "Subfaction Leader",
+    "cost": 80,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/plague_knight.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "TOUGH",
+      "THE EXECUTOR",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Executioner Greatsword",
+      "Plague Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_GREAT_MAW",
+    "name": "Great Maw (Hunger Commander)",
+    "cat": "Subfaction Leader",
+    "cost": 90,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/lord_of_tumours.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +4 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "RAVENOUS CHARGE",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Great Maw Jaws"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_HERALD",
+    "name": "Herald of Beelzebub",
+    "cat": "Specialist Caster",
+    "cost": 75,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/herald_of_beelzebub.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "GOETIC SORCERY",
+      "FLIGHT",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Herald Horn of Pestilence"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_PLAGUE_KNIGHT",
+    "name": "Plague Knight",
+    "cat": "Elite",
+    "cost": 70,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/plague_knight.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "ORDER OF THE FLY",
+      "ARMOUR +2",
+      "REGENERATION"
+    ],
+    "equip": [
+      "Plague Greatsword"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_CORPSE_GUARD",
+    "name": "Corpse Guard",
+    "cat": "Elite Guard",
+    "cost": 65,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/corpse_guard.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 1 | COURAGE: 8+",
+    "baseKeywords": [
+      "ARMOUR +2",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Plague Shield",
+      "Corpse Halberd"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_GRAIL_THRALL",
+    "name": "Grail Thrall",
+    "cat": "Trooper",
+    "cost": 20,
+    "max": 15,
+    "isLeader": false,
+    "img": "images/grail_thrall.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: -1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+",
+    "baseKeywords": [
+      "INFECTION MARKERS",
+      "PLAGUE CONTAINER"
+    ],
+    "equip": [
+      "Rotting Cleaver"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_HOUNDS",
+    "name": "Hounds of the Black Grail",
+    "cat": "Beast",
+    "cost": 30,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/trench_dog.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: - | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "BEAST",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Contagion Fangs"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_HELL_TICK",
+    "name": "Hell Tick",
+    "cat": "Swarm Beast",
+    "cost": 25,
+    "max": 6,
+    "isLeader": false,
+    "img": "images/yoke_fiend.jpg",
+    "fullStats": "MOVE: 7\" | RANGED: - | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+",
+    "baseKeywords": [
+      "BEAST",
+      "PARASITIC INFECTION"
+    ],
+    "equip": [
+      "Parasitic Mandibles"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_BEAST_NOMAN",
+    "name": "Beast of No Man's Land",
+    "cat": "Heavy Monster",
+    "cost": 115,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/beast_of_no_mans_land.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: -1 | MELEE: +4 | ARMOUR: 2 | WOUNDS: 4 | COURAGE: 9+",
+    "baseKeywords": [
+      "HEAVY CONSTRUCT",
+      "MONSTROUS STRENGTH",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Rending Plague Claws"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_GREGORI_GULA",
+    "name": "Gregori Gula",
+    "cat": "Specialist Glutton",
+    "cost": 65,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/lord_of_tumours.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "REGENERATION",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Gluttonous Cleaver"
+    ]
+  }
+],
   "court_serpent": [
   {
     "id": "UNIT_CS_PRAETOR",
@@ -1228,20 +1410,204 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "cult_black_grail": [
-    {
-      "id": "UNIT_CBG_LORD_TUMORS",
-      "name": "Lord of Tumors",
-      "cat": "Leader",
-      "cost": 85,
-      "max": 1,
-      "isLeader": true,
-      "img": "images/lord_of_tumours.jpg",
-      "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+",
-      "baseKeywords": [
-        "COMMANDER",
-        "BLACK GRAIL PLAGUE",
-        "REGENERATION"
-      ],
+  {
+    "id": "UNIT_CBG_LORD_TUMORS",
+    "name": "Lord of Tumors",
+    "cat": "Leader",
+    "cost": 85,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/lord_of_tumours.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "BLACK GRAIL PLAGUE",
+      "REGENERATION",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Scythe of Pestilence"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_EXECUTOR",
+    "name": "The Executor (Dirge Commander)",
+    "cat": "Subfaction Leader",
+    "cost": 80,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/plague_knight.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "TOUGH",
+      "THE EXECUTOR",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Executioner Greatsword",
+      "Plague Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_GREAT_MAW",
+    "name": "Great Maw (Hunger Commander)",
+    "cat": "Subfaction Leader",
+    "cost": 90,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/lord_of_tumours.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +4 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "RAVENOUS CHARGE",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Great Maw Jaws"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_HERALD",
+    "name": "Herald of Beelzebub",
+    "cat": "Specialist Caster",
+    "cost": 75,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/herald_of_beelzebub.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "GOETIC SORCERY",
+      "FLIGHT",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Herald Horn of Pestilence"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_PLAGUE_KNIGHT",
+    "name": "Plague Knight",
+    "cat": "Elite",
+    "cost": 70,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/plague_knight.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "ORDER OF THE FLY",
+      "ARMOUR +2",
+      "REGENERATION"
+    ],
+    "equip": [
+      "Plague Greatsword"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_CORPSE_GUARD",
+    "name": "Corpse Guard",
+    "cat": "Elite Guard",
+    "cost": 65,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/corpse_guard.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 1 | COURAGE: 8+",
+    "baseKeywords": [
+      "ARMOUR +2",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Plague Shield",
+      "Corpse Halberd"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_GRAIL_THRALL",
+    "name": "Grail Thrall",
+    "cat": "Trooper",
+    "cost": 20,
+    "max": 15,
+    "isLeader": false,
+    "img": "images/grail_thrall.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: -1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+",
+    "baseKeywords": [
+      "INFECTION MARKERS",
+      "PLAGUE CONTAINER"
+    ],
+    "equip": [
+      "Rotting Cleaver"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_HOUNDS",
+    "name": "Hounds of the Black Grail",
+    "cat": "Beast",
+    "cost": 30,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/trench_dog.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: - | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "BEAST",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Contagion Fangs"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_HELL_TICK",
+    "name": "Hell Tick",
+    "cat": "Swarm Beast",
+    "cost": 25,
+    "max": 6,
+    "isLeader": false,
+    "img": "images/yoke_fiend.jpg",
+    "fullStats": "MOVE: 7\" | RANGED: - | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+",
+    "baseKeywords": [
+      "BEAST",
+      "PARASITIC INFECTION"
+    ],
+    "equip": [
+      "Parasitic Mandibles"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_BEAST_NOMAN",
+    "name": "Beast of No Man's Land",
+    "cat": "Heavy Monster",
+    "cost": 115,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/beast_of_no_mans_land.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: -1 | MELEE: +4 | ARMOUR: 2 | WOUNDS: 4 | COURAGE: 9+",
+    "baseKeywords": [
+      "HEAVY CONSTRUCT",
+      "MONSTROUS STRENGTH",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Rending Plague Claws"
+    ]
+  },
+  {
+    "id": "UNIT_CBG_GREGORI_GULA",
+    "name": "Gregori Gula",
+    "cat": "Specialist Glutton",
+    "cost": 65,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/lord_of_tumours.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "REGENERATION",
+      "INFECTION MARKERS"
+    ],
+    "equip": [
+      "Gluttonous Cleaver"
+    ]
+  }
+],
       "equip": [
         "Scythe of Pestilence"
       ]

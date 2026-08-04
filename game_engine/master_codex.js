@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "INFECTION MARKERS": {
+      cat: "Plague Weapon Keyword",
+      desc: "Black Grail attacks place Infection Markers on targets. Infection Markers grow and stack up to 6, dealing end-of-turn damage if untreated.",
+      impact: "Stacking Contagion Damage • Max 6 Markers"
+    },
+    "GRAIL MORALE RESILIENCE": {
+      cat: "Faction Morale Penalty",
+      desc: "Opponents suffer -1 DICE on all Morale Checks when fighting Cult of the Black Grail (unless Court of Seven or Black Grail).",
+      impact: "-1 Enemy Morale Die"
+    },
+    "THE EXECUTOR": {
+      cat: "Subfaction Commander",
+      desc: "Dirge of the Great Hegemon commander. Uses Plague Knight profile with +1 Ranged DICE and TOUGH keyword (Cost: 80D).",
+      impact: "+1 Ranged Die • TOUGH Keyword"
+    },
+    "THE ORDER OF THE FLY": {
+      cat: "Warband Rule",
+      desc: "Choose warband leader: Lord of Tumors (0-1 Lord + 0-2 Plague Knights) or Plague Knight Leader (0-3 Plague Knights).",
+      impact: "Flexible Order Leadership Structure"
+    },
+
+
     "LAW OF HELL": {
       cat: "Warband Rule",
       desc: "If a Wretched takes an enemy ELITE model Out of Action, it gains freedom! Immediately removed from game and no longer counts for Morale casualties.",
