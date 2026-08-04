@@ -26,11 +26,12 @@
       </div>
 
             <!-- Master Umbrella 3-Port Navigation Tabs -->
+            <!-- Master Umbrella Navigation Tabs -->
       <nav class="master-nav">
-        <button type="button" class="nav-tab active" data-tab="tabHome">📜 HOME HUB</button>
-        <a href="/warband_builder/index.html" class="nav-tab-link" style="color:var(--bone-bright); text-decoration:none; padding:8px 14px; font-weight:bold; font-size:0.8rem;">🪖 WARBAND BUILDER</a>
-        <a href="/game_engine/index.html" class="nav-tab-link highlight-gameplay" style="color:var(--gold-glow); text-decoration:none; padding:8px 14px; font-weight:bold; font-size:0.85rem; border:1px solid var(--gold-glow); background:rgba(229,193,88,0.15); border-radius:3px;">⚔️ GAMEPLAY ENGINE ↗</a>
-        <button type="button" class="nav-tab" data-tab="tabProfile">🏆 WARBAND VAULT</button>
+        <button type="button" class="nav-tab active" id="btnTabHome" data-tab="tabHome">📜 HOME HUB</button>
+        <button type="button" class="nav-tab" id="btnTabBuilder" data-tab="tabBuilderEmbedded">🪖 WARBAND BUILDER</button>
+        <button type="button" class="nav-tab highlight-gameplay" id="btnTabEngine" data-tab="tabEngineEmbedded" style="border:1px solid var(--gold-glow); background:rgba(229,193,88,0.15);">⚔️ TACTICAL ENGINE</button>
+        <button type="button" class="nav-tab" id="btnTabProfile" data-tab="tabVaultView">🏆 WARBAND VAULT</button>
       </nav>
 
       <!-- Active User Quick Status -->
@@ -579,5 +580,56 @@
       </form>
     </div>
   </div>
+
+  <!-- Commander Profile & Name Editing Modal -->
+  <div class="modal-overlay hidden" id="profileModalOverlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:9999;">
+    <div class="modal-card glass-card" style="width:420px; padding:24px; border:1px solid var(--gold-glow); background:#0c0e14;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid #222; padding-bottom:8px;">
+        <h3 style="color:var(--gold-glow); font-family:var(--font-roman); margin:0;">🎖️ COMMANDER PROFILE</h3>
+        <button type="button" id="btnCloseProfileModal" style="background:none; border:none; color:#888; font-size:1.2rem; cursor:pointer;">✕</button>
+      </div>
+
+      <!-- Current Profile Summary -->
+      <div style="display:flex; align-items:center; gap:14px; background:rgba(229,193,88,0.08); padding:12px; border:1px dashed var(--gold-glow); margin-bottom:16px;">
+        <div id="profAvatarDisplay" style="font-size:2.5rem;">🎖️</div>
+        <div>
+          <div id="profNameDisplay" style="font-weight:bold; color:#fff; font-size:1.1rem;">COMMANDER ALPHA</div>
+          <div id="profStatsDisplay" style="font-size:0.75rem; color:var(--steel-grey); margin-top:2px;">0 Saved Warbands • Volume Storage Active</div>
+        </div>
+      </div>
+
+      <!-- Profile Edit Form -->
+      <form id="profileEditForm" style="display:flex; flex-direction:column; gap:12px;">
+        <div>
+          <label style="font-size:0.75rem; color:var(--steel-grey); display:block; margin-bottom:4px;">EDIT COMMANDER NAME:</label>
+          <input type="text" id="txtEditProfileName" required style="width:100%; padding:10px; background:#000; border:1px solid var(--gold-glow); color:#fff; font-family:var(--font-mono); font-size:0.9rem;">
+        </div>
+
+        <div>
+          <label style="font-size:0.75rem; color:var(--steel-grey); display:block; margin-bottom:4px;">CHANGE COMMANDER CREST:</label>
+          <select id="selEditProfileAvatar" style="width:100%; padding:8px; background:#000; border:1px solid #333; color:#fff;">
+            <option value="🎖️">🎖️ Field Marshal</option>
+            <option value="⚔️">⚔️ Trench Knight</option>
+            <option value="✝️">✝️ Penitent Pilgrim</option>
+            <option value="🔥">🔥 Heretic Warlock</option>
+            <option value="🧪">🧪 Jabirean Alchemist</option>
+            <option value="👑">👑 High Padishah</option>
+          </select>
+        </div>
+
+        <div id="profileSaveMsg" style="font-size:0.75rem; color:#4caf50; display:none;">Profile updated successfully!</div>
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <button type="submit" id="btnSaveProfile" style="flex:1; padding:10px; background:var(--gold-glow); color:#000; font-weight:bold; border:none; cursor:pointer;">
+            💾 SAVE PROFILE
+          </button>
+          <button type="button" id="btnLogoutUser" style="padding:10px; background:rgba(244,67,54,0.2); color:#f44336; border:1px solid #f44336; cursor:pointer;">
+            LOG OUT
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 </body>
 </html>

@@ -1019,3 +1019,85 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   checkAuthSession();
+
+
+  // PROFILE EDITING & MODULE NAVIGATION CONTROLLER
+  const btnOpenAuthModal = document.getElementById('btnOpenAuthModal');
+  const profileModalOverlay = document.getElementById('profileModalOverlay');
+  const btnCloseProfileModal = document.getElementById('btnCloseProfileModal');
+  const profileEditForm = document.getElementById('profileEditForm');
+  const txtEditProfileName = document.getElementById('txtEditProfileName');
+  const selEditProfileAvatar = document.getElementById('selEditProfileAvatar');
+  const profNameDisplay = document.getElementById('profNameDisplay');
+  const profAvatarDisplay = document.getElementById('profAvatarDisplay');
+  const profileSaveMsg = document.getElementById('profileSaveMsg');
+  const btnLogoutUser = document.getElementById('btnLogoutUser');
+
+  function openProfileModal() {
+    let user = currentUser || { username: "Commander", avatar: "🎖️" };
+    if (txtEditProfileName) txtEditProfileName.value = user.username;
+    if (selEditProfileAvatar) selEditProfileAvatar.value = user.avatar || "🎖️";
+    if (profNameDisplay) profNameDisplay.textContent = user.username.toUpperCase();
+    if (profAvatarDisplay) profAvatarDisplay.textContent = user.avatar || "🎖️";
+    if (profileModalOverlay) profileModalOverlay.classList.remove('hidden');
+  }
+
+  if (btnOpenAuthModal) {
+    btnOpenAuthModal.addEventListener('click', () => {
+      let token = localStorage.getItem('trench_auth_token');
+      if (token && currentUser) {
+        openProfileModal();
+      } else {
+        if (authModalOverlay) authModalOverlay.classList.remove('hidden');
+      }
+    });
+  }
+
+  if (btnCloseProfileModal) {
+    btnCloseProfileModal.addEventListener('click', () => {
+      if (profileModalOverlay) profileModalOverlay.classList.add('hidden');
+    });
+  }
+
+  if (profileEditForm) {
+    profileEditForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let newName = txtEditProfileName.value.strip ? txtEditProfileName.value.strip() : txtEditProfileName.value.trim();
+      let newAvatar = selEditProfileAvatar.value;
+      let token = localStorage.getItem('trench_auth_token');
+
+      if (!token) return;
+
+      try {
+        let res = await fetch('/api/auth/profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ username: newName, avatar: newAvatar })
+        });
+        let data = await res.json();
+
+        if (res.ok && data.user) {
+          currentUser = data.user;
+          updateHeaderUserBadge(currentUser);
+          if (profNameDisplay) profNameDisplay.textContent = currentUser.username.toUpperCase();
+          if (profAvatarDisplay) profAvatarDisplay.textContent = currentUser.avatar;
+          if (profileSaveMsg) {
+            profileSaveMsg.style.display = 'block';
+            setTimeout(() => { profileSaveMsg.style.display = 'none'; }, 2500);
+          }
+        }
+      } catch (err) {
+        console.error("Profile save error:", err);
+      }
+    });
+  }
+
+  if (btnLogoutUser) {
+    btnLogoutUser.addEventListener('click', () => {
+      localStorage.removeItem('trench_auth_token');
+      currentUser = null;
+      if (profileModalOverlay) profileModalOverlay.classList.add('hidden');
+      if (txtHeaderProfileName) txtHeaderProfileName.textContent = 'LOG IN / REGISTER';
+      if (txtHeaderProfileAvatar) txtHeaderProfileAvatar.textContent = '🎖️';
+    });
+  }

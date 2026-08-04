@@ -137,6 +137,29 @@ class MasterHandler(http.server.SimpleHTTPRequestHandler):
             conn.close()
             return self.send_json({"token": token, "user": {"id": user_id, "username": username, "avatar": avatar}})
 
+        elif parsed_path == '/api/auth/profile':
+            user = self.get_session_user()
+            if not user:
+                return self.send_json({"error": "Unauthorized"}, 401)
+
+            new_name = req_data.get('username', '').strip()
+            new_avatar = req_data.get('avatar', '').strip()
+
+            if not new_name:
+                return self.send_json({"error": "Username cannot be empty"}, 400)
+
+            conn = sqlite3.connect(DB_PATH)
+            c = conn.cursor()
+            try:
+                c.execute('UPDATE users SET username = ?, avatar = ? WHERE id = ?', (new_name, new_avatar or user['avatar'], user['id']))
+                conn.commit()
+            except sqlite3.IntegrityError:
+                conn.close()
+                return self.send_json({"error": "Username already taken"}, 400)
+
+            conn.close()
+            return self.send_json({"user": {"id": user['id'], "username": new_name, "avatar": new_avatar or user['avatar']}})
+
         elif parsed_path == '/api/warbands':
             user = self.get_session_user()
             if not user:
@@ -167,6 +190,29 @@ class MasterHandler(http.server.SimpleHTTPRequestHandler):
             if user:
                 return self.send_json({"user": user})
             return self.send_json({"error": "Unauthenticated"}, 401)
+
+        elif parsed_path == '/api/auth/profile':
+            user = self.get_session_user()
+            if not user:
+                return self.send_json({"error": "Unauthorized"}, 401)
+
+            new_name = req_data.get('username', '').strip()
+            new_avatar = req_data.get('avatar', '').strip()
+
+            if not new_name:
+                return self.send_json({"error": "Username cannot be empty"}, 400)
+
+            conn = sqlite3.connect(DB_PATH)
+            c = conn.cursor()
+            try:
+                c.execute('UPDATE users SET username = ?, avatar = ? WHERE id = ?', (new_name, new_avatar or user['avatar'], user['id']))
+                conn.commit()
+            except sqlite3.IntegrityError:
+                conn.close()
+                return self.send_json({"error": "Username already taken"}, 400)
+
+            conn.close()
+            return self.send_json({"user": {"id": user['id'], "username": new_name, "avatar": new_avatar or user['avatar']}})
 
         elif parsed_path == '/api/warbands':
             user = self.get_session_user()
