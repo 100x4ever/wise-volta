@@ -2342,3 +2342,47 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRoster();
   updateVaultCount();
 });
+
+
+  // 7 DEADLY SINS PLEDGE CONTROLLER
+  const groupSinPledge = document.getElementById('groupSinPledge');
+  const selSinPledge = document.getElementById('selSinPledge');
+  const txtSinPledgeRule = document.getElementById('txtSinPledgeRule');
+
+  const sinRulesDict = {
+    "wrath": "🩸 WRATH: All Court models gain +1 Attack die when performing a Charge Action into close combat.",
+    "envy": "👁️ ENVY: Enemy players CANNOT spend Blood Markers to modify dice rolls against your Court units.",
+    "lust": "💋 LUST: Enemy models attempting a Charge Action against your Court units must pass a Courage Check or fail the charge.",
+    "pride": "👑 PRIDE: All allied Court models gain a passive +1 Courage bonus while Praetor is on the battlefield.",
+    "sloth": "😴 SLOTH: Enemy models ending activation within 8" treat Minor Hit results as Down status tokens.",
+    "gluttony": "🍖 GLUTTONY: You may re-roll 1 failed Injury roll per turn during close combat attacks.",
+    "greed": "💰 GREED: Your warband automatically generates +1 extra Blood Marker at the start of each turn."
+  };
+
+  function updateSinPledgeVisibility() {
+    if (!selFaction || !groupSinPledge) return;
+    if (selFaction.value === 'court_serpent') {
+      groupSinPledge.style.display = 'block';
+      if (selSinPledge && txtSinPledgeRule) {
+        txtSinPledgeRule.textContent = sinRulesDict[selSinPledge.value] || '';
+      }
+    } else {
+      groupSinPledge.style.display = 'none';
+    }
+  }
+
+  if (selFaction) {
+    selFaction.addEventListener('change', () => {
+      updateSinPledgeVisibility();
+    });
+  }
+
+  if (selSinPledge) {
+    selSinPledge.addEventListener('change', () => {
+      if (txtSinPledgeRule) {
+        txtSinPledgeRule.textContent = sinRulesDict[selSinPledge.value] || '';
+      }
+    });
+  }
+
+  updateSinPledgeVisibility();
