@@ -1,5 +1,32 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
+
+    "LEFT-HAND PATH": {
+      cat: "Goetic Spell",
+      desc: "GOETIC (2): When taking a Move, Charge, or Dash ACTION into terrain, spellcaster can teleport to any other terrain piece >1" from enemies.",
+      impact: "Terrain Teleport Redeployment"
+    },
+    "SHADOW WALKER": {
+      cat: "Goetic Spell",
+      desc: "GOETIC (2): Cast before taking a Retreat ACTION. Prevents enemy free melee attacks during retreat.",
+      impact: "Safe Retreat • No Free Enemy Hits"
+    },
+    "POISON STINGERS": {
+      cat: "Locust Attack",
+      desc: "Melee attack with CLEAVE 2 and SHRAPNEL keywords even when unarmed.",
+      impact: "Cleave 2 & Shrapnel Melee Strike"
+    },
+    "INFERNAL IRON ARMOUR": {
+      cat: "Demonic Armour",
+      desc: "Applies a flat -2 penalty to all incoming Injury rolls, even against attacks that ignore armour.",
+      impact: "Flat -2 Injury Penalty (Applies vs Armor Ignore)"
+    },
+    "AURA OF SLOTH": {
+      cat: "Demonic Sin Aura",
+      desc: "Enemy models within 8 inches treat Minor Hit results as Down results.",
+      impact: "8" Aura: Minor Hits become Down Tokens"
+    },
+
   // =========================================================================
   // ACTIVATED ABILITIES & ACTIONS (Costs 1 Action or Requires Manual Activation)
   // =========================================================================

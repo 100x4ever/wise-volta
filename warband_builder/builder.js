@@ -494,12 +494,154 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "court_serpent": [
-    {
-      "id": "cs_standard",
-      "name": "Court of the Seven-Headed Serpent",
-      "rule": "Infernal War Council: Archdevil Praetors command the 7 Deadly Sins."
-    }
-  ]
+  {
+    "id": "UNIT_CS_PRAETOR",
+    "name": "Praetor (Archdevil Commander)",
+    "cat": "Leader",
+    "cost": 85,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/serpent_ambassador.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 10+",
+    "baseKeywords": [
+      "COMMANDER",
+      "INFERNAL WAR COUNCIL",
+      "AURA OF SIN"
+    ],
+    "equip": [
+      "Archdevil Blade",
+      "Hellfire Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_CS_HELL_KNIGHT",
+    "name": "Hell Knight",
+    "cat": "Elite",
+    "cost": 75,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/anointed_champion.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "INFERNAL IRON ARMOUR",
+      "PARRY",
+      "STRONG"
+    ],
+    "equip": [
+      "Hellish Greatsword",
+      "Infernal Iron Armour"
+    ]
+  },
+  {
+    "id": "UNIT_CS_HUNTER_LEFT_HAND",
+    "name": "Hunter of the Left-Hand Path",
+    "cat": "Specialist Stalker",
+    "cost": 70,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/hunter_left_hand.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "LEFT-HAND PATH",
+      "SHADOW WALKER",
+      "DEADEYE AIM"
+    ],
+    "equip": [
+      "Bow of Lethe",
+      "Stalker Dagger"
+    ]
+  },
+  {
+    "id": "UNIT_CS_SORCERER",
+    "name": "Sorcerer",
+    "cat": "Specialist Caster",
+    "cost": 65,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/serpent_sorcerer.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "GOETIC SORCERY",
+      "FLIGHT",
+      "DIVINE GUIDANCE"
+    ],
+    "equip": [
+      "Goetic Magic Staff"
+    ]
+  },
+  {
+    "id": "UNIT_CS_PIT_LOCUST",
+    "name": "Pit Locust",
+    "cat": "Flyer Beast",
+    "cost": 50,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/pit_locust.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: +0 | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "FLIGHT",
+      "POISON STINGERS",
+      "CLEAVE 2"
+    ],
+    "equip": [
+      "Crown of Hellfire",
+      "Chitinous Stingers"
+    ]
+  },
+  {
+    "id": "UNIT_CS_DESECRATED_SAINT",
+    "name": "Desecrated Saint",
+    "cat": "Relic Heavy Monster",
+    "cost": 105,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/desecrated_saint.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 4 | COURAGE: 10+",
+    "baseKeywords": [
+      "HEAVY CONSTRUCT",
+      "AURA OF SLOTH",
+      "MULTI-ARMED"
+    ],
+    "equip": [
+      "Three 1-Handed Scythes"
+    ]
+  },
+  {
+    "id": "UNIT_CS_BIOLOGIST",
+    "name": "Combat Biologist",
+    "cat": "Specialist",
+    "cost": 55,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/trench_doctor.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "FIELD SURGEON",
+      "GAS HAZARD"
+    ],
+    "equip": [
+      "Vivisector",
+      "Gas Mask",
+      "Gas Grenades"
+    ]
+  },
+  {
+    "id": "UNIT_CS_WRETCHED",
+    "name": "Wretched",
+    "cat": "Trooper",
+    "cost": 20,
+    "max": 15,
+    "isLeader": false,
+    "img": "images/wretched_thrall.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: -1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 5+",
+    "baseKeywords": [
+      "LINE INFANTRY"
+    ],
+    "equip": [
+      "Improvised Weapons"
+    ]
+  }
+]
 };
 
   const masterUnits = {
@@ -1243,19 +1385,154 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "court_serpent": [
-    {
-      "id": "UNIT_CS_PRAETOR",
-      "name": "Praetor (Archdevil Commander)",
-      "cat": "Leader",
-      "cost": 85,
-      "max": 1,
-      "isLeader": true,
-      "img": "images/serpent_ambassador.jpg",
-      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 10+",
-      "baseKeywords": [
-        "COMMANDER",
-        "INFERNAL WAR COUNCIL"
-      ],
+  {
+    "id": "UNIT_CS_PRAETOR",
+    "name": "Praetor (Archdevil Commander)",
+    "cat": "Leader",
+    "cost": 85,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/serpent_ambassador.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 10+",
+    "baseKeywords": [
+      "COMMANDER",
+      "INFERNAL WAR COUNCIL",
+      "AURA OF SIN"
+    ],
+    "equip": [
+      "Archdevil Blade",
+      "Hellfire Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_CS_HELL_KNIGHT",
+    "name": "Hell Knight",
+    "cat": "Elite",
+    "cost": 75,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/anointed_champion.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "INFERNAL IRON ARMOUR",
+      "PARRY",
+      "STRONG"
+    ],
+    "equip": [
+      "Hellish Greatsword",
+      "Infernal Iron Armour"
+    ]
+  },
+  {
+    "id": "UNIT_CS_HUNTER_LEFT_HAND",
+    "name": "Hunter of the Left-Hand Path",
+    "cat": "Specialist Stalker",
+    "cost": 70,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/hunter_left_hand.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "LEFT-HAND PATH",
+      "SHADOW WALKER",
+      "DEADEYE AIM"
+    ],
+    "equip": [
+      "Bow of Lethe",
+      "Stalker Dagger"
+    ]
+  },
+  {
+    "id": "UNIT_CS_SORCERER",
+    "name": "Sorcerer",
+    "cat": "Specialist Caster",
+    "cost": 65,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/serpent_sorcerer.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "GOETIC SORCERY",
+      "FLIGHT",
+      "DIVINE GUIDANCE"
+    ],
+    "equip": [
+      "Goetic Magic Staff"
+    ]
+  },
+  {
+    "id": "UNIT_CS_PIT_LOCUST",
+    "name": "Pit Locust",
+    "cat": "Flyer Beast",
+    "cost": 50,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/pit_locust.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: +0 | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "FLIGHT",
+      "POISON STINGERS",
+      "CLEAVE 2"
+    ],
+    "equip": [
+      "Crown of Hellfire",
+      "Chitinous Stingers"
+    ]
+  },
+  {
+    "id": "UNIT_CS_DESECRATED_SAINT",
+    "name": "Desecrated Saint",
+    "cat": "Relic Heavy Monster",
+    "cost": 105,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/desecrated_saint.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 4 | COURAGE: 10+",
+    "baseKeywords": [
+      "HEAVY CONSTRUCT",
+      "AURA OF SLOTH",
+      "MULTI-ARMED"
+    ],
+    "equip": [
+      "Three 1-Handed Scythes"
+    ]
+  },
+  {
+    "id": "UNIT_CS_BIOLOGIST",
+    "name": "Combat Biologist",
+    "cat": "Specialist",
+    "cost": 55,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/trench_doctor.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "FIELD SURGEON",
+      "GAS HAZARD"
+    ],
+    "equip": [
+      "Vivisector",
+      "Gas Mask",
+      "Gas Grenades"
+    ]
+  },
+  {
+    "id": "UNIT_CS_WRETCHED",
+    "name": "Wretched",
+    "cat": "Trooper",
+    "cost": 20,
+    "max": 15,
+    "isLeader": false,
+    "img": "images/wretched_thrall.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: -1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 5+",
+    "baseKeywords": [
+      "LINE INFANTRY"
+    ],
+    "equip": [
+      "Improvised Weapons"
+    ]
+  }
+],
       "equip": [
         "Archdevil Blade",
         "Hellfire Pistol"
