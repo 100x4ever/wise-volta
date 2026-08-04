@@ -501,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "cost": 85,
     "max": 1,
     "isLeader": true,
-    "img": "images/serpent_ambassador.jpg",
+    "img": "images/praetor.jpg",
     "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 10+",
     "baseKeywords": [
       "COMMANDER",
@@ -520,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "cost": 75,
     "max": 3,
     "isLeader": false,
-    "img": "images/anointed_champion.jpg",
+    "img": "images/hell_knight.jpg",
     "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
     "baseKeywords": [
       "INFERNAL IRON ARMOUR",
@@ -613,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "cost": 55,
     "max": 2,
     "isLeader": false,
-    "img": "images/trench_doctor.jpg",
+    "img": "images/combat_biologist.jpg",
     "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
     "baseKeywords": [
       "FIELD SURGEON",
@@ -817,7 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "cost": 45,
       "max": 2,
       "isLeader": false,
-      "img": "images/trench_doctor.jpg",
+      "img": "images/combat_biologist.jpg",
       "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
       "baseKeywords": [
         "FIELD SURGEON",
@@ -1392,7 +1392,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "cost": 85,
     "max": 1,
     "isLeader": true,
-    "img": "images/serpent_ambassador.jpg",
+    "img": "images/praetor.jpg",
     "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 10+",
     "baseKeywords": [
       "COMMANDER",
@@ -1411,7 +1411,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "cost": 75,
     "max": 3,
     "isLeader": false,
-    "img": "images/anointed_champion.jpg",
+    "img": "images/hell_knight.jpg",
     "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
     "baseKeywords": [
       "INFERNAL IRON ARMOUR",
@@ -1504,7 +1504,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "cost": 55,
     "max": 2,
     "isLeader": false,
-    "img": "images/trench_doctor.jpg",
+    "img": "images/combat_biologist.jpg",
     "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
     "baseKeywords": [
       "FIELD SURGEON",
@@ -1545,7 +1545,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "cost": 75,
       "max": 3,
       "isLeader": false,
-      "img": "images/anointed_champion.jpg",
+      "img": "images/hell_knight.jpg",
       "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
       "baseKeywords": [
         "ARMOUR +2",
@@ -1632,7 +1632,7 @@ document.addEventListener('DOMContentLoaded', () => {
       "cost": 55,
       "max": 2,
       "isLeader": false,
-      "img": "images/trench_doctor.jpg",
+      "img": "images/combat_biologist.jpg",
       "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
       "baseKeywords": [
         "FIELD SURGEON",
