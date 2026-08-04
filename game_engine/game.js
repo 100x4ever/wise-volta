@@ -729,20 +729,17 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Phase Control
+  let p1Shaken = false;
+  let p2Shaken = false;
+
   btnNextPhase.addEventListener('click', () => {
     currentPhaseIndex++;
     if (currentPhaseIndex >= phases.length) {
       currentPhaseIndex = 0;
       gameTurn++;
       if (gameTurn > 6) {
-        let winner = vpPlayer1 > vpPlayer2 ? "PLAYER 1 (NEW ANTIOCH)" : (vpPlayer2 > vpPlayer1 ? "PLAYER 2 (HERETIC LEGIONS)" : "TIE GAME");
-        alert(`GAME OVER! Reached Turn 6 End Phase.\
-\
-FINAL SCORE:\
-Player 1: ${vpPlayer1} VP\
-Player 2: ${vpPlayer2} VP\
-\
-WINNER: ${winner}!`);
+        let winner = vpPlayer1 > vpPlayer2 ? "PLAYER 1" : (vpPlayer2 > vpPlayer1 ? "PLAYER 2" : "TIE GAME");
+        alert(`GAME OVER! Reached Turn 6 End Phase.\n\nFINAL SCORE:\nPlayer 1: ${vpPlayer1} VP\nPlayer 2: ${vpPlayer2} VP\n\nWINNER: ${winner}!`);
       }
       unitTokens.forEach(t => {
         t.activated = false;
@@ -751,9 +748,46 @@ WINNER: ${winner}!`);
         t.actionsRemaining = 2;
       });
       activeUnitId = null;
-      activePlayerTurn = 1;
-      updateActivePlayerHUD();
       logEvent(`--- NEW TURN ${gameTurn} BEGINS ---`, "sys");
+    }
+
+    // Phase 1: Initiative Phase (Rulebook v1.0.2 Page 14)
+    if (currentPhaseIndex === 0) {
+      let activeP1 = unitTokens.filter(t => t.player === 1 && t.status === "Active").length;
+      let activeP2 = unitTokens.filter(t => t.player === 2 && t.status === "Active").length;
+      if (activeP1 < activeP2) {
+        activePlayerTurn = 1;
+        logEvent(`[INITIATIVE PHASE] Player 1 has fewer active models (${activeP1} vs ${activeP2}) and holds INITIATIVE for Turn ${gameTurn}!`, "sys");
+      } else if (activeP2 < activeP1) {
+        activePlayerTurn = 2;
+        logEvent(`[INITIATIVE PHASE] Player 2 has fewer active models (${activeP2} vs ${activeP1}) and holds INITIATIVE for Turn ${gameTurn}!`, "sys");
+      } else {
+        let roll1 = Math.floor(Math.random() * 6) + 1;
+        let roll2 = Math.floor(Math.random() * 6) + 1;
+        while (roll1 === roll2) { roll1 = Math.floor(Math.random() * 6) + 1; roll2 = Math.floor(Math.random() * 6) + 1; }
+        activePlayerTurn = roll1 > roll2 ? 1 : 2;
+        logEvent(`[INITIATIVE PHASE] Active models tied (${activeP1} vs ${activeP2}). Roll-off: P1 rolled ${roll1}, P2 rolled ${roll2} -> Player ${activePlayerTurn} holds INITIATIVE!`, "dice");
+      }
+      updateActivePlayerHUD();
+    }
+
+    // Phase 3: Morale Phase (Rulebook v1.0.2 Page 14)
+    if (currentPhaseIndex === 2) {
+      [1, 2].forEach(pNum => {
+        let totalP = unitTokens.filter(t => t.player === pNum).length;
+        let casualties = unitTokens.filter(t => t.player === pNum && t.status !== "Active").length;
+        if (totalP > 0 && casualties >= Math.ceil(totalP / 2)) {
+          let d1 = Math.floor(Math.random() * 6) + 1;
+          let d2 = Math.floor(Math.random() * 6) + 1;
+          let sum = d1 + d2;
+          let pass = sum >= 7;
+          logEvent(`[MORALE PHASE] Player ${pNum} Warband has suffered 50%+ casualties (${casualties}/${totalP}). Morale Check 2D6 [${d1}, ${d2}] = ${sum}: ${pass ? 'PASSED (7+)' : 'FAILED - WARBAND IS SHAKEN!'}`, pass ? "sys" : "combat");
+          if (!pass) {
+            if (pNum === 1) p1Shaken = true;
+            if (pNum === 2) p2Shaken = true;
+          }
+        }
+      });
     }
 
     hudTurnNum.textContent = `TURN ${gameTurn} / 6`;
@@ -1497,7 +1531,7 @@ Use your Movement action to Charge into melee contact first!`);
     });
   }
 
-  // 2-STEP COMBAT RESOLVER
+  // 2-STEP COMBAT RESOLVER (RULEBOOK v1.0.2 ACCURATE)
   function openCombatResolver(attacker, defender, mode) {
     if (attacker.id !== activeUnitId) {
       alert("Guardrail Block: Attacker must be the currently activated unit!");
@@ -1509,14 +1543,23 @@ Use your Movement action to Charge into melee contact first!`);
     let distInches = (Math.sqrt(dx * dx + dy * dy) / INCH_PX);
 
     if (mode === 'fight' && distInches > MELEE_RANGE_INCHES) {
-      alert(`\u26d4 MELEE RANGE GUARDRAIL BLOCK:\
-\
-Target is ${distInches.toFixed(1)}" away!\
-Must be within ${MELEE_RANGE_INCHES}" Melee Engagement Range to Fight.\
-\
-Use your Movement action to Charge into melee contact first!`);
+      alert(`⛔ MELEE RANGE GUARDRAIL BLOCK:\n\nTarget is ${distInches.toFixed(1)}" away!\nMust be within ${MELEE_RANGE_INCHES}" Melee Engagement Range to Fight.\n\nUse your Movement action to Charge into melee contact first!`);
       setTool('select');
       return;
+    }
+
+    // Shooting into Melee Check (Rulebook v1.0.2 Page 44)
+    if (mode === 'shoot') {
+      let friendlyNearTarget = unitTokens.find(t => t.player === attacker.player && t.id !== attacker.id && t.status === 'Active' && (Math.sqrt(Math.pow(t.x - defender.x, 2) + Math.pow(t.y - defender.y, 2)) / INCH_PX) <= MELEE_RANGE_INCHES);
+      if (friendlyNearTarget) {
+        let ffRoll = Math.floor(Math.random() * 6) + 1;
+        if (ffRoll <= 3) {
+          logEvent(`⚠️ [SHOOTING INTO MELEE] Shot strayed! Rolled ${ffRoll} (1-3) -> Target redirected from ${defender.name} to friendly model ${friendlyNearTarget.name}!`, "combat");
+          defender = friendlyNearTarget;
+        } else {
+          logEvent(`🎯 [SHOOTING INTO MELEE] Rolled ${ffRoll} (4-6) -> Shot stayed true on target ${defender.name}.`, "sys");
+        }
+      }
     }
 
     let highGroundBonus = attacker.elev > defender.elev ? 1 : 0;
@@ -1552,30 +1595,30 @@ Use your Movement action to Charge into melee contact first!`);
             <h4 style="color:var(--gold-glow);">ATTACKER: ${attacker.name}</h4>
             <div style="font-size:0.75rem;">Weapon: <strong>${weaponName}</strong></div>
             <div style="font-size:0.75rem;">Base Stat: +${baseStat} | High Ground: +${highGroundBonus} | ${isLongRange ? (hasSniperTrait ? '<span style="color:var(--gold-glow);">SNIPER (Ignores Long Range Penalty)</span>' : '<span style="color:#ff8a80;">Long Range (>12"): -1 Hit</span>') : 'Short Range (&le;12"): 0'}</div>
-            <div style="font-size:0.75rem; color:var(--gold-glow);">Attacker Blessings: \u2728 ${attackerBl}</div>
+            <div style="font-size:0.75rem; color:var(--gold-glow);">Attacker Blessings: ✨ ${attackerBl}</div>
           </div>
 
           <div style="background:#0d0f14; border:1px solid #2a2f3a; padding:8px;">
             <h4 style="color:#ff8a80;">TARGET: ${defender.name}</h4>
             <div style="font-size:0.75rem;">Distance: <strong>${distInches.toFixed(1)} Inches</strong></div>
             <div style="font-size:0.75rem;">Base Armour: ${defender.armour} | Cleave: -${cleavePenalty} | Cover: +${coverBonus}</div>
-            <div style="font-size:0.75rem; color:#ff8a80;">Target Bleeding Markers: \ud83e\ude78 ${targetB} (Exploit for +1d6)</div>
-            ${defenderHasParry ? `<div style="font-size:0.72rem; color:#ff8a80; font-weight:bold;">\ud83d\udee1\ufe0f DEFENDER HAS PARRY (Forces 2 Lowest Dice)!</div>` : ''}
+            <div style="font-size:0.75rem; color:#ff8a80;">Target Bleeding Markers: 🩸 ${targetB} (Exploit for +1d6)</div>
+            ${defenderHasParry ? `<div style="font-size:0.72rem; color:#ff8a80; font-weight:bold;">🛡️ DEFENDER HAS PARRY (Forces 2 Lowest Dice)!</div>` : ''}
           </div>
         </div>
 
         <div style="background:#0d0f14; border:1px solid var(--gold-glow); padding:10px; margin-bottom:10px;">
-          <h4 style="color:var(--gold-glow); font-family:var(--font-roman); margin-bottom:6px;">\ud83c\udfaf STEP 1: ROLL FOR ACTION (HIT SUCCESS ROLL)</h4>
+          <h4 style="color:var(--gold-glow); font-family:var(--font-roman); margin-bottom:6px;">🎯 STEP 1: ROLL FOR ACTION (HIT SUCCESS ROLL)</h4>
           <p style="font-size:0.72rem; color:var(--steel-grey); margin-bottom:8px;">Spend Markers to <strong>ADD EXTRA DICE (+1d6 PER MARKER)</strong> to your Dice Pool (Targeting 7+ to Hit):</p>
           
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
             <div style="display:flex; flex-direction:column; gap:2px;">
-              <label style="font-size:0.7rem; color:var(--steel-grey);">\ud83e\ude78 Consume Target's Blood Markers (+1d6):</label>
+              <label style="font-size:0.7rem; color:var(--steel-grey);">🩸 Consume Target's Blood Markers (+1d6):</label>
               <input type="number" id="step1BloodSpend" min="0" max="${targetB}" value="0" style="background:#000; border:1px solid var(--blood-bright); color:#fff; padding:4px; font-family:var(--font-mono); font-weight:bold;">
             </div>
 
             <div style="display:flex; flex-direction:column; gap:2px;">
-              <label style="font-size:0.7rem; color:var(--steel-grey);">\u2728 Spend Attacker's Blessing Markers (+1d6):</label>
+              <label style="font-size:0.7rem; color:var(--steel-grey);">✨ Spend Attacker's Blessing Markers (+1d6):</label>
               <input type="number" id="step1BlessingSpend" min="0" max="${attackerBl}" value="0" style="background:#000; border:1px solid var(--gold-glow); color:#fff; padding:4px; font-family:var(--font-mono); font-weight:bold;">
             </div>
           </div>
@@ -1584,7 +1627,7 @@ Use your Movement action to Charge into melee contact first!`);
         <div id="step1ResultBox" style="display:none;"></div>
       `;
 
-      btnExecuteRoll.textContent = "\ud83c\udfb2 STEP 1: EXECUTE ACTION / HIT ROLL";
+      btnExecuteRoll.textContent = "🎲 STEP 1: EXECUTE ACTION / HIT ROLL";
       btnExecuteRoll.style.display = "block";
       combatModalOverlay.classList.remove('hidden');
 
@@ -1631,7 +1674,7 @@ Use your Movement action to Charge into melee contact first!`);
           let isWorst = defenderHasParry && isChosen;
 
           let cssClass = isBest ? 'best-die' : (isWorst ? 'worst-die' : 'worst-die');
-          let tagText = isBest ? '\u2b50 CHOSEN' : (isWorst ? '\u2715 LOW' : '\u2715 DISCARDED');
+          let tagText = isBest ? '⭐ CHOSEN' : (isWorst ? '✕ LOW' : '✕ DISCARDED');
 
           return `
             <div class="dice-square ${cssClass}">
@@ -1643,7 +1686,7 @@ Use your Movement action to Charge into melee contact first!`);
 
         let hitHTML = `
           <div style="background:#0b0d11; border:1px solid ${hitSuccess ? '#81c784' : '#ff8a80'}; padding:12px; font-family:var(--font-mono); font-size:0.78rem; display:flex; flex-direction:column; align-items:center; gap:8px;">
-            <div style="color:var(--gold-glow); font-weight:bold;">\ud83c\udfaf STEP 1 HIT ROLL RESULT (${totalDiceToRoll}d6 Pool):</div>
+            <div style="color:var(--gold-glow); font-weight:bold;">🎯 STEP 1 HIT ROLL RESULT (${totalDiceToRoll}d6 Pool):</div>
             
             <div class="dice-container-grid">
               ${diceGridHTML}
@@ -1651,7 +1694,7 @@ Use your Movement action to Charge into melee contact first!`);
 
             <div>Chosen 2 Highest: <strong>[${chosenDice.join(', ')}]</strong> (${chosenSum}) + Base (+${baseStat}) + Elev (+${highGroundBonus}) + Range Mod (${longRangePenalty}) = <strong>${totalHit}</strong> vs Target 7+</div>
             <div style="font-size:0.95rem; font-weight:bold; color:${hitSuccess ? '#81c784' : '#ff8a80'}; margin-top:2px;">
-              ${hitSuccess ? '\u2713 HIT SUCCESS (7+) \u2014 UNLOCKING STEP 2: INJURY ROLL' : '\u2715 ATTACK MISSED (< 7) \u2014 ACTION ENDS'}
+              ${hitSuccess ? '✓ HIT SUCCESS (7+) — UNLOCKING STEP 2: INJURY ROLL' : '✕ ATTACK MISSED (< 7) — ACTION ENDS'}
             </div>
           </div>
         `;
@@ -1665,7 +1708,7 @@ Use your Movement action to Charge into melee contact first!`);
         logEvent(`${attacker.name} ${mode.toUpperCase()} Step 1 Hit Roll: Rolled ${totalDiceToRoll}d6 [${diceRolls.join(', ')}] -> Chosen [${chosenDice.join(', ')}] Total: ${totalHit} (${hitSuccess ? 'HIT' : 'MISS'})`, "dice");
 
         if (hitSuccess) {
-          btnExecuteRoll.textContent = "\ud83e\ude78 PROCEED TO STEP 2: ROLL FOR INJURY \u2794";
+          btnExecuteRoll.textContent = "🩸 PROCEED TO STEP 2: ROLL FOR INJURY ➔";
           btnExecuteRoll.onclick = () => renderStep2InjuryPrompt();
         } else {
           btnExecuteRoll.style.display = "none";
@@ -1686,65 +1729,101 @@ Use your Movement action to Charge into melee contact first!`);
     function renderStep2InjuryPrompt() {
       let attackerBl = attacker.blessingMarkers || 0;
       let targetB = defender.bloodMarkers || 0;
+      let isDefenderDown = defender.status === 'Down';
+      let bloodbathCost = isDefenderDown ? 3 : 6;
+      let canBloodbath = targetB >= bloodbathCost;
+      let hasDeadlyKw = weaponTraits.includes("DEADLY");
 
       combatResolverBody.innerHTML = `
         <div style="background:#0d0f14; border:1px solid #ff8a80; padding:10px; margin-bottom:10px;">
-          <h4 style="color:#ff8a80; font-family:var(--font-roman); margin-bottom:6px;">\ud83e\ude78 STEP 2: ROLL FOR INJURY (DAMAGE & OUT OF ACTION)</h4>
-          <div style="font-size:0.72rem; color:#ff8a80; margin-bottom:6px;">Target Net Armour: <strong>${netTargetArmour}</strong> (Base: ${defender.armour} - Cleave: ${cleavePenalty} + Cover: ${coverBonus})</div>
-          <p style="font-size:0.72rem; color:var(--steel-grey); margin-bottom:8px;">Spend Markers to <strong>ADD EXTRA DICE (+1d6 PER MARKER)</strong> to your Injury Roll (7-9 Down, 10+ Out of Action):</p>
+          <h4 style="color:#ff8a80; font-family:var(--font-roman); margin-bottom:6px;">🩸 STEP 2: INJURY ROLL (RULEBOOK v1.0.2 STANDARDS)</h4>
+          <div style="font-size:0.72rem; color:#ff8a80; margin-bottom:6px;">
+            Target Net Armour: <strong>${netTargetArmour}</strong> (Base: ${defender.armour} - Cleave: ${cleavePenalty} + Cover: ${coverBonus})
+            ${mode === 'fight' && isDefenderDown ? ' | <span style="color:var(--gold-glow); font-weight:bold;">+1 INJURY DIE (Melee vs Down Model)</span>' : ''}
+          </div>
+          <div style="font-size:0.70rem; color:var(--steel-grey); margin-bottom:8px; background:#07080a; padding:6px; border:1px dashed #333;">
+            RULEBOOK INJURY TABLE: <strong>&le; 1 No Effect</strong> | <strong>2 - 6 Down</strong> (Upgrade to Out of Action if already Down) | <strong>7+ Out of Action</strong>
+          </div>
           
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
             <div style="display:flex; flex-direction:column; gap:2px;">
-              <label style="font-size:0.7rem; color:var(--steel-grey);">\ud83e\ude78 Consume Target's Blood Markers (+1d6) Available: ${targetB}:</label>
+              <label style="font-size:0.7rem; color:var(--steel-grey);">🩸 Consume Target's Blood Markers (+1d6) Available: ${targetB}:</label>
               <input type="number" id="step2BloodSpend" min="0" max="${targetB}" value="0" style="background:#000; border:1px solid var(--blood-bright); color:#fff; padding:4px; font-family:var(--font-mono); font-weight:bold;">
             </div>
 
             <div style="display:flex; flex-direction:column; gap:2px;">
-              <label style="font-size:0.7rem; color:var(--steel-grey);">\u2728 Spend Attacker's Blessing Markers (+1d6) Available: ${attackerBl}:</label>
+              <label style="font-size:0.7rem; color:var(--steel-grey);">✨ Spend Attacker's Blessing Markers (+1d6) Available: ${attackerBl}:</label>
               <input type="number" id="step2BlessingSpend" min="0" max="${attackerBl}" value="0" style="background:#000; border:1px solid var(--gold-glow); color:#fff; padding:4px; font-family:var(--font-mono); font-weight:bold;">
             </div>
           </div>
+
+          ${canBloodbath ? `
+            <div style="margin-top:10px; background:rgba(184,15,15,0.15); border:1px solid var(--blood-bright); padding:8px; text-align:center;">
+              <div style="font-size:0.75rem; color:#ff8a80; font-weight:bold; margin-bottom:4px;">🩸 BLOODBATH ROLL AVAILABLE (Spend ${bloodbathCost} Blood to Sum ALL ${hasDeadlyKw ? '4D6 (DEADLY)' : '3D6'})</div>
+              <button type="button" id="btnExecuteBloodbath" style="background:var(--blood-bright); color:#fff; font-weight:bold; border:none; padding:6px 12px; cursor:pointer; font-size:0.75rem; font-family:var(--font-roman);">
+                🔥 EXECUTE BLOODBATH ROLL (SUM ALL DICE)
+              </button>
+            </div>
+          ` : ''}
         </div>
 
         <div id="step2ResultBox" style="display:none;"></div>
       `;
 
-      btnExecuteRoll.textContent = "\ud83c\udfb2 EXECUTE STEP 2 INJURY ROLL";
+      btnExecuteRoll.textContent = "🎲 EXECUTE STANDARD STEP 2 INJURY ROLL";
       btnExecuteRoll.style.display = "block";
 
-      btnExecuteRoll.onclick = () => {
-        let bSpend = parseInt(document.getElementById('step2BloodSpend').value || 0, 10);
-        let blSpend = parseInt(document.getElementById('step2BlessingSpend').value || 0, 10);
+      function resolveInjury(isBloodbath = false) {
+        let bSpend = isBloodbath ? bloodbathCost : parseInt(document.getElementById('step2BloodSpend').value || 0, 10);
+        let blSpend = isBloodbath ? 0 : parseInt(document.getElementById('step2BlessingSpend').value || 0, 10);
 
         bSpend = Math.max(0, Math.min(defender.bloodMarkers || 0, bSpend));
         blSpend = Math.max(0, Math.min(attacker.blessingMarkers || 0, blSpend));
-        let extraDiceFromMarkers = bSpend + blSpend;
+        let extraDiceFromMarkers = isBloodbath ? 0 : (bSpend + blSpend);
 
-        if (bSpend > 0) defender.bloodMarkers = (defender.bloodMarkers || 0) - bSpend;
-        if (blSpend > 0) attacker.blessingMarkers = (attacker.blessingMarkers || 0) - blSpend;
+        if (bSpend > 0) defender.bloodMarkers = Math.max(0, (defender.bloodMarkers || 0) - bSpend);
+        if (blSpend > 0) attacker.blessingMarkers = Math.max(0, (attacker.blessingMarkers || 0) - blSpend);
 
-        let totalDiceToRoll = 2 + extraDiceFromMarkers;
+        let meleeDownBonus = (mode === 'fight' && isDefenderDown) ? 1 : 0;
+        let totalDiceToRoll = (isBloodbath ? (hasDeadlyKw ? 4 : 3) : (2 + extraDiceFromMarkers + meleeDownBonus));
+
         let diceRolls = [];
         for (let i = 0; i < totalDiceToRoll; i++) {
           diceRolls.push(Math.floor(Math.random() * 6) + 1);
         }
 
-        let sortedRolls = [...diceRolls].sort((a, b) => b - a);
-        let chosenDice = [sortedRolls[0], sortedRolls[1]];
-        let chosenSum = chosenDice[0] + chosenDice[1];
+        let chosenDice = [];
+        let chosenSum = 0;
+
+        if (isBloodbath) {
+          chosenDice = [...diceRolls];
+          chosenSum = diceRolls.reduce((a, b) => a + b, 0);
+        } else {
+          let sortedRolls = [...diceRolls].sort((a, b) => b - a);
+          chosenDice = [sortedRolls[0], sortedRolls[1]];
+          chosenSum = chosenDice[0] + chosenDice[1];
+        }
 
         let netInjury = chosenSum - netTargetArmour;
-
         let resultStr = "";
-        if (netInjury <= 6) {
-          resultStr = "NO EFFECT (<=6)";
+
+        // Rulebook v1.0.2 Injury Roll Table thresholds (Pages 46-49)
+        if (netInjury <= 1) {
+          resultStr = "NO EFFECT (<=1)";
           defender.bloodMarkers = (defender.bloodMarkers || 0) + 1;
-        } else if (netInjury <= 9) {
-          resultStr = "DOWN! (7-9)";
-          defender.status = "Down";
-          defender.bloodMarkers = (defender.bloodMarkers || 0) + 1;
+        } else if (netInjury <= 6) {
+          if (defender.status === "Down") {
+            resultStr = "OUT OF ACTION! (Secondary Down on Down Model)";
+            defender.wounds = 0;
+            defender.status = "Out of Action";
+            defender.bloodMarkers = (defender.bloodMarkers || 0) + 2;
+          } else {
+            resultStr = "DOWN! (2-6)";
+            defender.status = "Down";
+            defender.bloodMarkers = (defender.bloodMarkers || 0) + 1;
+          }
         } else {
-          resultStr = "OUT OF ACTION! (10+)";
+          resultStr = "OUT OF ACTION! (7+)";
           defender.wounds = 0;
           defender.status = "Out of Action";
           defender.bloodMarkers = (defender.bloodMarkers || 0) + 2;
@@ -1754,11 +1833,11 @@ Use your Movement action to Charge into melee contact first!`);
             if (attacker.player === 1) {
               vpPlayer1 += 2;
               vpPlayer1El.textContent = vpPlayer1;
-              logEvent(`\ud83c\udfc6 GLORIOUS DEED: Player 1's ${attacker.name} took the enemy Commander Out of Action! (+2 VP)`, "sys");
+              logEvent(`🏆 GLORIOUS DEED: Player 1's ${attacker.name} took the enemy Commander Out of Action! (+2 VP)`, "sys");
             } else {
               vpPlayer2 += 2;
               vpPlayer2El.textContent = vpPlayer2;
-              logEvent(`\ud83c\udfc6 GLORIOUS DEED: Player 2's ${attacker.name} took the enemy Commander Out of Action! (+2 VP)`, "sys");
+              logEvent(`🏆 GLORIOUS DEED: Player 2's ${attacker.name} took the enemy Commander Out of Action! (+2 VP)`, "sys");
             }
           }
         }
@@ -1769,7 +1848,7 @@ Use your Movement action to Charge into melee contact first!`);
         let diceGridHTML = diceRolls.map((val) => {
           let isChosen = chosenDice.includes(val);
           let cssClass = isChosen ? 'best-die' : 'worst-die';
-          let tagText = isChosen ? '\u2b50 CHOSEN' : '\u2715 DISCARDED';
+          let tagText = isChosen ? '⭐ SUMMED' : '✕ DISCARDED';
 
           return `
             <div class="dice-square ${cssClass}">
@@ -1781,15 +1860,15 @@ Use your Movement action to Charge into melee contact first!`);
 
         let injuryHTML = `
           <div style="background:#0b0d11; border:1px solid #ff8a80; padding:12px; font-family:var(--font-mono); font-size:0.78rem; display:flex; flex-direction:column; align-items:center; gap:8px;">
-            <div style="color:#ff8a80; font-weight:bold;">\ud83e\ude78 STEP 2 INJURY ROLL RESULT (${totalDiceToRoll}d6 Pool):</div>
+            <div style="color:#ff8a80; font-weight:bold;">🩸 STEP 2 ${isBloodbath ? 'BLOODBATH' : 'INJURY'} ROLL RESULT (${totalDiceToRoll}d6 Pool):</div>
             
             <div class="dice-container-grid">
               ${diceGridHTML}
             </div>
 
-            <div>Chosen 2 Highest: <strong>[${chosenDice.join(', ')}]</strong> (${chosenSum}) - Net Armour (${netTargetArmour}) = <strong>${netInjury}</strong></div>
+            <div>${isBloodbath ? 'Sum of All Dice' : 'Chosen 2 Highest'}: <strong>[${chosenDice.join(', ')}]</strong> (${chosenSum}) - Net Armour (${netTargetArmour}) = <strong>${netInjury}</strong></div>
             <div style="font-size:0.95rem; font-weight:bold; color:#ff8a80; margin-top:2px;">
-              FINAL COMBAT RESULT: ${resultStr} (Inflicted +1 Blood Marker on Target!)
+              RULEBOOK INJURY RESULT: ${resultStr} (Inflicted +1 Blood Marker on Target!)
             </div>
           </div>
         `;
@@ -1797,7 +1876,7 @@ Use your Movement action to Charge into melee contact first!`);
         step2ResultBox.innerHTML = injuryHTML;
         btnExecuteRoll.style.display = "none";
 
-        logEvent(`${attacker.name} Step 2 Injury Roll vs ${defender.name}: Rolled ${totalDiceToRoll}d6 [${diceRolls.join(', ')}] -> Chosen [${chosenDice.join(', ')}] Net Injury: ${netInjury} (${resultStr}). Inflicted Blood Marker on target!`, "combat");
+        logEvent(`${attacker.name} ${isBloodbath ? 'Bloodbath' : 'Injury'} Roll vs ${defender.name}: Rolled ${totalDiceToRoll}d6 [${diceRolls.join(', ')}] -> Chosen [${chosenDice.join(', ')}] Net Injury: ${netInjury} (${resultStr}).`, "combat");
 
         setTimeout(() => {
           combatModalOverlay.classList.add('hidden');
@@ -1808,8 +1887,15 @@ Use your Movement action to Charge into melee contact first!`);
             drawBoard();
             renderInspector();
           }
-        }, 3500);
-      };
+        }, 3000);
+      }
+
+      btnExecuteRoll.onclick = () => resolveInjury(false);
+
+      let btnB = document.getElementById('btnExecuteBloodbath');
+      if (btnB) {
+        btnB.onclick = () => resolveInjury(true);
+      }
     }
   }
 

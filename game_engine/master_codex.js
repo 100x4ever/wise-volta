@@ -130,8 +130,8 @@ const masterCodex = {
     },
     "CELTIC MACHINE ARMOUR": {
       cat: "Highland Heavy Plate",
-      desc: "Celtic Machine Armour maintains full D6" Charge Bonus (not reduced to D3").",
-      impact: "Full D6" Heavy Charge Bonus"
+      desc: "Celtic Machine Armour maintains full D6 Charge Bonus (not reduced to D3).",
+      impact: "Full D6 Heavy Charge Bonus"
     },
     "HIGHLAND STRENGTH": {
       cat: "Highland Warrior Strength",
@@ -203,8 +203,8 @@ const masterCodex = {
     },
     "EMERALD SHARPSHOOTER": {
       cat: "Eire Rangers Trait",
-      desc: "Ranged attacks ignore target cover bonuses beyond 12" distance.",
-      impact: "Ignore Cover Beyond 12""
+      desc: "Ranged attacks ignore target cover bonuses beyond 12 inches distance.",
+      impact: "Ignore Cover Beyond 12 inches"
     },
     "HIGHLAND CHARGE": {
       cat: "Kingdom of Alba Trait",
@@ -218,8 +218,8 @@ const masterCodex = {
     },
     "RED BRIGADE ASSAULT": {
       cat: "The Red Brigade Trait",
-      desc: "Shotguns and SMGs gain +1 to hit when firing at targets within 6" distance.",
-      impact: "+1 Hit within 6" Range"
+      desc: "Shotguns and SMGs gain +1 to hit when firing at targets within 6 inches distance.",
+      impact: "+1 Hit within 6 inches Range"
     },
 
 
@@ -230,7 +230,7 @@ const masterCodex = {
     },
     "SIEGE JEZZAIL TEAMS": {
       cat: "Paired Spotter Team",
-      desc: "Siege Jezzails gain +1 DICE to hit when paired with a friendly spotter model within 1".",
+      desc: "Siege Jezzails gain +1 DICE to hit when paired with a friendly spotter model within 1 inches.",
       impact: "+1 Ranged Die with Spotter"
     },
     "SILAHDAR COMMANDER": {
@@ -313,8 +313,8 @@ const masterCodex = {
     },
     "BARBED WIRE BANSHEE AURA": {
       cat: "Banshee Screech",
-      desc: "Enemies within 8" of a Barbed Wire Banshee take +1 INJURY DICE to all damage rolls.",
-      impact: "+1 Enemy Injury Die (8" Aura)"
+      desc: "Enemies within 8 inches of a Barbed Wire Banshee take +1 INJURY DICE to all damage rolls.",
+      impact: "+1 Enemy Injury Die (8 inches Aura)"
     },
     "TANK PALANQUIN": {
       cat: "Heretic Priest Mount",
@@ -323,7 +323,7 @@ const masterCodex = {
     },
     "SARCOPHAGUS MINE": {
       cat: "Explosive Trap",
-      desc: "Troopers encased in explosive mine armor detonate when enemies move within 2".",
+      desc: "Troopers encased in explosive mine armor detonate when enemies move within 2 inches.",
       impact: "Proximity Explosive Armor"
     },
 
@@ -367,14 +367,14 @@ const masterCodex = {
     },
     "BARBED WIRE BANSHEE": {
       cat: "Trench Ghost Specialist",
-      desc: "Ethereal spirit wrapped in rusted wire that entangles and slashes enemy units within 3".",
-      impact: "3" Entangling Wire Aura"
+      desc: "Ethereal spirit wrapped in rusted wire that entangles and slashes enemy units within 3 inches.",
+      impact: "3 inches Entangling Wire Aura"
     },
 
 
     "ETERNAL APPETENCE": {
       cat: "Great Hunger Stance",
-      desc: "At start of Turn, choose Famine (+1 Move & +1 Melee die) or Consumption (Heal 1 Wound/Marker when enemy dies within 6").",
+      desc: "At start of Turn, choose Famine (+1 Move & +1 Melee die) or Consumption (Heal 1 Wound/Marker when enemy dies within 6 inches).",
       impact: "Dynamic Turn Stance: Famine vs Consumption"
     },
     "THE GREAT MAW": {
@@ -440,8 +440,8 @@ const masterCodex = {
     },
     "SEARING FLAMES": {
       cat: "Crown of Hellfire",
-      desc: "When ending Activation, place 1 Blood Marker next to every enemy model within 1" (unless Negate Fire).",
-      impact: "1" End-of-Turn Blood Marker Aura"
+      desc: "When ending Activation, place 1 Blood Marker next to every enemy model within 1 inches (unless Negate Fire).",
+      impact: "1 inches End-of-Turn Blood Marker Aura"
     },
     "SUCKED DRY": {
       cat: "Armour of the Fly",
@@ -450,8 +450,8 @@ const masterCodex = {
     },
     "SINISTER WHISPERS": {
       cat: "Urn of Bitter Ashes",
-      desc: "Ranged attacks targeting this model (or allies within 3") suffer -1 DICE to hit.",
-      impact: "-1 Ranged Hit Die Aura (3")"
+      desc: "Ranged attacks targeting this model (or allies within 3 inches) suffer -1 DICE to hit.",
+      impact: "-1 Ranged Hit Die Aura (3 inches)"
     },
     "DARK BLESSING": {
       cat: "Wretched Sacrifice",
@@ -462,7 +462,7 @@ const masterCodex = {
 
     "LEFT-HAND PATH": {
       cat: "Goetic Spell",
-      desc: "GOETIC (2): When taking a Move, Charge, or Dash ACTION into terrain, spellcaster can teleport to any other terrain piece >1" from enemies.",
+      desc: "GOETIC (2): When taking a Move, Charge, or Dash ACTION into terrain, spellcaster can teleport to any other terrain piece >1 inches from enemies.",
       impact: "Terrain Teleport Redeployment"
     },
     "SHADOW WALKER": {
@@ -483,7 +483,7 @@ const masterCodex = {
     "AURA OF SLOTH": {
       cat: "Demonic Sin Aura",
       desc: "Enemy models within 8 inches treat Minor Hit results as Down results.",
-      impact: "8" Aura: Minor Hits become Down Tokens"
+      impact: "8 inches Aura: Minor Hits become Down Tokens"
     },
 
   // =========================================================================
@@ -517,15 +517,15 @@ const masterCodex = {
   "2-HANDED": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon requires both hands to operate. Model cannot equip a shield.", impact: "🛡️ Passive: Requires 2 Hands • No Shield" },
   "1-HANDED": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon operates in one hand. Compatible with a shield or secondary pistol.", impact: "🛡️ Passive: 1 Handed • Compatible with Shield" },
   "PARRY": { type: "passive", cat: "Defensive Passive Trait", desc: "Passive Trait: When defending in melee combat, enemy attacker is automatically forced to re-roll their highest hit die.", impact: "🛡️ Passive: Enemy Re-rolls Highest Hit Die" },
-  "CLEAVE 1": { type: "passive", cat: "Armour Piercing Passive", desc: "Passive Trait: Automatically reduces enemy target's Armour rating by 1 point on hits.", impact: "🛡️ Passive: -1 Enemy Armour Rating" },
-  "CLEAVE 2": { type: "passive", cat: "Armour Piercing Passive", desc: "Passive Trait: Automatically reduces enemy target's Armour rating by 2 points on hits.", impact: "🛡️ Passive: -2 Enemy Armour Rating" },
-  "AUTOMATIC 2": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon automatically fires 2 shots during a single Shoot action.", impact: "🛡️ Passive: 2 Shots per Shoot Action" },
-  "AUTOMATIC 3": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon automatically fires 3 shots during a single Shoot action.", impact: "🛡️ Passive: 3 Shots per Shoot Action" },
+  "CLEAVE 1 inches: { type: "passive", cat: "Armour Piercing Passive", desc: "Passive Trait: Automatically reduces enemy target's Armour rating by 1 point on hits.", impact: "🛡️ Passive: -1 Enemy Armour Rating" },
+  "CLEAVE 2 inches: { type: "passive", cat: "Armour Piercing Passive", desc: "Passive Trait: Automatically reduces enemy target's Armour rating by 2 points on hits.", impact: "🛡️ Passive: -2 Enemy Armour Rating" },
+  "AUTOMATIC 2 inches: { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon automatically fires 2 shots during a single Shoot action.", impact: "🛡️ Passive: 2 Shots per Shoot Action" },
+  "AUTOMATIC 3 inches: { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon automatically fires 3 shots during a single Shoot action.", impact: "🛡️ Passive: 3 Shots per Shoot Action" },
   "BLAST 3\"": { type: "passive", cat: "Area Hazard Trait", desc: "Passive Trait: Explosive attack hits all models within a 3-inch blast radius circle.", impact: "🛡️ Passive: 3\" Blast Radius Area Effect" },
   "BLAST 5\"": { type: "passive", cat: "Area Hazard Trait", desc: "Passive Trait: Explosive attack hits all models within a 5-inch blast radius circle.", impact: "🛡️ Passive: 5\" Blast Radius Area Effect" },
   "GAS HAZARD": { type: "passive", cat: "Toxic Hazard Trait", desc: "Passive Trait: Creates a persistent toxic gas cloud zone on the target impact location.", impact: "🛡️ Passive: Persistent Mustard Gas Cloud" },
-  "ARMOUR +1": { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +1.", impact: "🛡️ Passive: +1 Base Armour Rating" },
-  "ARMOUR +2": { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +2.", impact: "🛡️ Passive: +2 Base Armour Rating" },
+  "ARMOUR +1 inches: { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +1.", impact: "🛡️ Passive: +1 Base Armour Rating" },
+  "ARMOUR +2 inches: { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +2.", impact: "🛡️ Passive: +2 Base Armour Rating" },
   "SHIELD": { type: "passive", cat: "Defensive Passive Item", desc: "Passive Bonus: Grants +1 Armour rating against frontal ranged attacks.", impact: "🛡️ Passive: +1 Frontal Ranged Armour" },
   "GAS IMMUNE": { type: "passive", cat: "Protection Passive Trait", desc: "Passive Trait: Model is completely immune to toxic gas hazard damage on the board.", impact: "🛡️ Passive: Complete Gas Immunity" },
   "GAS MASK": { type: "passive", cat: "Protection Equipment", desc: "Passive Item: Grants complete immunity to mustard gas hazards.", impact: "🛡️ Passive: Mustard Gas Immunity" }
