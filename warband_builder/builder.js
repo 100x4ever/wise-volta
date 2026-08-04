@@ -374,42 +374,42 @@ document.addEventListener('DOMContentLoaded', () => {
   // Official Subfactions & Faction Special Rules Registry
   const masterSubfactions = {
   "new_antioch": [
-    {
-      "id": "na_standard",
-      "name": "Principality Line Force",
-      "rule": "Combined Arms: May reroll 1 failed Initiative tie-breaker per battle."
-    },
-    {
-      "id": "na_papal",
-      "name": "Papal States Intervention Force",
-      "rule": "Holy Order: Papal Guards gain +1 Courage near Officers."
-    },
-    {
-      "id": "na_eire",
-      "name": "Eire Rangers",
-      "rule": "Emerald Sharpshooters: Ranged attacks ignore target cover bonuses beyond 12\"."
-    },
-    {
-      "id": "na_prussia",
-      "name": "Stosstruppen of the Free State of Prussia",
-      "rule": "Infiltration Tactics: Stosstruppen gain +1 Attack die on Trench Charges."
-    },
-    {
-      "id": "na_alba",
-      "name": "Kingdom of Alba Assault Detatchment",
-      "rule": "Highland Charge: Greatswords deal +1 Injury roll modifier on Charges."
-    },
-    {
-      "id": "na_abyssinia",
-      "name": "Expeditionary Forces of Abyssinia",
-      "rule": "Lion of Judah: Abyssinian Mechanized Infantry gain +1 Wounds."
-    },
-    {
-      "id": "na_red_brigade",
-      "name": "The Red Brigade",
-      "rule": "Close Quarters Assault: Shotguns and SMGs gain +1 to hit within 6\"."
-    }
-  ],
+  {
+    "id": "na_standard",
+    "name": "Principality Line Force (Combined Arms)",
+    "rule": "Combined Arms: Reroll 1 failed Initiative tie-breaker per battle."
+  },
+  {
+    "id": "na_papal",
+    "name": "Papal States Intervention Force",
+    "rule": "Holy Order: Papal Guards gain +1 Courage near Officers. Access to Swiss Guard and Supreme Blessing."
+  },
+  {
+    "id": "na_eire",
+    "name": "Eire Rangers",
+    "rule": "Emerald Sharpshooters: Ranged attacks ignore target cover bonuses beyond 12\". Led by Eire Lieutenant."
+  },
+  {
+    "id": "na_prussia",
+    "name": "Stosstruppen of Prussia",
+    "rule": "Infiltration Tactics: Stosstruppen gain +1 Attack die on Trench Charges."
+  },
+  {
+    "id": "na_alba",
+    "name": "Kingdom of Alba Assault Detatchment",
+    "rule": "Highland Charge: Greatswords deal +1 Injury roll modifier on Charges. Led by Highland Lieutenant."
+  },
+  {
+    "id": "na_abyssinia",
+    "name": "Expeditionary Forces of Abyssinia",
+    "rule": "Lion of Judah: Abyssinian Mechanized Infantry gain +1 Wounds and heavy plate."
+  },
+  {
+    "id": "na_red_brigade",
+    "name": "The Red Brigade",
+    "rule": "Close Quarters Blood Assault: Shotguns and SMGs gain +1 to hit within 6\"."
+  }
+],
   "trench_pilgrims": [
     {
       "id": "tp_standard",
@@ -1006,19 +1006,209 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const masterUnits = {
   "new_antioch": [
-    {
-      "id": "UNIT_NA_LIEUTENANT",
-      "name": "Lieutenant of New Antioch",
-      "cat": "Leader",
-      "cost": 70,
-      "max": 1,
-      "isLeader": true,
-      "img": "images/lieutenant_new_antioch.jpg",
-      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
-      "baseKeywords": [
-        "COMMANDER",
-        "INHERENT LEADERSHIP"
-      ],
+  {
+    "id": "UNIT_NA_LIEUTENANT",
+    "name": "Lieutenant of New Antioch",
+    "cat": "Leader",
+    "cost": 70,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/lieutenant_new_antioch.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "COMMANDER",
+      "INHERENT LEADERSHIP"
+    ],
+    "equip": [
+      "Automatic Pistol",
+      "Trench Sword",
+      "Body Armour"
+    ]
+  },
+  {
+    "id": "UNIT_NA_EIRE_LT",
+    "name": "Eire Lieutenant",
+    "cat": "Subfaction Leader",
+    "cost": 75,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/eire_ranger.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "COMMANDER",
+      "EMERALD SHARPSHOOTER"
+    ],
+    "equip": [
+      "Scoped Rifle",
+      "Trench Sword"
+    ]
+  },
+  {
+    "id": "UNIT_NA_ALBA_LT",
+    "name": "Highland Lieutenant",
+    "cat": "Subfaction Leader",
+    "cost": 75,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/stosstruppen_veteran.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +3 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "HIGHLAND CHARGE"
+    ],
+    "equip": [
+      "Highland Greatsword",
+      "Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_NA_SNIPER_PRIEST",
+    "name": "Sniper Priest",
+    "cat": "Specialist",
+    "cost": 50,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/sniper_priest.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: -1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "DEADEYE AIM",
+      "DIVINE GUIDANCE",
+      "SNIPER"
+    ],
+    "equip": [
+      "Bolt-Action Sniper Rifle"
+    ]
+  },
+  {
+    "id": "UNIT_NA_STOSSTRUPPEN",
+    "name": "Stosstruppen of Prussia",
+    "cat": "Elite",
+    "cost": 60,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/stosstruppen_veteran.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+",
+    "baseKeywords": [
+      "TRENCH RAID",
+      "SHOCK TROOPER"
+    ],
+    "equip": [
+      "Submachine Gun",
+      "Trench Knife"
+    ]
+  },
+  {
+    "id": "UNIT_NA_ALBA_SHOCK",
+    "name": "Highland Shocktrooper",
+    "cat": "Elite",
+    "cost": 65,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/stosstruppen_veteran.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +3 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+",
+    "baseKeywords": [
+      "TRENCH RAID",
+      "HIGHLAND CHARGE"
+    ],
+    "equip": [
+      "Highland Claymore",
+      "Trench Axe"
+    ]
+  },
+  {
+    "id": "UNIT_NA_ABYSSINIA_MECH",
+    "name": "Abyssinian Mechanized Infantry",
+    "cat": "Heavy Elite",
+    "cost": 80,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/mechanized_infantry.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +2 | MELEE: +1 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 8+",
+    "baseKeywords": [
+      "HEAVY",
+      "LION OF JUDAH",
+      "ARMOUR +2"
+    ],
+    "equip": [
+      "Abyssinian Heavy Rifle",
+      "Heavy Plate"
+    ]
+  },
+  {
+    "id": "UNIT_NA_PAPAL_GUARD",
+    "name": "Papal States Guard",
+    "cat": "Elite Guard",
+    "cost": 65,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/papal_states_guard.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 1 | COURAGE: 9+",
+    "baseKeywords": [
+      "SHIELD",
+      "PARRY",
+      "ARMOUR +2"
+    ],
+    "equip": [
+      "Papal Halberd",
+      "Trench Shield"
+    ]
+  },
+  {
+    "id": "UNIT_NA_ENGINEER",
+    "name": "Combat Engineer",
+    "cat": "Specialist",
+    "cost": 50,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/combat_engineer.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "DEMOLITION",
+      "WIRE CUTTER",
+      "FLAMETHROWER"
+    ],
+    "equip": [
+      "Trench Flamethrower",
+      "Wire Cutters"
+    ]
+  },
+  {
+    "id": "UNIT_NA_TROOPER",
+    "name": "Trench Trooper",
+    "cat": "Trooper",
+    "cost": 35,
+    "max": 12,
+    "isLeader": false,
+    "img": "images/trench_trooper.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "LINE INFANTRY",
+      "GRIM DISCIPLINE"
+    ],
+    "equip": [
+      "Bolt-Action Rifle",
+      "Trench Knife"
+    ]
+  },
+  {
+    "id": "UNIT_NA_DOCTOR",
+    "name": "Trench Doctor (Medic)",
+    "cat": "Specialist",
+    "cost": 45,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/trench_doctor.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "FIELD SURGEON",
+      "TREAT WOUNDS",
+      "MEDIC"
+    ],
+    "equip": [
+      "Field Surgeon Kit"
+    ]
+  }
+],
       "equip": [
         "Automatic Pistol",
         "Trench Sword",

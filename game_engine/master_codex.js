@@ -1,6 +1,33 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "COMBINED ARMS": {
+      cat: "New Antioch Line Force",
+      desc: "Combined Arms tactic: Reroll 1 failed Initiative tie-breaker roll per battle.",
+      impact: "Initiative Tie-Breaker Reroll"
+    },
+    "EMERALD SHARPSHOOTER": {
+      cat: "Eire Rangers Trait",
+      desc: "Ranged attacks ignore target cover bonuses beyond 12" distance.",
+      impact: "Ignore Cover Beyond 12""
+    },
+    "HIGHLAND CHARGE": {
+      cat: "Kingdom of Alba Trait",
+      desc: "Highland Claymores and Greatswords deal +1 Injury roll modifier on Charge Actions.",
+      impact: "+1 Injury Modifier on Charge"
+    },
+    "LION OF JUDAH": {
+      cat: "Abyssinia Expedition Trait",
+      desc: "Abyssinian Heavy Infantry gain +1 Wounds and heavy mechanized plate armor.",
+      impact: "+1 Wounds • Heavy Plate Armor"
+    },
+    "RED BRIGADE ASSAULT": {
+      cat: "The Red Brigade Trait",
+      desc: "Shotguns and SMGs gain +1 to hit when firing at targets within 6" distance.",
+      impact: "+1 Hit within 6" Range"
+    },
+
+
     "MARKSMANSHIP OF THE IRON WALL": {
       cat: "Elevated Position Sniper Bonus",
       desc: "Models firing from an Elevated Position gain +2 DICE to Ranged Attack rolls (instead of +1).",
