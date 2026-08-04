@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "THE BEREAVED": {
+      cat: "Dirge Subfaction Rule",
+      desc: "Thralls in a Dirge warband are The Bereaved (Cost: 30D, Ranged +0 DICE). Can equip Ranged Weapons, Grenades, Musical Instruments, and Troop Flags.",
+      impact: "+0 Ranged Die • Full Armory Access"
+    },
+    "THE LOST": {
+      cat: "Dirge Restriction",
+      desc: "Dirge warbands are restricted to 0-2 Hounds of the Black Grail and 0-2 Heralds of Beelzebub.",
+      impact: "Max 2 Hounds • Max 2 Heralds"
+    },
+    "DISHONOURED": {
+      cat: "Dirge Passive Aura",
+      desc: "The mournful paeans of weeping Plague Knights inflict -1 DICE to all opponent Morale Checks.",
+      impact: "-1 Enemy Morale Die Aura"
+    },
+
+
     "INFECTION MARKERS": {
       cat: "Plague Weapon Keyword",
       desc: "Black Grail attacks place Infection Markers on targets. Infection Markers grow and stack up to 6, dealing end-of-turn damage if untreated.",
