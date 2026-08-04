@@ -433,27 +433,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "iron_sultanate": [
-    {
-      "id": "is_standard",
-      "name": "Iron Sultanate Standard Force",
-      "rule": "Sultan's Favor: Reroll 1 failed Initiative tie-breaker."
-    },
-    {
-      "id": "is_fidai",
-      "name": "Fidai of Alamut (Cabal of Assassins)",
-      "rule": "Silent Assassination: Fidai Assassins gain +2 to hit against enemy Leaders."
-    },
-    {
-      "id": "is_wisdom",
-      "name": "House of Wisdom",
-      "rule": "Mechanical Mastery: Golems and Homunculi ignore Pinning & Fear."
-    },
-    {
-      "id": "is_defenders",
-      "name": "Defenders of the Iron Wall",
-      "rule": "Fortress Discipline: Sultanate Sappers and Heavy Riflemen gain +1 Armour in Trench Cover."
-    }
-  ],
+  {
+    "id": "is_standard",
+    "name": "Iron Sultanate Standard Force",
+    "rule": "Sultan's Favor: Reroll 1 failed Initiative tie-breaker. Access to Jabirean Alchemists, Janissaries & Azebs."
+  },
+  {
+    "id": "is_fidai",
+    "name": "Fidai of Alamut (Cabal of Assassins)",
+    "rule": "Silent Assassination: Must be led by Master Assassin (+2 hit vs Leaders, TOUGH). Azebs upgraded to Infiltrator Acolytes."
+  },
+  {
+    "id": "is_wisdom",
+    "name": "House of Wisdom",
+    "rule": "Takwin Mechanical Marvels: Golems, Homunculi, Brazen Bulls, and Sipahi Automaton Cavalry ignore Pinning & Fear."
+  },
+  {
+    "id": "is_defenders",
+    "name": "Defenders of the Iron Wall",
+    "rule": "Fortress Discipline: Sappers, Wall Guards, and Janissaries gain +1 Armour while in Trench Cover. Access to Siege Jezails."
+  }
+],
   "heretic_legions": [
   {
     "id": "UNIT_HL_PRIEST",
@@ -1311,20 +1311,205 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "iron_sultanate": [
-    {
-      "id": "UNIT_IS_ALCHEMIST",
-      "name": "Jabirean Alchemist",
-      "cat": "Leader",
-      "cost": 75,
-      "max": 1,
-      "isLeader": true,
-      "img": "images/jabirean_alchemist.jpg",
-      "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
-      "baseKeywords": [
-        "COMMANDER",
-        "GAS HAZARD",
-        "GAS IMMUNE"
-      ],
+  {
+    "id": "UNIT_IS_ALCHEMIST",
+    "name": "Jabirean Alchemist",
+    "cat": "Leader",
+    "cost": 75,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/jabirean_alchemist.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "COMMANDER",
+      "GAS HAZARD",
+      "GAS IMMUNE"
+    ],
+    "equip": [
+      "Alchemical Flamethrower"
+    ]
+  },
+  {
+    "id": "UNIT_IS_YUZBASI",
+    "name": "Yuzbasi Captain",
+    "cat": "Leader",
+    "cost": 80,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/yuzbasi_captain.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "SULTAN'S FAVOR",
+      "TACTICAL COMMAND"
+    ],
+    "equip": [
+      "Damascus Shamshir",
+      "Heavy Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_IS_FIDAI_MASTER",
+    "name": "Master Assassin of Alamut",
+    "cat": "Subfaction Leader",
+    "cost": 95,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/fidai_assassin.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: +2 | MELEE: +4 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "TOUGH",
+      "SILENT ASSASSINATION"
+    ],
+    "equip": [
+      "Dual Poison Daggers",
+      "Throwing Blades"
+    ]
+  },
+  {
+    "id": "UNIT_IS_FIDAI_ACOLYTE",
+    "name": "Fidai Assassin Acolyte",
+    "cat": "Subfaction Elite",
+    "cost": 65,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/fidai_assassin.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: +1 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 8+",
+    "baseKeywords": [
+      "INFILTRATOR",
+      "SHOCK TROOPER",
+      "VENOMOUS"
+    ],
+    "equip": [
+      "Poison Dagger"
+    ]
+  },
+  {
+    "id": "UNIT_IS_SIPAHI",
+    "name": "Sipahi Automaton Cavalry",
+    "cat": "Subfaction Construct",
+    "cost": 90,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/sipahi_automaton.jpg",
+    "fullStats": "MOVE: 9\" | RANGED: +1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 10+",
+    "baseKeywords": [
+      "TAKWIN CREATIONS",
+      "HEAVY CONSTRUCT",
+      "CHARGE BONUS"
+    ],
+    "equip": [
+      "Cavalry Lance",
+      "Brass Clockwork Mount"
+    ]
+  },
+  {
+    "id": "UNIT_IS_GOLEM",
+    "name": "House of Wisdom Golem / Homunculus",
+    "cat": "Subfaction Construct",
+    "cost": 95,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/hydra_construct.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 10+",
+    "baseKeywords": [
+      "TAKWIN CREATIONS",
+      "HEAVY CONSTRUCT"
+    ],
+    "equip": [
+      "Clockwork Fists"
+    ]
+  },
+  {
+    "id": "UNIT_IS_BRAZEN_BULL",
+    "name": "Brazen Bull Alchemical Engine",
+    "cat": "Monstrous Construct",
+    "cost": 120,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/brazen_bull.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +4 | ARMOUR: 3 | WOUNDS: 4 | COURAGE: 10+",
+    "baseKeywords": [
+      "TAKWIN CREATIONS",
+      "HEAVY CONSTRUCT",
+      "MONSTROUS STRENGTH"
+    ],
+    "equip": [
+      "Alchemical Horns"
+    ]
+  },
+  {
+    "id": "UNIT_IS_LION_JABIR",
+    "name": "Lion of Jabir",
+    "cat": "Alchemical Beast",
+    "cost": 45,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/lion_of_jabir.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: - | MELEE: +3 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "BEAST",
+      "RENDING CLAWS"
+    ],
+    "equip": [
+      "Alchemical Fangs"
+    ]
+  },
+  {
+    "id": "UNIT_IS_JANISSARY",
+    "name": "Janissary Heavy Rifleman",
+    "cat": "Elite",
+    "cost": 55,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/janissary.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+",
+    "baseKeywords": [
+      "SNIPER",
+      "FORTRESS DISCIPLINE"
+    ],
+    "equip": [
+      "Heavy Rifle",
+      "Bayonet"
+    ]
+  },
+  {
+    "id": "UNIT_IS_AZAB",
+    "name": "Azab Warrior",
+    "cat": "Trooper",
+    "cost": 30,
+    "max": 12,
+    "isLeader": false,
+    "img": "images/azab_warrior.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "LINE INFANTRY"
+    ],
+    "equip": [
+      "Musket"
+    ]
+  },
+  {
+    "id": "UNIT_IS_SAPPER",
+    "name": "Wall Guard Sapper",
+    "cat": "Specialist",
+    "cost": 45,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/wall_guard_sapper.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "FORTRESS DISCIPLINE",
+      "IGNORE COVER",
+      "BLAST 4"
+    ],
+    "equip": [
+      "Demolition Satchel",
+      "Siege Jezail"
+    ]
+  }
+],
       "equip": [
         "Alchemical Flamethrower"
       ]

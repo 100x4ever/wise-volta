@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "SILENT ASSASSINATION": {
+      cat: "Fidai Assassin Trait",
+      desc: "Fidai Master Assassins gain +2 to hit on all melee and ranged attack rolls targeting enemy LEADER models.",
+      impact: "+2 Hit vs Enemy Leaders"
+    },
+    "TAKWIN CREATIONS": {
+      cat: "House of Wisdom Trait",
+      desc: "Golems, Homunculi, and Sipahi Automaton Cavalry ignore Pinning, Morale penalties, and FEAR.",
+      impact: "Ignore Pinning & Fear"
+    },
+    "FORTRESS DISCIPLINE": {
+      cat: "Iron Wall Defense",
+      desc: "Sultanate Wall Guards, Sappers, and Heavy Riflemen gain +1 Armour rating while in Trench Cover.",
+      impact: "+1 Armour in Cover"
+    },
+    "SULTAN'S FAVOR": {
+      cat: "Sultanate Initiative",
+      desc: "May reroll 1 failed Initiative tie-breaker roll per battle.",
+      impact: "Initiative Tie-Breaker Reroll"
+    },
+
+
     "SEMI-CORPOREAL": {
       cat: "Trench Ghost Trait",
       desc: "All Trench Ghost models suffer -1 INJURY DIE from incoming ranged attacks due to spectral incorporeality.",
