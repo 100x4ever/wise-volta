@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "UNSEEN ADVANCE": {
+      cat: "Naval Raider Stealth",
+      desc: "Heretic Naval Raiders deploy in infiltration stealth and gain +1 to hit on Charge Actions with close assault weapons.",
+      impact: "Infiltration Stealth • +1 Charge Hit"
+    },
+    "ETHEREAL TERROR": {
+      cat: "Trench Ghost Trait",
+      desc: "Trench Ghosts take 1 less physical damage and force target enemy models to take an immediate Morale Check on hit.",
+      impact: "Semi-Corporeal Shield • Instant Morale Check"
+    },
+    "MAMMON'S CHOSEN": {
+      cat: "Knights of Avarice Trait",
+      desc: "Gilded armour ignores the first Blood Marker penalty each turn and grants +50 starting Ducats.",
+      impact: "Ignore 1st Blood Marker • +50 Ducats"
+    },
+    "BARBED WIRE BANSHEE": {
+      cat: "Trench Ghost Specialist",
+      desc: "Ethereal spirit wrapped in rusted wire that entangles and slashes enemy units within 3".",
+      impact: "3" Entangling Wire Aura"
+    },
+
+
     "ETERNAL APPETENCE": {
       cat: "Great Hunger Stance",
       desc: "At start of Turn, choose Famine (+1 Move & +1 Melee die) or Consumption (Heal 1 Wound/Marker when enemy dies within 6").",

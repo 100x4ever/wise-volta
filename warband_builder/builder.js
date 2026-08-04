@@ -455,27 +455,205 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "heretic_legions": [
-    {
-      "id": "hl_standard",
-      "name": "Heretic Legion Standard Force",
-      "rule": "Infernal Zeal: Reroll 1 failed Courage test per battle."
-    },
-    {
-      "id": "hl_naval",
-      "name": "Heretic Naval Raiders",
-      "rule": "Boarding Tactics: Shotguns and Cutlasses gain +1 to hit on Charges."
-    },
-    {
-      "id": "hl_ghosts",
-      "name": "Trench Ghosts",
-      "rule": "Ethereal Terror: Enemy units hit take an immediate Morale check."
-    },
-    {
-      "id": "hl_avarice",
-      "name": "Knights of Avarice",
-      "rule": "Gilded Armor: Knights of Avarice ignore the first Blood Marker penalty each turn."
-    }
-  ],
+  {
+    "id": "UNIT_HL_PRIEST",
+    "name": "Heretic Priest",
+    "cat": "Leader",
+    "cost": 75,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/heretic_priest.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "INFERNAL ZEAL",
+      "DARK GOSPEL"
+    ],
+    "equip": [
+      "Heretic Pistol",
+      "Trench Sword"
+    ]
+  },
+  {
+    "id": "UNIT_HL_RAIDER_CAPT",
+    "name": "Naval Raider High Captain",
+    "cat": "Subfaction Leader",
+    "cost": 80,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/heretic_naval_raider.jpg",
+    "fullStats": "MOVE: 7\" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "UNSEEN ADVANCE",
+      "BOARDING TACTICS"
+    ],
+    "equip": [
+      "Boarding Shotgun",
+      "Cutlass"
+    ]
+  },
+  {
+    "id": "UNIT_HL_WARLOCK",
+    "name": "Goetic Warlock",
+    "cat": "Specialist Caster",
+    "cost": 65,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/goetic_warlock.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "GOETIC SORCERY",
+      "HELLFIRE WAND"
+    ],
+    "equip": [
+      "Hellfire Wand",
+      "Demon Talisman"
+    ]
+  },
+  {
+    "id": "UNIT_HL_ANOINTED",
+    "name": "Anointed Champion / Heavy Trooper",
+    "cat": "Elite Heavy",
+    "cost": 80,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/anointed_champion.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "HEAVY PLATE",
+      "STRONG",
+      "PARRY"
+    ],
+    "equip": [
+      "Heavy Greatsword",
+      "Hell Plate"
+    ]
+  },
+  {
+    "id": "UNIT_HL_KNIGHT_AVARICE",
+    "name": "Knight of Avarice",
+    "cat": "Subfaction Elite",
+    "cost": 75,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/knight_of_avarice.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "MAMMON'S CHOSEN",
+      "PARRY",
+      "GILDED ARMOUR"
+    ],
+    "equip": [
+      "Gilded Heavy Shotgun",
+      "Coin Hammer"
+    ]
+  },
+  {
+    "id": "UNIT_HL_TRENCH_GHOST",
+    "name": "Trench Ghost",
+    "cat": "Subfaction Elite",
+    "cost": 65,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/trench_ghost.jpg",
+    "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 9+",
+    "baseKeywords": [
+      "ETHEREAL TERROR",
+      "TRENCH RAID",
+      "UNDEAD"
+    ],
+    "equip": [
+      "Ghost Cutlass",
+      "Gas Mask"
+    ]
+  },
+  {
+    "id": "UNIT_HL_BANSHEE",
+    "name": "Barped Wire Banshee",
+    "cat": "Subfaction Specialist",
+    "cost": 60,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/barbed_wire_banshee.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: +0 | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 9+",
+    "baseKeywords": [
+      "BARBED WIRE BANSHEE",
+      "ETHEREAL TERROR"
+    ],
+    "equip": [
+      "Entangling Barbed Wire"
+    ]
+  },
+  {
+    "id": "UNIT_HL_TROOPER",
+    "name": "Heretic Trooper",
+    "cat": "Trooper",
+    "cost": 30,
+    "max": 12,
+    "isLeader": false,
+    "img": "images/heretic_trooper.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+",
+    "baseKeywords": [
+      "LINE INFANTRY",
+      "FANATIC"
+    ],
+    "equip": [
+      "Bolt-Action Rifle",
+      "Trench Knife"
+    ]
+  },
+  {
+    "id": "UNIT_HL_YOKE_FIEND",
+    "name": "Yoke Fiend",
+    "cat": "Beast",
+    "cost": 40,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/yoke_fiend.jpg",
+    "fullStats": "MOVE: 7\" | RANGED: - | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "BEAST",
+      "RENDING LIMBS"
+    ],
+    "equip": [
+      "Barbed Chains"
+    ]
+  },
+  {
+    "id": "UNIT_HL_HOUND_ABADDON",
+    "name": "Hound of Abaddon",
+    "cat": "Beast",
+    "cost": 35,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/hound_of_abaddon.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: - | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "BEAST",
+      "HELLFIRE BITE"
+    ],
+    "equip": [
+      "Hellfire Fangs"
+    ]
+  },
+  {
+    "id": "UNIT_HL_THRALL",
+    "name": "Wretched Thrall",
+    "cat": "Chaff Trooper",
+    "cost": 15,
+    "max": 20,
+    "isLeader": false,
+    "img": "images/wretched_thrall.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: -1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 5+",
+    "baseKeywords": [
+      "LINE INFANTRY"
+    ],
+    "equip": [
+      "Rusty Blade"
+    ]
+  }
+],
   "cult_black_grail": [
   {
     "id": "UNIT_CBG_LORD_TUMORS",
@@ -1271,20 +1449,205 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "heretic_legions": [
-    {
-      "id": "UNIT_HL_LORD_TUMORS",
-      "name": "Heretic Lord of Tumors",
-      "cat": "Leader",
-      "cost": 80,
-      "max": 1,
-      "isLeader": true,
-      "img": "images/lord_of_tumours.jpg",
-      "fullStats": "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+",
-      "baseKeywords": [
-        "COMMANDER",
-        "BLACK GRAIL PLAGUE",
-        "REGENERATION"
-      ],
+  {
+    "id": "UNIT_HL_PRIEST",
+    "name": "Heretic Priest",
+    "cat": "Leader",
+    "cost": 75,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/heretic_priest.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "INFERNAL ZEAL",
+      "DARK GOSPEL"
+    ],
+    "equip": [
+      "Heretic Pistol",
+      "Trench Sword"
+    ]
+  },
+  {
+    "id": "UNIT_HL_RAIDER_CAPT",
+    "name": "Naval Raider High Captain",
+    "cat": "Subfaction Leader",
+    "cost": 80,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/heretic_naval_raider.jpg",
+    "fullStats": "MOVE: 7\" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "UNSEEN ADVANCE",
+      "BOARDING TACTICS"
+    ],
+    "equip": [
+      "Boarding Shotgun",
+      "Cutlass"
+    ]
+  },
+  {
+    "id": "UNIT_HL_WARLOCK",
+    "name": "Goetic Warlock",
+    "cat": "Specialist Caster",
+    "cost": 65,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/goetic_warlock.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "GOETIC SORCERY",
+      "HELLFIRE WAND"
+    ],
+    "equip": [
+      "Hellfire Wand",
+      "Demon Talisman"
+    ]
+  },
+  {
+    "id": "UNIT_HL_ANOINTED",
+    "name": "Anointed Champion / Heavy Trooper",
+    "cat": "Elite Heavy",
+    "cost": 80,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/anointed_champion.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "HEAVY PLATE",
+      "STRONG",
+      "PARRY"
+    ],
+    "equip": [
+      "Heavy Greatsword",
+      "Hell Plate"
+    ]
+  },
+  {
+    "id": "UNIT_HL_KNIGHT_AVARICE",
+    "name": "Knight of Avarice",
+    "cat": "Subfaction Elite",
+    "cost": 75,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/knight_of_avarice.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+",
+    "baseKeywords": [
+      "MAMMON'S CHOSEN",
+      "PARRY",
+      "GILDED ARMOUR"
+    ],
+    "equip": [
+      "Gilded Heavy Shotgun",
+      "Coin Hammer"
+    ]
+  },
+  {
+    "id": "UNIT_HL_TRENCH_GHOST",
+    "name": "Trench Ghost",
+    "cat": "Subfaction Elite",
+    "cost": 65,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/trench_ghost.jpg",
+    "fullStats": "MOVE: 7\" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 9+",
+    "baseKeywords": [
+      "ETHEREAL TERROR",
+      "TRENCH RAID",
+      "UNDEAD"
+    ],
+    "equip": [
+      "Ghost Cutlass",
+      "Gas Mask"
+    ]
+  },
+  {
+    "id": "UNIT_HL_BANSHEE",
+    "name": "Barped Wire Banshee",
+    "cat": "Subfaction Specialist",
+    "cost": 60,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/barbed_wire_banshee.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: +0 | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 9+",
+    "baseKeywords": [
+      "BARBED WIRE BANSHEE",
+      "ETHEREAL TERROR"
+    ],
+    "equip": [
+      "Entangling Barbed Wire"
+    ]
+  },
+  {
+    "id": "UNIT_HL_TROOPER",
+    "name": "Heretic Trooper",
+    "cat": "Trooper",
+    "cost": 30,
+    "max": 12,
+    "isLeader": false,
+    "img": "images/heretic_trooper.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+",
+    "baseKeywords": [
+      "LINE INFANTRY",
+      "FANATIC"
+    ],
+    "equip": [
+      "Bolt-Action Rifle",
+      "Trench Knife"
+    ]
+  },
+  {
+    "id": "UNIT_HL_YOKE_FIEND",
+    "name": "Yoke Fiend",
+    "cat": "Beast",
+    "cost": 40,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/yoke_fiend.jpg",
+    "fullStats": "MOVE: 7\" | RANGED: - | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "BEAST",
+      "RENDING LIMBS"
+    ],
+    "equip": [
+      "Barbed Chains"
+    ]
+  },
+  {
+    "id": "UNIT_HL_HOUND_ABADDON",
+    "name": "Hound of Abaddon",
+    "cat": "Beast",
+    "cost": 35,
+    "max": 4,
+    "isLeader": false,
+    "img": "images/hound_of_abaddon.jpg",
+    "fullStats": "MOVE: 8\" | RANGED: - | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "BEAST",
+      "HELLFIRE BITE"
+    ],
+    "equip": [
+      "Hellfire Fangs"
+    ]
+  },
+  {
+    "id": "UNIT_HL_THRALL",
+    "name": "Wretched Thrall",
+    "cat": "Chaff Trooper",
+    "cost": 15,
+    "max": 20,
+    "isLeader": false,
+    "img": "images/wretched_thrall.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: -1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 5+",
+    "baseKeywords": [
+      "LINE INFANTRY"
+    ],
+    "equip": [
+      "Rusty Blade"
+    ]
+  }
+],
       "equip": [
         "Cleaver of Tumours"
       ]
