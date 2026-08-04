@@ -1,6 +1,33 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "SEMI-CORPOREAL": {
+      cat: "Trench Ghost Trait",
+      desc: "All Trench Ghost models suffer -1 INJURY DIE from incoming ranged attacks due to spectral incorporeality.",
+      impact: "-1 Ranged Injury Die"
+    },
+    "UNDEAD HORROR": {
+      cat: "Trench Ghost Traits",
+      desc: "All models gain FEAR, NEGATE DIFFICULT TERRAIN, and NEGATE GAS keywords.",
+      impact: "Fear Aura • Negate Gas • Negate Terrain"
+    },
+    "BARBED WIRE BANSHEE AURA": {
+      cat: "Banshee Screech",
+      desc: "Enemies within 8" of a Barbed Wire Banshee take +1 INJURY DICE to all damage rolls.",
+      impact: "+1 Enemy Injury Die (8" Aura)"
+    },
+    "TANK PALANQUIN": {
+      cat: "Heretic Priest Mount",
+      desc: "Ghostly armored tank palanquin mount (+60D) granting heavy armor and explosive treads.",
+      impact: "+60D Ghost Tank Mount"
+    },
+    "SARCOPHAGUS MINE": {
+      cat: "Explosive Trap",
+      desc: "Troopers encased in explosive mine armor detonate when enemies move within 2".",
+      impact: "Proximity Explosive Armor"
+    },
+
+
     "FAST AS LIGHTNING": {
       cat: "Naval Raider Trait",
       desc: "Add +1 DICE to Risky Success rolls for Dash Actions taken by Heretic Naval Raider models.",
