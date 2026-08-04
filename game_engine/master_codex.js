@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "HOLY MARTYRDOM": {
+      cat: "Trench Pilgrim Zeal",
+      desc: "When a friendly Pilgrim model is killed in battle, all nearby allies gain +1 Courage for the turn.",
+      impact: "+1 Courage on Casualty"
+    },
+    "RELIQUARY ARMOURY": {
+      cat: "Sacred Affliction Trait",
+      desc: "Holy Icon Shields and Holy Icon Armour cost 20D / 30D without ELITE restriction.",
+      impact: "20D / 30D Holy Icon Armour & Shields"
+    },
+    "PUNISHING MILLSTONES": {
+      cat: "Sacred Affliction Impact",
+      desc: "Ecclesiastic Prisoners tethered to heavy stone millstones inflict crushing Impact Damage on Charge.",
+      impact: "Crushing Millstone Charge Damage"
+    },
+    "STIGMATA BLESSING": {
+      cat: "Stigmatic Nun Trait",
+      desc: "Each Wound suffered increases Melee attack dice by +1 instead of penalizing.",
+      impact: "+1 Melee Die per Wound Suffered"
+    },
+
+
     "FURY OF SAINT ERNEST": {
       cat: "Red Brigade Dual Pistols",
       desc: "Officers gain Gunslinger dual-pistol skill for 5D. Access to Molotov Cocktails.",

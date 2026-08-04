@@ -411,27 +411,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 ],
   "trench_pilgrims": [
-    {
-      "id": "tp_standard",
-      "name": "Procession of the Sacred Relic",
-      "rule": "Sacred Zeal: Allied models gain +1 Courage near Relic Flagellants."
-    },
-    {
-      "id": "tp_affliction",
-      "name": "Procession of the Sacred Affliction",
-      "rule": "Holy Stigmata: Ecclesiastic Prisoners gain +1 Attack die when wounded."
-    },
-    {
-      "id": "tp_tenth_plague",
-      "name": "Cavalcade of the Tenth Plague",
-      "rule": "Day of His Wrath: War Prophet can execute Day of His Wrath Armor-Ignoring Action."
-    },
-    {
-      "id": "tp_methodius",
-      "name": "War Pilgrimage of Saint Methodius",
-      "rule": "Methodius Blessing: Stigmatic Nuns and Anchorite Shrines gain +1 Armour."
-    }
-  ],
+  {
+    "id": "tp_standard",
+    "name": "Trench Pilgrims Standard Procession",
+    "rule": "Martyrdom & Iron Capirote: +1 Courage when a friendly model dies. Iron capirote ignores Fear."
+  },
+  {
+    "id": "tp_sacred_affliction",
+    "name": "Procession of the Sacred Affliction",
+    "rule": "Reliquary Armoury & Punishing Millstones: Holy Icon Shields & Armour cost 20D/30D without ELITE restriction. Ecclesiastic Prisoners tethered to heavy millstones for crushing charge impact."
+  },
+  {
+    "id": "tp_tenth_plague",
+    "name": "Cavalcade of the Tenth Plague",
+    "rule": "Swarm of Locusts: Communicant Anti-Tank Hunters and Plague Scourges."
+  },
+  {
+    "id": "tp_saint_methodius",
+    "name": "War Pilgrimage of Saint Methodius",
+    "rule": "Order of Saint Methodius: Anchorite Shrines & Stigmatic Nuns with holy iron flails."
+  }
+],
   "iron_sultanate": [
   {
     "id": "is_standard",
@@ -1380,19 +1380,155 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ],
   "trench_pilgrims": [
-    {
-      "id": "UNIT_TP_WAR_PROPHET",
-      "name": "Trench Pilgrim War Prophet",
-      "cat": "Leader",
-      "cost": 70,
-      "max": 1,
-      "isLeader": true,
-      "img": "images/war_prophet.jpg",
-      "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
-      "baseKeywords": [
-        "COMMANDER",
-        "HOLY FERVOUR"
-      ],
+  {
+    "id": "UNIT_TP_WAR_PROPHET",
+    "name": "War Prophet / Prophetess",
+    "cat": "Leader",
+    "cost": 75,
+    "max": 1,
+    "isLeader": true,
+    "img": "images/war_prophet.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "COMMANDER",
+      "DIVINE VISIONS",
+      "HOLY INSPIRATION"
+    ],
+    "equip": [
+      "Heavy War Cross",
+      "Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_TP_COMMUNICANT",
+    "name": "Communicant Giant",
+    "cat": "Monstrous Elite",
+    "cost": 115,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/communicant_giant.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 4 | COURAGE: 9+",
+    "baseKeywords": [
+      "MONSTROUS",
+      "HOLY BREAD RAGE",
+      "UNSTOPPABLE"
+    ],
+    "equip": [
+      "Giant Flail",
+      "Sacred Chains"
+    ]
+  },
+  {
+    "id": "UNIT_TP_ANCHORITE",
+    "name": "Anchorite Shrine",
+    "cat": "Heavy Armor Construct",
+    "cost": 130,
+    "max": 1,
+    "isLeader": false,
+    "img": "images/anchorite_shrine.jpg",
+    "fullStats": "MOVE: 4\" | RANGED: +2 | MELEE: +2 | ARMOUR: 3 | WOUNDS: 4 | COURAGE: 10+",
+    "baseKeywords": [
+      "WALKING SHRINE",
+      "ARMOUR +3",
+      "RELIC CANNON"
+    ],
+    "equip": [
+      "Heavy Trench Gun",
+      "Iron Relic Plate"
+    ]
+  },
+  {
+    "id": "UNIT_TP_MARTYR",
+    "name": "Martyr-Penitent",
+    "cat": "Specialist",
+    "cost": 45,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/martyr_penitent.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 10+",
+    "baseKeywords": [
+      "UNDEAD ZEALOT",
+      "NO PAIN",
+      "EXPLOSIVE VEST"
+    ],
+    "equip": [
+      "Penitent Scourge",
+      "Explosive Harness"
+    ]
+  },
+  {
+    "id": "UNIT_TP_STIGMATIC_NUN",
+    "name": "Stigmatic Nun",
+    "cat": "Elite",
+    "cost": 55,
+    "max": 3,
+    "isLeader": false,
+    "img": "images/martyr_penitent.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 9+",
+    "baseKeywords": [
+      "STIGMATA BLESSING",
+      "HOLY RAGE"
+    ],
+    "equip": [
+      "Blessed Sword",
+      "Trench Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_TP_CASTIGATOR",
+    "name": "Castigator",
+    "cat": "Specialist",
+    "cost": 50,
+    "max": 2,
+    "isLeader": false,
+    "img": "images/castigator.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+",
+    "baseKeywords": [
+      "WHIP OF GOD",
+      "INSTILL FEAR"
+    ],
+    "equip": [
+      "Barbed Scourge",
+      "Heavy Pistol"
+    ]
+  },
+  {
+    "id": "UNIT_TP_PRISONER",
+    "name": "Ecclesiastic Prisoner",
+    "cat": "Trooper",
+    "cost": 25,
+    "max": 6,
+    "isLeader": false,
+    "img": "images/martyr_penitent.jpg",
+    "fullStats": "MOVE: 5\" | RANGED: - | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+",
+    "baseKeywords": [
+      "EXPENDABLE",
+      "PUNISHING MILLSTONES"
+    ],
+    "equip": [
+      "Iron Chains",
+      "Stone Millstone"
+    ]
+  },
+  {
+    "id": "UNIT_TP_PILGRIM",
+    "name": "Trench Pilgrim",
+    "cat": "Trooper",
+    "cost": 30,
+    "max": 12,
+    "isLeader": false,
+    "img": "images/trench_trooper.jpg",
+    "fullStats": "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+",
+    "baseKeywords": [
+      "LINE INFANTRY",
+      "IRON CAPIROTE"
+    ],
+    "equip": [
+      "Musket",
+      "Club"
+    ]
+  }
+],
       "equip": [
         "Trench Shotgun"
       ]
