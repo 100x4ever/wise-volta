@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "FURY OF SAINT ERNEST": {
+      cat: "Red Brigade Dual Pistols",
+      desc: "Officers gain Gunslinger dual-pistol skill for 5D. Access to Molotov Cocktails.",
+      impact: "Gunslinger Dual Pistols • Molotov Cocktails"
+    },
+    "NO RETREAT": {
+      cat: "Red Brigade Fanaticism",
+      desc: "Models in a Red Brigade Warband cannot take a Retreat Action.",
+      impact: "Cannot Retreat from Melee"
+    },
+    "REMEMBER THE FALLEN": {
+      cat: "Blood Pledge Scavenge",
+      desc: "Recover ALL Battlekit from models killed in action in campaign battles.",
+      impact: "Scavenge & Salvage Killed Battlekit"
+    },
+    "WEAR AND TEAR": {
+      cat: "Battle-Hardened Fatigue",
+      desc: "Starts each game with 1 Blood Marker per 200D cost distributed by opponent.",
+      impact: "1 Blood Marker per 200D at Start"
+    },
+
+
     "SHORT RANGE MARKSMANSHIP": {
       cat: "Abyssinian Tactics",
       desc: "Lieutenant and Yeomen gain +1 DICE to hit on all Ranged Attacks at Short Range.",
