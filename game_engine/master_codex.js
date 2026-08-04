@@ -113,7 +113,7 @@ const masterCodex = {
     },
     "VANGUARD FLANKING": {
       cat: "Abyssinian Envelopment",
-      desc: "Up to 4 Yeomen gain Flanking (+5D) to deploy along any battlefield edge >=8" from enemies.",
+      desc: "Up to 4 Yeomen gain Flanking (+5D) to deploy along any battlefield edge >=8 inches from enemies.",
       impact: "Battlefield Edge Flanking Deployment"
     },
     "HOLY WARRIORS OF ETHIOPIA": {

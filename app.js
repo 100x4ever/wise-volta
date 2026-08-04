@@ -1022,7 +1022,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // PROFILE EDITING & MODULE NAVIGATION CONTROLLER
-  const btnOpenAuthModal = document.getElementById('btnOpenAuthModal');
   const profileModalOverlay = document.getElementById('profileModalOverlay');
   const btnCloseProfileModal = document.getElementById('btnCloseProfileModal');
   const profileEditForm = document.getElementById('profileEditForm');

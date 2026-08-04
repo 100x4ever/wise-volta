@@ -429,13 +429,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function closeCodex() {
-    codexModalOverlay.classList.add('hidden');
+    if (codexModalOverlay) codexModalOverlay.classList.add('hidden');
   }
 
-  btnCloseCodexModal.addEventListener('click', closeCodex);
-  btnCloseCodexBtn.addEventListener('click', closeCodex);
+  if (btnCloseCodexModal) btnCloseCodexModal.addEventListener('click', closeCodex);
+  if (btnCloseCodexBtn) btnCloseCodexBtn.addEventListener('click', closeCodex);
 
-  btnActivateAbilityEffect.addEventListener('click', () => {
+  if (btnActivateAbilityEffect) {
+    btnActivateAbilityEffect.addEventListener('click', () => {
     if (!activeCodexKw) return;
     let u = selectedToken;
     let uName = u ? u.name : "Model";
