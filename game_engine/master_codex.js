@@ -1,6 +1,28 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "BLOOD OF THE LAMB": {
+      cat: "Tenth Plague Protection",
+      desc: "Sacrifices lambs before battle. Castigators gain TOUGH keyword at no extra cost.",
+      impact: "TOUGH Castigators • Sacrificial Lamb Protection"
+    },
+    "STOLEN COMMUNICANTS": {
+      cat: "Tenth Plague Giants",
+      desc: "Communicant Giants are stolen from other processions and recruited for 3 Glory instead of Ducats.",
+      impact: "3 Glory Communicant Recruitment"
+    },
+    "FAVOUR OF THE LORD": {
+      cat: "Tenth Plague Divine Favor",
+      desc: "Place 1 BLESSING MARKER next to any model in the warband at the start of each turn.",
+      impact: "Free Blessing Marker Each Turn"
+    },
+    "DAY OF HIS WRATH": {
+      cat: "War Prophet Holy Smite",
+      desc: "War Prophet replaces Laying on Hands with Day of His Wrath holy smite fire action.",
+      impact: "Holy Smite Fire Action"
+    },
+
+
     "FACE THY FEARS": {
       cat: "Sacred Affliction Faith",
       desc: "Spurns Iron Capirotes relying on pure faith alone. Cannot wear Iron Capirotes.",
