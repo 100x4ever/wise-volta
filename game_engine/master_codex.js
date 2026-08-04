@@ -1,6 +1,23 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
 const masterCodex = {
 
+    "ANCHORITE CLOISTER": {
+      cat: "Orthodox Mount Athos Craft",
+      desc: "Warband may include up to TWO Anchorite Shrines with upgraded siege armor.",
+      impact: "Up to 2 Anchorite Shrines"
+    },
+    "ANCHORITE ARMOURY": {
+      cat: "Upgraded Shrine Ranged Marksmanship",
+      desc: "Anchorite Shrines gain +0 Ranged die (instead of -1) and access to dual 1-handed siege weapons.",
+      impact: "+0 Ranged Die • Dual Siege Weapons"
+    },
+    "GUNSMITH MONKS": {
+      cat: "Orthodox Monastic Armory",
+      desc: "Mount Athos gunsmith monks craft sophisticated weaponry and custom relic plate armor.",
+      impact: "Custom Monastic Relic Plate & Guns"
+    },
+
+
     "BLOOD OF THE LAMB": {
       cat: "Tenth Plague Protection",
       desc: "Sacrifices lambs before battle. Castigators gain TOUGH keyword at no extra cost.",
