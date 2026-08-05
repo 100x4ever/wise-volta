@@ -1211,6 +1211,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const btnWizardImportJson = document.getElementById('btnWizardImportJson');
+  const fileImportWarbandJson = document.getElementById('fileImportWarbandJson');
+
+  if (btnWizardImportJson && fileImportWarbandJson) {
+    btnWizardImportJson.addEventListener('click', () => {
+      fileImportWarbandJson.click();
+    });
+
+    fileImportWarbandJson.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const importedRoster = JSON.parse(event.target.result);
+          if (!Array.isArray(importedRoster)) {
+            alert("INVALID WARBAND JSON: Expected array of unit models.");
+            return;
+          }
+
+          let savedVault = JSON.parse(localStorage.getItem('tc_warband_vault') || '[]');
+          let name = file.name.replace('.json', '').replace(/_/g, ' ');
+          let record = {
+            vaultId: 'v_' + Date.now(),
+            name: `Imported (${name})`,
+            faction: "Custom Roster",
+            budget: 700,
+            spent: importedRoster.reduce((sum, u) => sum + (u.totalCost || 50), 0),
+            modelsCount: importedRoster.length,
+            roster: importedRoster,
+            savedAt: new Date().toLocaleDateString()
+          };
+
+          savedVault.unshift(record);
+          localStorage.setItem('tc_warband_vault', JSON.stringify(savedVault));
+
+          if (window.refreshVaultDropdowns) window.refreshVaultDropdowns();
+          alert(`IMPORTED WARBAND "${record.name}" SAVED TO VAULT & READY FOR MATCH!`);
+        } catch (err) {
+          alert("Error parsing JSON file: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
   // GLOBAL KEYBOARD ACCESSIBILITY: ESCAPE TO CLOSE OPEN MODALS
   document.addEventListener('keyup', (e) => {
     if (e.key === 'Escape') {

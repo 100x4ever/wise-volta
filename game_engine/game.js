@@ -500,7 +500,11 @@ document.addEventListener('DOMContentLoaded', () => {
         s.appendChild(opt);
       });
 
-      if (curr) s.value = curr;
+      if (curr && Array.from(s.options).some(o => o.value === curr)) {
+        s.value = curr;
+      } else {
+        s.selectedIndex = 0;
+      }
     });
   }
 
