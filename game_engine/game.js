@@ -1420,17 +1420,33 @@ document.addEventListener('DOMContentLoaded', () => {
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#fff';
   }
 
-  // Mouse Handlers
+  // Mouse Handlers with High-DPI Display Scaling & Proximity Target Selection
   canvas.addEventListener('mousedown', (e) => {
     let rect = canvas.getBoundingClientRect();
-    let mouseX = e.clientX - rect.left;
-    let mouseY = e.clientY - rect.top;
+    let scaleX = DISPLAY_WIDTH / (rect.width || DISPLAY_WIDTH);
+    let scaleY = DISPLAY_HEIGHT / (rect.height || DISPLAY_HEIGHT);
+    let mouseX = (e.clientX - rect.left) * scaleX;
+    let mouseY = (e.clientY - rect.top) * scaleY;
 
+    // Direct token hit check
     let clicked = unitTokens.find(t => {
       let dx = mouseX - t.x;
       let dy = mouseY - t.y;
-      return Math.sqrt(dx * dx + dy * dy) <= t.r;
+      return Math.sqrt(dx * dx + dy * dy) <= (t.r || 18);
     });
+
+    // Generous proximity target selection check
+    if (!clicked) {
+      let candidates = unitTokens.filter(t => {
+        let dx = mouseX - t.x;
+        let dy = mouseY - t.y;
+        return Math.sqrt(dx * dx + dy * dy) <= 45; // 45px target proximity
+      });
+      if (candidates.length > 0) {
+        candidates.sort((a, b) => Math.hypot(mouseX - a.x, mouseY - a.y) - Math.hypot(mouseX - b.x, mouseY - b.y));
+        clicked = candidates[0];
+      }
+    }
 
     if (activeTool === 'ruler') {
       isMeasuring = true;
@@ -1454,27 +1470,28 @@ document.addEventListener('DOMContentLoaded', () => {
         renderInspector();
       }
     } else if (activeTool === 'shoot' || activeTool === 'fight') {
-      if (clicked && selectedToken && clicked !== selectedToken) {
-        targetToken = clicked;
+      if (clicked) {
+        if (!selectedToken) {
+          selectedToken = clicked;
+          renderInspector();
+          logEvent(`Selected ${clicked.name} as active unit. Choose a target enemy token.`, "sys");
+        } else if (clicked !== selectedToken) {
+          targetToken = clicked;
 
-        if (activeTool === 'fight') {
-          let dx = targetToken.x - selectedToken.x;
-          let dy = targetToken.y - selectedToken.y;
-          let distInches = (Math.sqrt(dx * dx + dy * dy) / INCH_PX);
+          if (activeTool === 'fight') {
+            let dx = targetToken.x - selectedToken.x;
+            let dy = targetToken.y - selectedToken.y;
+            let distInches = (Math.sqrt(dx * dx + dy * dy) / INCH_PX);
 
-          if (distInches > MELEE_RANGE_INCHES) {
-            alert(`\u26d4 MELEE RANGE GUARDRAIL BLOCK:\
-\
-Target is ${distInches.toFixed(1)}" away!\
-Must be within ${MELEE_RANGE_INCHES}" Melee Engagement Range to Fight.\
-\
-Use your Movement action to Charge into melee contact first!`);
-            setTool('select');
-            return;
+            if (distInches > MELEE_RANGE_INCHES) {
+              alert(`⛔ MELEE RANGE GUARDRAIL BLOCK:\n\nTarget is ${distInches.toFixed(1)}" away!\nMust be within ${MELEE_RANGE_INCHES}" Melee Engagement Range to Fight.\n\nUse your Movement action to Charge into melee contact first!`);
+              setTool('select');
+              return;
+            }
           }
-        }
 
-        openCombatResolver(selectedToken, targetToken, activeTool);
+          openCombatResolver(selectedToken, targetToken, activeTool);
+        }
       }
     }
 
@@ -1483,8 +1500,10 @@ Use your Movement action to Charge into melee contact first!`);
 
   canvas.addEventListener('mousemove', (e) => {
     let rect = canvas.getBoundingClientRect();
-    let mouseX = e.clientX - rect.left;
-    let mouseY = e.clientY - rect.top;
+    let scaleX = DISPLAY_WIDTH / (rect.width || DISPLAY_WIDTH);
+    let scaleY = DISPLAY_HEIGHT / (rect.height || DISPLAY_HEIGHT);
+    let mouseX = (e.clientX - rect.left) * scaleX;
+    let mouseY = (e.clientY - rect.top) * scaleY;
 
     if (activeTool === 'shoot' || activeTool === 'grenade') {
       shootHoverPos = { x: mouseX, y: mouseY };

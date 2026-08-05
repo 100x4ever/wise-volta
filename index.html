@@ -584,6 +584,25 @@
     </main>
   </div>
 
+  <!-- COMBAT DICE RESOLVER MODAL -->
+  <div class="modal-overlay hidden" id="combatModalOverlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:9999;">
+    <div class="modal-card glass-card" style="width:480px; max-width:90vw; padding:20px; border:1px solid var(--gold-glow); background:#0c0e14;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #222; padding-bottom:8px;">
+        <h3 id="combatModalTitle" style="color:var(--gold-glow); font-family:var(--font-roman); margin:0;">⚔️ COMBAT RESOLVER & MARKER SELECTION</h3>
+        <button type="button" id="btnCloseCombatModal" style="background:none; border:none; color:#888; font-size:1.2rem; cursor:pointer;">✕</button>
+      </div>
+      
+      <div class="combat-resolver-body" id="combatResolverBody" style="max-height:60vh; overflow-y:auto; padding:4px;">
+        <!-- Dynamic combat simulation layout -->
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:14px;">
+        <button type="button" class="btn-primary" id="btnExecuteRoll" style="flex:2; padding:10px; background:linear-gradient(180deg, #c62828, #8e0000); color:#fff; font-weight:bold; border:1px solid var(--gold-glow); cursor:pointer;">🎲 EXECUTE ROLL WITH MARKERS</button>
+        <button type="button" class="btn-secondary" id="btnCloseCombatBtn" style="flex:1; padding:10px;">CANCEL</button>
+      </div>
+    </div>
+  </div>
+
   <!-- KEYWORD RULE CODEX MODAL -->
   <div class="modal-overlay hidden" id="codexModalOverlay">
     <div class="modal-card glass-card">
