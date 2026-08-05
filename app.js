@@ -1182,32 +1182,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnStartWizardMatch) {
     btnStartWizardMatch.addEventListener('click', () => {
-      const selWScen = document.getElementById('selWizardScenario');
       const selWMap = document.getElementById('selWizardMap');
-      const selMainScen = document.getElementById('selScenario');
-      const selMainMap = document.getElementById('selMapPack');
-
-      if (selWScen && selMainScen) {
-        if (selWScen.value === 'scen_random') {
-          const scens = ['scen_1', 'scen_2', 'scen_3', 'scen_4', 'scen_5', 'scen_6'];
-          selMainScen.value = scens[Math.floor(Math.random() * scens.length)];
-        } else {
-          selMainScen.value = selWScen.value;
-        }
-        selMainScen.dispatchEvent(new Event('change'));
+      let mapKey = selWMap ? selWMap.value : 'map_1';
+      if (mapKey === 'map_random') {
+        const maps = ['map_1', 'map_2', 'map_3', 'map_4', 'map_5', 'map_6', 'map_7', 'map_8'];
+        mapKey = maps[Math.floor(Math.random() * maps.length)];
       }
 
-      if (selWMap && selMainMap) {
-        if (selWMap.value === 'map_random') {
-          const maps = ['map_1', 'map_2', 'map_3', 'map_4', 'map_5', 'map_6', 'map_7', 'map_8'];
-          selMainMap.value = maps[Math.floor(Math.random() * maps.length)];
-        } else {
-          selMainMap.value = selWMap.value;
-        }
-        selMainMap.dispatchEvent(new Event('change'));
+      if (window.loadMapPreset) {
+        window.loadMapPreset(mapKey);
       }
 
-      if (window.deployWarbands) window.deployWarbands();
+      if (window.deployWarbands) {
+        window.deployWarbands();
+      }
     });
   }
 

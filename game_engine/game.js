@@ -603,6 +603,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     logEvent(`[DEPLOYMENT] ${nameP1} (${tokensP1.length} models, Doctrine: ${doc1}) vs ${nameP2} (${tokensP2.length} models, Doctrine: ${doc2}) deployed to Trench Battlefield!`, "sys");
 
+    let selMap = document.getElementById('selWizardMap');
+    if (selMap && selMap.value) {
+      let mapKey = selMap.value;
+      if (mapKey === 'map_random') {
+        const maps = ['map_1', 'map_2', 'map_3', 'map_4', 'map_5', 'map_6', 'map_7', 'map_8'];
+        mapKey = maps[Math.floor(Math.random() * maps.length)];
+      }
+      loadMapPreset(mapKey);
+    }
+
     resizeCanvasForHighDPI();
     drawBoard();
     renderInspector();
@@ -612,6 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.deployWarbands = deployWarbands;
   window.drawBoard = drawBoard;
   window.resizeCanvasForHighDPI = resizeCanvasForHighDPI;
+  window.loadMapPreset = loadMapPreset;
 
   // Terrain Tools
   document.querySelectorAll('.btn-terrain-tool').forEach(btn => {
