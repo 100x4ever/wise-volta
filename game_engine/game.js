@@ -342,6 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function loadMapPreset(mapKey) {
+    console.log("🗺️ [GAME DEBUG] loadMapPreset called with mapKey:", mapKey);
     let preset = mapPackPresets[mapKey] || mapPackPresets["map_1"];
     currentMapKey = mapKey;
 
@@ -349,8 +350,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (txtMapModifiers) txtMapModifiers.textContent = preset.modifiers;
     terrainObjects = JSON.parse(JSON.stringify(preset.terrain));
 
+    console.log("🗺️ [GAME DEBUG] Map Background Path:", getImgPath(preset.bg));
     bgImage.src = getImgPath(preset.bg);
-    bgImage.onload = () => drawBoard();
+    bgImage.onload = () => {
+      console.log("🗺️ [GAME DEBUG] bgImage loaded successfully! Redrawing board...");
+      drawBoard();
+    };
+    bgImage.onerror = (err) => {
+      console.error("❌ [GAME DEBUG ERROR] bgImage failed to load:", getImgPath(preset.bg), err);
+    };
 
     logEvent(`Loaded Map: ${preset.title} (${preset.modifiers})`, "sys");
     drawBoard();
@@ -632,6 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function deployWarbands() {
+    console.log("⚔️ [GAME DEBUG] deployWarbands started!");
     let savedVault = [];
     try {
       savedVault = JSON.parse(localStorage.getItem('tc_warband_vault') || '[]');
@@ -643,6 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let elP2 = document.getElementById('selWizardP2Warband') || document.getElementById('selWarbandP2');
     let val1 = elP1 ? elP1.value : 'default_na';
     let val2 = elP2 ? elP2.value : 'default_hl';
+    console.log("⚔️ [GAME DEBUG] P1 Warband Choice:", val1, "| P2 Warband Choice:", val2);
 
     let doc1 = document.getElementById('selWizardP1Doctrine')?.value || 'doctrine_none';
     let doc2 = document.getElementById('selWizardP2Doctrine')?.value || 'doctrine_none';
@@ -701,9 +711,11 @@ document.addEventListener('DOMContentLoaded', () => {
       loadMapPreset(mapKey);
     }
 
+    console.log(`⚔️ [GAME DEBUG] Total Tokens Deployed: ${unitTokens.length} (P1: ${tokensP1.length}, P2: ${tokensP2.length})`);
     resizeCanvasForHighDPI();
     drawBoard();
     renderInspector();
+    console.log("⚔️ [GAME DEBUG] deployWarbands completed successfully!");
   }
 
   window.refreshVaultDropdowns = populateWarbandSelects;
@@ -851,6 +863,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // HIGH-CLARITY ULTRA-CRISP RETINA CANVAS RENDERING ENGINE
   function drawBoard() {
+    console.log(`🎨 [GAME DEBUG] drawBoard called! Canvas size: ${DISPLAY_WIDTH}x${DISPLAY_HEIGHT}, bgImage complete: ${bgImage.complete}, bgImage naturalWidth: ${bgImage.naturalWidth}, tokens: ${unitTokens.length}`);
     ctx.clearRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
     if (bgImage.complete && bgImage.naturalWidth > 0) {

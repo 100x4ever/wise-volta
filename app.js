@@ -1181,20 +1181,39 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnBackToStep2) btnBackToStep2.addEventListener('click', () => switchWizardStep(2));
 
   if (btnStartWizardMatch) {
-    btnStartWizardMatch.addEventListener('click', () => {
+    btnStartWizardMatch.addEventListener('click', (e) => {
+      console.log("🚀 [WIZARD DEBUG] 'GENERATE MAP WITH PIECES & START MATCH' button clicked!");
       const selWMap = document.getElementById('selWizardMap');
       let mapKey = selWMap ? selWMap.value : 'map_1';
+      console.log("🚀 [WIZARD DEBUG] Selected Map Key:", mapKey);
       if (mapKey === 'map_random') {
         const maps = ['map_1', 'map_2', 'map_3', 'map_4', 'map_5', 'map_6', 'map_7', 'map_8'];
         mapKey = maps[Math.floor(Math.random() * maps.length)];
+        console.log("🚀 [WIZARD DEBUG] Selected Random Map Key:", mapKey);
       }
 
+      console.log("🚀 [WIZARD DEBUG] Checking window.loadMapPreset:", typeof window.loadMapPreset);
       if (window.loadMapPreset) {
-        window.loadMapPreset(mapKey);
+        try {
+          window.loadMapPreset(mapKey);
+          console.log("🚀 [WIZARD DEBUG] window.loadMapPreset completed successfully!");
+        } catch(err) {
+          console.error("❌ [WIZARD DEBUG ERROR] loadMapPreset failed:", err);
+        }
+      } else {
+        console.error("❌ [WIZARD DEBUG ERROR] window.loadMapPreset is undefined!");
       }
 
+      console.log("🚀 [WIZARD DEBUG] Checking window.deployWarbands:", typeof window.deployWarbands);
       if (window.deployWarbands) {
-        window.deployWarbands();
+        try {
+          window.deployWarbands();
+          console.log("🚀 [WIZARD DEBUG] window.deployWarbands completed successfully!");
+        } catch(err) {
+          console.error("❌ [WIZARD DEBUG ERROR] deployWarbands failed:", err);
+        }
+      } else {
+        console.error("❌ [WIZARD DEBUG ERROR] window.deployWarbands is undefined!");
       }
     });
   }
