@@ -469,7 +469,8 @@ document.addEventListener('DOMContentLoaded', () => {
     closeCodex();
     drawBoard();
     renderInspector();
-  });
+    });
+  }
 
   function populateWarbandSelects() {
     let savedVault = JSON.parse(localStorage.getItem('tc_warband_vault') || '[]');
@@ -591,18 +592,241 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function createTokensFromRoster(roster, playerNum, startX) {
+  // CUSTOM MATCH IMPORT & SAVE SYSTEM DATA STORES
+  let customRosterP1 = null;
+  let customRosterP2 = null;
+  let customMapData = null;
+
+  function generateProceduralMap(type = 'map_procedural_light') {
+    console.log("🎲 [PROCEDURAL MAP] Generating map type:", type);
+    currentMapKey = type;
+    let bg = "images/ww1_trench_table.jpg";
+    let title = "PROCEDURAL SKIRMISH SECTOR";
+    let modifiers = "MODIFIERS: Dynamic Tactical Cover • Generated No Man's Land";
+    let terrain = [];
+
+    if (type === 'map_procedural_swamp') {
+      title = "MUSTARD GAS SWAMP (PROCEDURAL)";
+      bg = "images/rusted_trench_texture.jpg";
+      modifiers = "MODIFIERS: +1 Toxic Hazard Damage • Reduced Line of Sight";
+      terrain = [
+        { id: "pt1", type: "gas", name: "Heavy Mustard Fog Cloud", x: 220, y: 160, w: 180, h: 140, elev: 0, gas: true },
+        { id: "pt2", type: "gas", name: "Toxic Gas Crater", x: 440, y: 380, w: 200, h: 150, elev: 0, gas: true },
+        { id: "pt3", type: "wire", name: "Submerged Barbed Wire", x: 340, y: 300, w: 160, h: 40, elev: 0, difficult: true },
+        { id: "pt4", type: "building", name: "Ruined Bunker Wall", x: 180, y: 460, w: 100, h: 80, elev: 1, cover: 1 },
+        { id: "pt5", type: "shrine", name: "Sunken Shrine Objective", x: 420, y: 280, w: 40, h: 40, elev: 0, objective: true }
+      ];
+    } else if (type === 'map_procedural_heavy') {
+      title = "HEAVY FORTRESS SIEGE (PROCEDURAL)";
+      bg = "images/ww1_field_report.jpg";
+      modifiers = "MODIFIERS: Fortress Redoubts (+2 Armour) • Intersecting Trench Walls";
+      terrain = [
+        { id: "pt1", type: "building", name: "Command Pillbox Tower", x: 370, y: 140, w: 130, h: 110, elev: 3, cover: 1 },
+        { id: "pt2", type: "trench", name: "Northern Trench Barrier", x: 180, y: 240, w: 220, h: 30, elev: 0, cover: 1 },
+        { id: "pt3", type: "trench", name: "Southern Trench Line", x: 440, y: 420, w: 220, h: 30, elev: 0, cover: 1 },
+        { id: "pt4", type: "wire", name: "Barbed Wire Belt Alpha", x: 300, y: 340, w: 120, h: 30, elev: 0, difficult: true },
+        { id: "pt5", type: "wire", name: "Barbed Wire Belt Beta", x: 450, y: 280, w: 120, h: 30, elev: 0, difficult: true },
+        { id: "pt6", type: "building", name: "Concrete Watchtower", x: 600, y: 150, w: 90, h: 90, elev: 2, cover: 1 },
+        { id: "pt7", type: "shrine", name: "Sacred Altar Shrine", x: 410, y: 340, w: 40, h: 40, elev: 0, objective: true }
+      ];
+    } else {
+      // Light Skirmish
+      title = "LIGHT TRENCH SKIRMISH (PROCEDURAL)";
+      bg = "images/ww1_trench_table.jpg";
+      modifiers = "MODIFIERS: Standard Cover • Central Objective Relic";
+      terrain = [
+        { id: "pt1", type: "building", name: "Ruined Watchtower", x: 380, y: 180, w: 110, h: 90, elev: 2, cover: 1 },
+        { id: "pt2", type: "trench", name: "Trench Sandbags", x: 220, y: 380, w: 180, h: 25, elev: 0, cover: 1 },
+        { id: "pt3", type: "wire", name: "Crater Mud & Barbed Wire", x: 460, y: 360, w: 150, h: 50, elev: 0, difficult: true },
+        { id: "pt4", type: "shrine", name: "Central Relic Shrine", x: 420, y: 320, w: 40, h: 40, elev: 0, objective: true }
+      ];
+    }
+
+    if (txtMapTitle) txtMapTitle.textContent = title;
+    if (txtMapModifiers) txtMapModifiers.textContent = modifiers;
+    terrainObjects = terrain;
+
+    bgImage.src = getImgPath(bg);
+    bgImage.onload = () => drawBoard();
+    logEvent(`Generated Procedural Map: ${title}`, "sys");
+    drawBoard();
+  }
+
+  function exportMapJson() {
+    let mapData = {
+      title: txtMapTitle ? txtMapTitle.textContent : "Custom Map",
+      modifiers: txtMapModifiers ? txtMapModifiers.textContent : "",
+      currentMapKey,
+      terrain: terrainObjects
+    };
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(mapData, null, 2));
+    let dlAnchor = document.createElement('a');
+    dlAnchor.setAttribute("href", dataStr);
+    dlAnchor.setAttribute("download", `tc_map_${Date.now()}.json`);
+    document.body.appendChild(dlAnchor);
+    dlAnchor.click();
+    dlAnchor.remove();
+    logEvent("Exported Map JSON file.", "sys");
+  }
+
+  function importMapJson(mapData) {
+    if (!mapData || !mapData.terrain) {
+      alert("Invalid map JSON data.");
+      return;
+    }
+    customMapData = mapData;
+    if (txtMapTitle && mapData.title) txtMapTitle.textContent = mapData.title;
+    if (txtMapModifiers && mapData.modifiers) txtMapModifiers.textContent = mapData.modifiers;
+    terrainObjects = JSON.parse(JSON.stringify(mapData.terrain));
+    logEvent(`Imported Custom Map: ${mapData.title || "Custom Map"}`, "sys");
+    drawBoard();
+  }
+
+  function exportMatchState() {
+    let matchState = {
+      version: "1.0.2",
+      savedAt: new Date().toISOString(),
+      gameTurn,
+      activePlayerTurn,
+      vpPlayer1,
+      vpPlayer2,
+      poolBlood,
+      poolBlessing,
+      mapTitle: txtMapTitle ? txtMapTitle.textContent : "",
+      mapModifiers: txtMapModifiers ? txtMapModifiers.textContent : "",
+      currentMapKey,
+      terrainObjects,
+      unitTokens,
+      combatLogHtml: combatLogBox ? combatLogBox.innerHTML : ""
+    };
+
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(matchState, null, 2));
+    let dlAnchor = document.createElement('a');
+    dlAnchor.setAttribute("href", dataStr);
+    dlAnchor.setAttribute("download", `tc_match_${Date.now()}.json`);
+    document.body.appendChild(dlAnchor);
+    dlAnchor.click();
+    dlAnchor.remove();
+    logEvent("💾 EXPORTED FULL MATCH STATE (.JSON)", "sys");
+  }
+
+  function importMatchState(matchData) {
+    if (!matchData || !Array.isArray(matchData.unitTokens)) {
+      alert("INVALID MATCH JSON: Expected match state with unit tokens array.");
+      return false;
+    }
+
+    unitTokens = matchData.unitTokens || [];
+    terrainObjects = matchData.terrainObjects || [];
+    gameTurn = matchData.gameTurn || 1;
+    activePlayerTurn = matchData.activePlayerTurn || 1;
+    vpPlayer1 = matchData.vpPlayer1 || 0;
+    vpPlayer2 = matchData.vpPlayer2 || 0;
+    poolBlood = matchData.poolBlood !== undefined ? matchData.poolBlood : 3;
+    poolBlessing = matchData.poolBlessing !== undefined ? matchData.poolBlessing : 3;
+    currentMapKey = matchData.currentMapKey || 'map_1';
+
+    if (txtMapTitle && matchData.mapTitle) txtMapTitle.textContent = matchData.mapTitle;
+    if (txtMapModifiers && matchData.mapModifiers) txtMapModifiers.textContent = matchData.mapModifiers;
+    if (hudTurnNum) hudTurnNum.textContent = `TURN ${gameTurn} / 6`;
+    if (vpP1El) vpP1El.textContent = vpPlayer1;
+    if (vpP2El) vpP2El.textContent = vpPlayer2;
+    if (poolBloodEl) poolBloodEl.textContent = poolBlood;
+    if (poolBlessingEl) poolBlessingEl.textContent = poolBlessing;
+
+    if (combatLogBox && matchData.combatLogHtml) {
+      combatLogBox.innerHTML = matchData.combatLogHtml;
+    }
+
+    selectedToken = null;
+    targetToken = null;
+    updateActivePlayerHUD();
+    resizeCanvasForHighDPI();
+    drawBoard();
+    renderInspector();
+
+    logEvent(`[SESSION RESTORED] Resumed match from saved file! (${unitTokens.length} tokens active, Turn ${gameTurn})`, "sys");
+    autoSaveMatch();
+    return true;
+  }
+
+  function autoSaveMatch() {
+    try {
+      let matchState = {
+        savedAt: new Date().toISOString(),
+        gameTurn,
+        activePlayerTurn,
+        vpPlayer1,
+        vpPlayer2,
+        poolBlood,
+        poolBlessing,
+        mapTitle: txtMapTitle ? txtMapTitle.textContent : "",
+        mapModifiers: txtMapModifiers ? txtMapModifiers.textContent : "",
+        currentMapKey,
+        terrainObjects,
+        unitTokens,
+        combatLogHtml: combatLogBox ? combatLogBox.innerHTML : ""
+      };
+      localStorage.setItem('tc_active_match', JSON.stringify(matchState));
+      console.log("💾 [AUTO-SAVE] Saved active match state to localStorage!");
+    } catch(e) {
+      console.warn("⚠️ [AUTO-SAVE] Failed to write to localStorage:", e);
+    }
+  }
+
+  function loadAutoMatch() {
+    try {
+      let dataStr = localStorage.getItem('tc_active_match');
+      if (!dataStr) return false;
+      let matchData = JSON.parse(dataStr);
+      return importMatchState(matchData);
+    } catch(e) {
+      console.error("❌ Failed loading auto match:", e);
+      return false;
+    }
+  }
+
+  function hasAutoMatch() {
+    try {
+      let dataStr = localStorage.getItem('tc_active_match');
+      if (!dataStr) return false;
+      let matchData = JSON.parse(dataStr);
+      return Array.isArray(matchData.unitTokens) && matchData.unitTokens.length > 0;
+    } catch(e) {
+      return false;
+    }
+  }
+
+  function createTokensFromRoster(roster, playerNum, startX, formation = 'standard') {
     let tokens = [];
     if (!roster || !Array.isArray(roster)) return tokens;
 
     roster.forEach((m, idx) => {
       let baseSize = m.baseMM || 25;
       let radius = (baseSize / 2) * 1.15;
-      let startY = 120 + (idx * 110);
+      
+      let posX = startX;
+      let posY = 120 + (idx * 110);
 
-      if (idx >= 5) {
-        startX += (playerNum === 1 ? 75 : -75);
-        startY = 120 + ((idx - 5) * 110);
+      if (formation === 'flanks') {
+        if (idx % 2 === 0) {
+          posX = playerNum === 1 ? 100 : 740;
+          posY = 90 + (Math.floor(idx / 2) * 90);
+        } else {
+          posX = playerNum === 1 ? 160 : 680;
+          posY = 480 + (Math.floor(idx / 2) * 90);
+        }
+      } else if (formation === 'ambush') {
+        posX = playerNum === 1 ? 260 : 580;
+        posY = 140 + (idx * 90);
+      } else if (formation === 'scattered') {
+        posX = playerNum === 1 ? 80 + (idx * 30) : 760 - (idx * 30);
+        posY = 100 + ((idx * 85) % 460);
+      } else {
+        if (idx >= 5) {
+          posX += (playerNum === 1 ? 75 : -75);
+          posY = 120 + ((idx - 5) * 110);
+        }
       }
 
       tokens.push({
@@ -610,8 +834,8 @@ document.addEventListener('DOMContentLoaded', () => {
         player: playerNum,
         name: m.name || "Trench Fighter",
         img: m.img || (playerNum === 1 ? "images/lieutenant_new_antioch.jpg" : "images/heretic_priest.jpg"),
-        x: startX,
-        y: startY,
+        x: posX,
+        y: posY,
         r: radius,
         baseMM: baseSize,
         wounds: m.wounds || 1,
@@ -652,15 +876,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let elP2 = document.getElementById('selWizardP2Warband') || document.getElementById('selWarbandP2');
     let val1 = elP1 ? elP1.value : 'default_na';
     let val2 = elP2 ? elP2.value : 'default_hl';
-    console.log("⚔️ [GAME DEBUG] P1 Warband Choice:", val1, "| P2 Warband Choice:", val2);
 
     let doc1 = document.getElementById('selWizardP1Doctrine')?.value || 'doctrine_none';
     let doc2 = document.getElementById('selWizardP2Doctrine')?.value || 'doctrine_none';
+    let formation = document.getElementById('selWizardFormation')?.value || 'standard';
 
     let rosterP1 = [];
     let rosterP2 = [];
 
-    if (val1 && val1.startsWith('vault_')) {
+    if (customRosterP1 && customRosterP1.length > 0) {
+      rosterP1 = customRosterP1;
+      console.log("⚔️ [GAME DEBUG] Using Custom Imported P1 Roster:", rosterP1.length, "units");
+    } else if (val1 && val1.startsWith('vault_')) {
       let idx1 = parseInt(val1.replace('vault_', ''), 10);
       if (savedVault[idx1] && savedVault[idx1].roster && savedVault[idx1].roster.length > 0) {
         rosterP1 = savedVault[idx1].roster;
@@ -671,7 +898,10 @@ document.addEventListener('DOMContentLoaded', () => {
       rosterP1 = getDefaultRoster(val1);
     }
 
-    if (val2 && val2.startsWith('vault_')) {
+    if (customRosterP2 && customRosterP2.length > 0) {
+      rosterP2 = customRosterP2;
+      console.log("⚔️ [GAME DEBUG] Using Custom Imported P2 Roster:", rosterP2.length, "units");
+    } else if (val2 && val2.startsWith('vault_')) {
       let idx2 = parseInt(val2.replace('vault_', ''), 10);
       if (savedVault[idx2] && savedVault[idx2].roster && savedVault[idx2].roster.length > 0) {
         rosterP2 = savedVault[idx2].roster;
@@ -682,8 +912,8 @@ document.addEventListener('DOMContentLoaded', () => {
       rosterP2 = getDefaultRoster(val2);
     }
 
-    let tokensP1 = createTokensFromRoster(rosterP1, 1, 100);
-    let tokensP2 = createTokensFromRoster(rosterP2, 2, 740);
+    let tokensP1 = createTokensFromRoster(rosterP1, 1, 100, formation);
+    let tokensP2 = createTokensFromRoster(rosterP2, 2, 740, formation);
 
     applyDoctrineToTokens(tokensP1, doc1, 1);
     applyDoctrineToTokens(tokensP2, doc2, 2);
@@ -696,25 +926,29 @@ document.addEventListener('DOMContentLoaded', () => {
     activeUnitId = null;
     updateActivePlayerHUD();
 
-    let nameP1 = val1.startsWith('vault_') ? (savedVault[parseInt(val1.replace('vault_',''),10)]?.name || 'Vault Warband') : 'Player 1 Force';
-    let nameP2 = val2.startsWith('vault_') ? (savedVault[parseInt(val2.replace('vault_',''),10)]?.name || 'Vault Warband') : 'Player 2 Force';
+    let nameP1 = customRosterP1 ? "Custom P1 Warband" : (val1.startsWith('vault_') ? (savedVault[parseInt(val1.replace('vault_',''),10)]?.name || 'Vault Warband') : 'Player 1 Force');
+    let nameP2 = customRosterP2 ? "Custom P2 Warband" : (val2.startsWith('vault_') ? (savedVault[parseInt(val2.replace('vault_',''),10)]?.name || 'Vault Warband') : 'Player 2 Force');
 
-    logEvent(`[DEPLOYMENT] ${nameP1} (${tokensP1.length} models, Doctrine: ${doc1}) vs ${nameP2} (${tokensP2.length} models, Doctrine: ${doc2}) deployed to Trench Battlefield!`, "sys");
+    logEvent(`[DEPLOYMENT] ${nameP1} (${tokensP1.length} models) vs ${nameP2} (${tokensP2.length} models) deployed in ${formation.toUpperCase()} formation!`, "sys");
 
     let selMap = document.getElementById('selWizardMap');
     if (selMap && selMap.value) {
       let mapKey = selMap.value;
-      if (mapKey === 'map_random') {
+      if (mapKey.startsWith('map_procedural_')) {
+        generateProceduralMap(mapKey);
+      } else if (mapKey === 'map_random') {
         const maps = ['map_1', 'map_2', 'map_3', 'map_4', 'map_5', 'map_6', 'map_7', 'map_8'];
         mapKey = maps[Math.floor(Math.random() * maps.length)];
+        loadMapPreset(mapKey);
+      } else {
+        loadMapPreset(mapKey);
       }
-      loadMapPreset(mapKey);
     }
 
-    console.log(`⚔️ [GAME DEBUG] Total Tokens Deployed: ${unitTokens.length} (P1: ${tokensP1.length}, P2: ${tokensP2.length})`);
     resizeCanvasForHighDPI();
     drawBoard();
     renderInspector();
+    autoSaveMatch();
     console.log("⚔️ [GAME DEBUG] deployWarbands completed successfully!");
   }
 
@@ -723,6 +957,16 @@ document.addEventListener('DOMContentLoaded', () => {
   window.drawBoard = drawBoard;
   window.resizeCanvasForHighDPI = resizeCanvasForHighDPI;
   window.loadMapPreset = loadMapPreset;
+  window.generateProceduralMap = generateProceduralMap;
+  window.exportMapJson = exportMapJson;
+  window.importMapJson = importMapJson;
+  window.exportMatchState = exportMatchState;
+  window.importMatchState = importMatchState;
+  window.autoSaveMatch = autoSaveMatch;
+  window.loadAutoMatch = loadAutoMatch;
+  window.hasAutoMatch = hasAutoMatch;
+  window.setCustomP1Roster = (r) => { customRosterP1 = r; };
+  window.setCustomP2Roster = (r) => { customRosterP2 = r; };
 
   // Terrain Tools
   document.querySelectorAll('.btn-terrain-tool').forEach(btn => {
@@ -875,7 +1119,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.fillRect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT);
     }
 
-    if (chkShowGrid.checked) {
+    if (chkShowGrid && chkShowGrid.checked) {
       ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
       ctx.lineWidth = 1;
       for (let x = 0; x < DISPLAY_WIDTH; x += INCH_PX) {
@@ -887,7 +1131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // SCENARIO DEPLOYMENT OVERLAY LINES
-    if (chkShowDeployment.checked) {
+    if (chkShowDeployment && chkShowDeployment.checked) {
       ctx.save();
       let scen = scenariosDict[currentScenarioKey] || scenariosDict["scen_1"];
       let depP1Px = scen.depLineLeft * INCH_PX; // e.g. 9" = 225px
@@ -961,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 6" Movement Range Aura
-    if (selectedToken && (selectedToken.isMovingActive || chkShowRanges.checked)) {
+    if (selectedToken && (selectedToken.isMovingActive || (chkShowRanges && chkShowRanges.checked))) {
       ctx.save();
       ctx.beginPath();
       ctx.arc(selectedToken.x, selectedToken.y, selectedToken.move * INCH_PX, 0, Math.PI * 2);

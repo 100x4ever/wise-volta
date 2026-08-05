@@ -1180,40 +1180,203 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnBackToStep1) btnBackToStep1.addEventListener('click', () => switchWizardStep(1));
   if (btnBackToStep2) btnBackToStep2.addEventListener('click', () => switchWizardStep(2));
 
+  // AUTO-RESUME MATCH DETECTOR ON LOAD
+  const btnResumeMatch = document.getElementById('btnResumeMatch');
+  function checkAutoResumeButton() {
+    if (btnResumeMatch && window.hasAutoMatch && window.hasAutoMatch()) {
+      btnResumeMatch.style.display = 'inline-block';
+    } else if (btnResumeMatch) {
+      btnResumeMatch.style.display = 'none';
+    }
+  }
+
+  setTimeout(checkAutoResumeButton, 200);
+
+  if (btnResumeMatch) {
+    btnResumeMatch.addEventListener('click', () => {
+      if (window.loadAutoMatch) {
+        if (window.loadAutoMatch()) {
+          switchTab('tabSandbox');
+        }
+      }
+    });
+  }
+
+  // MATCH SAVE / LOAD FILE CONTROLS
+  const btnExportMatchJson = document.getElementById('btnExportMatchJson');
+  const btnHeaderSaveMatch = document.getElementById('btnHeaderSaveMatch');
+  const btnImportMatchJson = document.getElementById('btnImportMatchJson');
+  const btnHeaderLoadMatch = document.getElementById('btnHeaderLoadMatch');
+  const fileImportMatchJson = document.getElementById('fileImportMatchJson');
+
+  if (btnExportMatchJson) btnExportMatchJson.addEventListener('click', () => window.exportMatchState && window.exportMatchState());
+  if (btnHeaderSaveMatch) btnHeaderSaveMatch.addEventListener('click', () => window.exportMatchState && window.exportMatchState());
+
+  if (btnImportMatchJson && fileImportMatchJson) {
+    btnImportMatchJson.addEventListener('click', () => fileImportMatchJson.click());
+  }
+  if (btnHeaderLoadMatch && fileImportMatchJson) {
+    btnHeaderLoadMatch.addEventListener('click', () => fileImportMatchJson.click());
+  }
+
+  if (fileImportMatchJson) {
+    fileImportMatchJson.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const matchData = JSON.parse(evt.target.result);
+          if (window.importMatchState && window.importMatchState(matchData)) {
+            switchTab('tabSandbox');
+            checkAutoResumeButton();
+            alert("MATCH STATE SUCCESSFULLY RESTORED FROM FILE!");
+          }
+        } catch (err) {
+          alert("Error parsing Match JSON: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  // INDEPENDENT P1 AND P2 WARBAND JSON / BUILDER LOADERS
+  const btnImportP1Json = document.getElementById('btnImportP1Json');
+  const fileImportP1Json = document.getElementById('fileImportP1Json');
+  const btnLoadBuilderP1 = document.getElementById('btnLoadBuilderP1');
+  const txtP1CustomStatus = document.getElementById('txtP1CustomStatus');
+
+  const btnImportP2Json = document.getElementById('btnImportP2Json');
+  const fileImportP2Json = document.getElementById('fileImportP2Json');
+  const btnLoadBuilderP2 = document.getElementById('btnLoadBuilderP2');
+  const txtP2CustomStatus = document.getElementById('txtP2CustomStatus');
+
+  if (btnImportP1Json && fileImportP1Json) {
+    btnImportP1Json.addEventListener('click', () => fileImportP1Json.click());
+    fileImportP1Json.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const roster = JSON.parse(evt.target.result);
+          if (!Array.isArray(roster)) { alert("Expected roster array in JSON."); return; }
+          if (window.setCustomP1Roster) window.setCustomP1Roster(roster);
+          if (txtP1CustomStatus) txtP1CustomStatus.textContent = `✅ Imported (${roster.length} models)`;
+        } catch (err) { alert("Invalid JSON: " + err.message); }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  if (btnLoadBuilderP1) {
+    btnLoadBuilderP1.addEventListener('click', () => {
+      if (!activeRoster || activeRoster.length === 0) {
+        alert("No models currently recruited in Warband Builder! Draft models in Step 2 first.");
+        return;
+      }
+      if (window.setCustomP1Roster) window.setCustomP1Roster(JSON.parse(JSON.stringify(activeRoster)));
+      if (txtP1CustomStatus) txtP1CustomStatus.textContent = `✅ Builder Roster (${activeRoster.length} models)`;
+    });
+  }
+
+  if (btnImportP2Json && fileImportP2Json) {
+    btnImportP2Json.addEventListener('click', () => fileImportP2Json.click());
+    fileImportP2Json.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const roster = JSON.parse(evt.target.result);
+          if (!Array.isArray(roster)) { alert("Expected roster array in JSON."); return; }
+          if (window.setCustomP2Roster) window.setCustomP2Roster(roster);
+          if (txtP2CustomStatus) txtP2CustomStatus.textContent = `✅ Imported (${roster.length} models)`;
+        } catch (err) { alert("Invalid JSON: " + err.message); }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  if (btnLoadBuilderP2) {
+    btnLoadBuilderP2.addEventListener('click', () => {
+      if (!activeRoster || activeRoster.length === 0) {
+        alert("No models currently recruited in Warband Builder! Draft models in Step 2 first.");
+        return;
+      }
+      if (window.setCustomP2Roster) window.setCustomP2Roster(JSON.parse(JSON.stringify(activeRoster)));
+      if (txtP2CustomStatus) txtP2CustomStatus.textContent = `✅ Builder Roster (${activeRoster.length} models)`;
+    });
+  }
+
+  // MAP IMPORT & EXPORT
+  const btnExportMapJson = document.getElementById('btnExportMapJson');
+  const btnImportMapJson = document.getElementById('btnImportMapJson');
+  const fileImportMapJson = document.getElementById('fileImportMapJson');
+  const txtMapCustomStatus = document.getElementById('txtMapCustomStatus');
+
+  if (btnExportMapJson) btnExportMapJson.addEventListener('click', () => window.exportMapJson && window.exportMapJson());
+  if (btnImportMapJson && fileImportMapJson) {
+    btnImportMapJson.addEventListener('click', () => fileImportMapJson.click());
+    fileImportMapJson.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const mapData = JSON.parse(evt.target.result);
+          if (window.importMapJson) window.importMapJson(mapData);
+          if (txtMapCustomStatus) txtMapCustomStatus.textContent = `✅ Custom Map Loaded`;
+        } catch (err) { alert("Invalid Map JSON: " + err.message); }
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  // 1-CLICK QUICK RANDOM MATCH
+  const btnQuickRandomMatch = document.getElementById('btnQuickRandomMatch');
+  if (btnQuickRandomMatch) {
+    btnQuickRandomMatch.addEventListener('click', () => {
+      const p1Select = document.getElementById('selWizardP1Warband');
+      const p2Select = document.getElementById('selWizardP2Warband');
+      const mapSelect = document.getElementById('selWizardMap');
+      const formSelect = document.getElementById('selWizardFormation');
+
+      if (p1Select && p1Select.options.length > 0) {
+        p1Select.selectedIndex = Math.floor(Math.random() * p1Select.options.length);
+      }
+      if (p2Select && p2Select.options.length > 0) {
+        p2Select.selectedIndex = Math.floor(Math.random() * p2Select.options.length);
+      }
+      if (mapSelect && mapSelect.options.length > 0) {
+        mapSelect.selectedIndex = Math.floor(Math.random() * mapSelect.options.length);
+      }
+      if (formSelect && formSelect.options.length > 0) {
+        formSelect.selectedIndex = Math.floor(Math.random() * formSelect.options.length);
+      }
+
+      if (window.setCustomP1Roster) window.setCustomP1Roster(null);
+      if (window.setCustomP2Roster) window.setCustomP2Roster(null);
+      if (txtP1CustomStatus) txtP1CustomStatus.textContent = '';
+      if (txtP2CustomStatus) txtP2CustomStatus.textContent = '';
+
+      if (window.deployWarbands) window.deployWarbands();
+      switchTab('tabSandbox');
+      checkAutoResumeButton();
+    });
+  }
+
   if (btnStartWizardMatch) {
     btnStartWizardMatch.addEventListener('click', (e) => {
       console.log("🚀 [WIZARD DEBUG] 'GENERATE MAP WITH PIECES & START MATCH' button clicked!");
-      const selWMap = document.getElementById('selWizardMap');
-      let mapKey = selWMap ? selWMap.value : 'map_1';
-      console.log("🚀 [WIZARD DEBUG] Selected Map Key:", mapKey);
-      if (mapKey === 'map_random') {
-        const maps = ['map_1', 'map_2', 'map_3', 'map_4', 'map_5', 'map_6', 'map_7', 'map_8'];
-        mapKey = maps[Math.floor(Math.random() * maps.length)];
-        console.log("🚀 [WIZARD DEBUG] Selected Random Map Key:", mapKey);
-      }
-
-      console.log("🚀 [WIZARD DEBUG] Checking window.loadMapPreset:", typeof window.loadMapPreset);
-      if (window.loadMapPreset) {
-        try {
-          window.loadMapPreset(mapKey);
-          console.log("🚀 [WIZARD DEBUG] window.loadMapPreset completed successfully!");
-        } catch(err) {
-          console.error("❌ [WIZARD DEBUG ERROR] loadMapPreset failed:", err);
-        }
-      } else {
-        console.error("❌ [WIZARD DEBUG ERROR] window.loadMapPreset is undefined!");
-      }
-
-      console.log("🚀 [WIZARD DEBUG] Checking window.deployWarbands:", typeof window.deployWarbands);
       if (window.deployWarbands) {
         try {
           window.deployWarbands();
+          checkAutoResumeButton();
           console.log("🚀 [WIZARD DEBUG] window.deployWarbands completed successfully!");
         } catch(err) {
           console.error("❌ [WIZARD DEBUG ERROR] deployWarbands failed:", err);
         }
-      } else {
-        console.error("❌ [WIZARD DEBUG ERROR] window.deployWarbands is undefined!");
       }
     });
   }

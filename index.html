@@ -14,8 +14,15 @@
   <link rel="stylesheet" href="game_engine/style.css">
 </head>
 <body>
-  <!-- Hidden File Input for Importing Warband JSON -->
+  <!-- Hidden File Inputs for Importing Warband, Match, and Map JSON files -->
   <input type="file" id="fileImportWarbandJson" accept=".json" style="display:none;">
+  <input type="file" id="fileImportP1Json" accept=".json" style="display:none;">
+  <input type="file" id="fileImportP2Json" accept=".json" style="display:none;">
+  <input type="file" id="fileImportMatchJson" accept=".json" style="display:none;">
+  <input type="file" id="fileImportMapJson" accept=".json" style="display:none;">
+  <input type="checkbox" id="chkShowGrid" checked style="display:none;">
+  <input type="checkbox" id="chkShowDeployment" checked style="display:none;">
+  <input type="checkbox" id="chkShowRanges" checked style="display:none;">
 
   <div class="app-container">
     <!-- Top Master Header -->
@@ -226,7 +233,7 @@
               <button type="button" class="btn-next-phase" id="btnNextPhase">ADVANCE PHASE ➔</button>
             </div>
 
-            <!-- Global Resource & VP Scoreboard HUD -->
+            <!-- Global Resource & VP Scoreboard HUD & Save/Load Session Controls -->
             <div class="resource-pools-hud">
               <div class="pool-item" style="border-color:var(--gold-glow);">
                 <span>🏆 P1 VP:</span>
@@ -248,17 +255,26 @@
                 <strong id="poolBlessing">3</strong>
                 <button type="button" class="btn-mini" id="btnAddBlessing">+</button>
               </div>
+              <button type="button" class="btn-mini" id="btnHeaderSaveMatch" title="Export Match State JSON" style="background:var(--gold-glow); color:#000; font-weight:bold; padding:4px 8px;">💾 SAVE MATCH</button>
+              <button type="button" class="btn-mini" id="btnHeaderLoadMatch" title="Import Saved Match JSON" style="background:#3878b8; color:#fff; font-weight:bold; padding:4px 8px;">📤 LOAD MATCH</button>
             </div>
           </header>
 
           <!-- 3-STEP PRE-MATCH SETUP WIZARD PANEL -->
           <div class="prematch-wizard-bar glass-card" id="prematchWizardBar" style="padding:10px 14px; margin:0 12px 10px 12px; border:1px solid var(--gold-glow); background:rgba(15,18,24,0.95);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-              <h3 style="color:var(--gold-glow); font-family:var(--font-roman); margin:0; font-size:0.95rem;">🧙 PRE-MATCH SETUP WIZARD</h3>
-              <div style="display:flex; gap:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <h3 style="color:var(--gold-glow); font-family:var(--font-roman); margin:0; font-size:0.95rem;">🧙 MATCH SETUP & RESUMPTION WIZARD</h3>
+                <button type="button" class="btn-secondary" id="btnResumeMatch" style="font-size:0.68rem; padding:3px 8px; border-color:var(--gold-glow); color:var(--gold-glow); display:none;">💾 RESUME LAST MATCH</button>
+                <button type="button" class="btn-secondary" id="btnImportMatchJson" style="font-size:0.68rem; padding:3px 8px;">📤 IMPORT MATCH (.JSON)</button>
+                <button type="button" class="btn-secondary" id="btnExportMatchJson" style="font-size:0.68rem; padding:3px 8px;">📥 EXPORT MATCH (.JSON)</button>
+              </div>
+
+              <div style="display:flex; gap:6px; align-items:center;">
                 <button type="button" class="btn-step active" id="btnWizardStep1" style="padding:4px 10px; font-size:0.7rem; border:1px solid var(--gold-glow); background:rgba(229,193,88,0.2); color:#fff; cursor:pointer;">STEP 1: TEAMS & DOCTRINES</button>
                 <button type="button" class="btn-step" id="btnWizardStep2" style="padding:4px 10px; font-size:0.7rem; border:1px solid #333; background:#000; color:#aaa; cursor:pointer;">STEP 2: MAP & SCENARIO</button>
                 <button type="button" class="btn-step" id="btnWizardStep3" style="padding:4px 10px; font-size:0.7rem; border:1px solid #333; background:#000; color:#aaa; cursor:pointer;">STEP 3: DEPLOY & FIGHT</button>
+                <button type="button" class="btn-primary" id="btnQuickRandomMatch" style="font-size:0.7rem; padding:4px 10px; background:linear-gradient(180deg, #d32f2f, #7b1fa2); font-weight:bold;">🎲 QUICK RANDOM MATCH</button>
               </div>
             </div>
 
@@ -267,7 +283,10 @@
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.75rem;">
                 <!-- Player 1 Config -->
                 <div style="background:#080a0e; border:1px solid #2a2f3a; padding:8px;">
-                  <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:4px;">PLAYER 1 WARBAND & DOCTRINE:</div>
+                  <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                    <span>PLAYER 1 WARBAND & DOCTRINE:</span>
+                    <span id="txtP1CustomStatus" style="font-size:0.65rem; color:#4caf50;"></span>
+                  </div>
                   <select id="selWizardP1Warband" style="width:100%; padding:4px; background:#000; border:1px solid #444; color:#fff; margin-bottom:6px; font-size:0.7rem;">
                     <option value="default_na">Order of Antioch (New Antioch)</option>
                     <option value="default_tp">Procession of the Cross (Trench Pilgrims)</option>
@@ -275,6 +294,12 @@
                     <option value="default_is">Alchemist Force (Iron Sultanate)</option>
                     <option value="default_cs">Court of the Seven-Headed Serpent</option>
                   </select>
+
+                  <div style="display:flex; gap:4px; margin-bottom:6px;">
+                    <button type="button" class="btn-secondary" id="btnImportP1Json" style="flex:1; font-size:0.65rem; padding:3px 6px;">📤 Import P1 JSON</button>
+                    <button type="button" class="btn-secondary" id="btnLoadBuilderP1" style="flex:1; font-size:0.65rem; padding:3px 6px; border-color:var(--gold-glow);">🪖 Load Builder Roster</button>
+                  </div>
+
                   <label style="font-size:0.68rem; color:var(--steel-grey); display:block; margin-bottom:2px;">FACTION DOCTRINE / SIN SELECTION:</label>
                   <select id="selWizardP1Doctrine" style="width:100%; padding:4px; background:#000; border:1px solid var(--gold-glow); color:var(--gold-glow); font-size:0.7rem;">
                     <option value="doctrine_none">None (Standard Warband)</option>
@@ -291,7 +316,10 @@
 
                 <!-- Player 2 Config -->
                 <div style="background:#080a0e; border:1px solid #2a2f3a; padding:8px;">
-                  <div style="color:#8ab4f8; font-weight:bold; margin-bottom:4px;">PLAYER 2 WARBAND & DOCTRINE:</div>
+                  <div style="color:#8ab4f8; font-weight:bold; margin-bottom:4px; display:flex; justify-content:space-between; align-items:center;">
+                    <span>PLAYER 2 WARBAND & DOCTRINE:</span>
+                    <span id="txtP2CustomStatus" style="font-size:0.65rem; color:#4caf50;"></span>
+                  </div>
                   <select id="selWizardP2Warband" style="width:100%; padding:4px; background:#000; border:1px solid #444; color:#fff; margin-bottom:6px; font-size:0.7rem;">
                     <option value="default_hl">Black Grail Host (Heretic Legions)</option>
                     <option value="default_na">Order of Antioch (New Antioch)</option>
@@ -299,6 +327,12 @@
                     <option value="default_is">Alchemist Force (Iron Sultanate)</option>
                     <option value="default_cs">Court of the Seven-Headed Serpent</option>
                   </select>
+
+                  <div style="display:flex; gap:4px; margin-bottom:6px;">
+                    <button type="button" class="btn-secondary" id="btnImportP2Json" style="flex:1; font-size:0.65rem; padding:3px 6px;">📤 Import P2 JSON</button>
+                    <button type="button" class="btn-secondary" id="btnLoadBuilderP2" style="flex:1; font-size:0.65rem; padding:3px 6px; border-color:#8ab4f8;">🪖 Load Builder Roster</button>
+                  </div>
+
                   <label style="font-size:0.68rem; color:var(--steel-grey); display:block; margin-bottom:2px;">FACTION DOCTRINE / SIN SELECTION:</label>
                   <select id="selWizardP2Doctrine" style="width:100%; padding:4px; background:#000; border:1px solid #3878b8; color:#8ab4f8; font-size:0.7rem;">
                     <option value="doctrine_none">None (Standard Warband)</option>
@@ -314,7 +348,7 @@
                 </div>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-                <button type="button" class="btn-secondary" id="btnWizardImportJson" style="font-size:0.7rem; padding:4px 10px;">📤 IMPORT WARBAND FILE (.JSON)</button>
+                <button type="button" class="btn-secondary" id="btnWizardImportJson" style="font-size:0.7rem; padding:4px 10px;">📤 IMPORT WARBAND TO VAULT (.JSON)</button>
                 <button type="button" class="btn-primary" id="btnNextToStep2" style="font-size:0.75rem; padding:6px 14px;">PROCEED TO STEP 2: SCENARIO & MAP ➔</button>
               </div>
             </div>
@@ -336,9 +370,15 @@
                 </div>
 
                 <div style="background:#080a0e; border:1px solid #2a2f3a; padding:8px;">
-                  <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:4px;">BATTLEFIELD MAP & TERRAIN:</div>
-                  <select id="selWizardMap" style="width:100%; padding:4px; background:#000; border:1px solid #444; color:#fff; font-size:0.7rem;">
-                    <option value="map_random">🎲 GENERATE RANDOM MAP WITH TERRAIN</option>
+                  <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:4px; display:flex; justify-content:space-between;">
+                    <span>BATTLEFIELD MAP & TERRAIN:</span>
+                    <span id="txtMapCustomStatus" style="font-size:0.65rem; color:#4caf50;"></span>
+                  </div>
+                  <select id="selWizardMap" style="width:100%; padding:4px; background:#000; border:1px solid #444; color:#fff; font-size:0.7rem; margin-bottom:6px;">
+                    <option value="map_procedural_light">🎲 PROCEDURAL GENERATOR: LIGHT SKIRMISH</option>
+                    <option value="map_procedural_heavy">🎲 PROCEDURAL GENERATOR: HEAVY TRENCH FORTRESS</option>
+                    <option value="map_procedural_swamp">🎲 PROCEDURAL GENERATOR: MUSTARD GAS SWAMP</option>
+                    <option value="map_random">🎲 RANDOM PRESET MAP</option>
                     <option value="map_1">1. Frontline Trenches of Antioch</option>
                     <option value="map_2">2. No Man's Land Crater Field</option>
                     <option value="map_3">3. Ruined Cathedral Spire & Watchtowers</option>
@@ -348,19 +388,35 @@
                     <option value="map_7">7. Shrine of the Bleeding Martyr</option>
                     <option value="map_8">8. Hellfire Artillery Sector</option>
                   </select>
+
+                  <div style="display:flex; gap:6px;">
+                    <button type="button" class="btn-secondary" id="btnImportMapJson" style="flex:1; font-size:0.65rem; padding:3px 6px;">📤 Import Map (.json)</button>
+                    <button type="button" class="btn-secondary" id="btnExportMapJson" style="flex:1; font-size:0.65rem; padding:3px 6px;">📥 Export Map (.json)</button>
+                  </div>
                 </div>
               </div>
               <div style="display:flex; justify-content:space-between; margin-top:8px;">
                 <button type="button" class="btn-secondary" id="btnBackToStep1" style="font-size:0.75rem; padding:6px 14px;">⬅ BACK TO STEP 1</button>
-                <button type="button" class="btn-primary" id="btnNextToStep3" style="font-size:0.75rem; padding:6px 14px;">PROCEED TO STEP 3: GENERATE & FIGHT ➔</button>
+                <button type="button" class="btn-primary" id="btnNextToStep3" style="font-size:0.75rem; padding:6px 14px;">PROCEED TO STEP 3: DEPLOY & FIGHT ➔</button>
               </div>
             </div>
 
             <!-- Step 3 Panel: Launch Match -->
             <div id="panelWizardStep3" class="wizard-step-panel" style="display:none;">
-              <div style="background:#080a0e; border:1px dashed var(--gold-glow); padding:10px; text-align:center; margin-bottom:8px;">
-                <div style="color:var(--gold-glow); font-family:var(--font-roman); font-weight:bold; font-size:0.85rem;" id="txtWizardSummaryTitle">READY TO GENERATE MAP & DEPLOY WARBANDS</div>
-                <div style="font-size:0.72rem; color:var(--steel-grey); margin-top:4px;" id="txtWizardSummaryDetails">Click below to generate the battlefield map, spawn terrain, apply faction doctrines/sins, and deploy Player 1 vs Player 2 tokens.</div>
+              <div style="background:#080a0e; border:1px dashed var(--gold-glow); padding:10px; margin-bottom:8px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <div style="color:var(--gold-glow); font-family:var(--font-roman); font-weight:bold; font-size:0.85rem;" id="txtWizardSummaryTitle">READY TO GENERATE MAP & DEPLOY WARBANDS</div>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <label style="font-size:0.7rem; color:var(--steel-grey);">DEPLOYMENT FORMATION:</label>
+                    <select id="selWizardFormation" style="padding:4px; background:#000; border:1px solid var(--gold-glow); color:#fff; font-size:0.7rem;">
+                      <option value="standard">⚔️ Standard Lines (Deployment Flanks)</option>
+                      <option value="flanks">🏹 Forward Infiltration Flanks</option>
+                      <option value="ambush">⚡ Ambush / Central Outpost Clash</option>
+                      <option value="scattered">🌪️ Scattered No Man's Land</option>
+                    </select>
+                  </div>
+                </div>
+                <div style="font-size:0.72rem; color:var(--steel-grey);" id="txtWizardSummaryDetails">Click below to generate the battlefield map, spawn terrain, apply faction doctrines/sins, and deploy Player 1 vs Player 2 tokens.</div>
               </div>
               <div style="display:flex; justify-content:space-between;">
                 <button type="button" class="btn-secondary" id="btnBackToStep2" style="font-size:0.75rem; padding:6px 14px;">⬅ BACK TO STEP 2</button>
