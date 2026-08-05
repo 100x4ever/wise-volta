@@ -544,6 +544,93 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function getDefaultRoster(type) {
+    if (type === 'default_tp') {
+      return [
+        { name: "War Prophet", cat: "Leader", baseMM: 32, move: 6, ranged: 1, melee: 2, armour: 1, wounds: 2, img: "images/war_prophet.jpg", kw: ["COMMANDER", "PROPHECY OF DOOM"], equippedSlots: { melee: { name: "Unholy Staff", kw: ["PARRY"] }, equipment: { name: "Gothic Blood Banner", kw: ["+1 COURAGE"] } } },
+        { name: "Castigator", cat: "Elite", baseMM: 32, move: 6, ranged: 0, melee: 3, armour: 1, wounds: 2, img: "images/castigator.jpg", kw: ["CLEAVE 2"], equippedSlots: { melee: { name: "Greatsword", kw: ["CLEAVE 2"] } } },
+        { name: "Martyr Penitent", cat: "Specialist", baseMM: 25, move: 6, ranged: 0, melee: 2, armour: 0, wounds: 1, img: "images/martyr_penitent.jpg", kw: [], equippedSlots: { melee: { name: "Trench Axe", kw: ["CLEAVE 1"] } } },
+        { name: "Trench Pilgrim", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 1, armour: 0, wounds: 1, img: "images/trench_pilgrim.jpg", kw: ["LINE INFANTRY"], equippedSlots: { melee: { name: "Trench Knife", kw: ["1-HANDED"] } } }
+      ];
+    } else if (type === 'default_is') {
+      return [
+        { name: "Yuzbasi Captain", cat: "Leader", baseMM: 32, move: 6, ranged: 2, melee: 1, armour: 1, wounds: 2, img: "images/yuzbasi_captain.jpg", kw: ["COMMANDER", "INHERENT LEADERSHIP"], equippedSlots: { melee: { name: "Scimitar", kw: ["PARRY"] } } },
+        { name: "Jabirean Alchemist", cat: "Elite", baseMM: 32, move: 6, ranged: 1, melee: 1, armour: 1, wounds: 2, img: "images/jabirean_alchemist.jpg", kw: ["FIRE IMMUNE"], equippedSlots: { ranged: { name: "Alchemical Projector", kw: ["GAS HAZARD"] } } },
+        { name: "Azab Warrior", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 0, armour: 0, wounds: 1, img: "images/azab_warrior.jpg", kw: ["LINE INFANTRY"], equippedSlots: { ranged: { name: "Musket", kw: ["RELOAD"] } } },
+        { name: "Sipahi Automaton", cat: "Elite", baseMM: 40, move: 5, ranged: 0, melee: 2, armour: 3, wounds: 3, img: "images/sipahi_automaton.jpg", kw: ["CLOCKWORK CONSTRUCT"], equippedSlots: { melee: { name: "Automaton Glaive", kw: ["CLEAVE 2"] } } }
+      ];
+    } else if (type === 'default_cs') {
+      return [
+        { name: "Serpent Sorcerer", cat: "Leader", baseMM: 32, move: 6, ranged: 1, melee: 2, armour: 1, wounds: 2, img: "images/serpent_sorcerer.jpg", kw: ["COMMANDER", "GOETIC SORCERY"], equippedSlots: { melee: { name: "Ritual Dagger", kw: ["POISON BLADES"] } } },
+        { name: "Takuba Swordsman", cat: "Elite", baseMM: 32, move: 7, ranged: 0, melee: 2, armour: 1, wounds: 2, img: "images/takuba_swordsman.jpg", kw: ["TRENCH RAID"], equippedSlots: { melee: { name: "Takuba Sword", kw: ["PARRY"] } } },
+        { name: "Yoke Fiend", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 0, armour: 0, wounds: 1, img: "images/yoke_fiend.jpg", kw: ["WRETCHED"], equippedSlots: { melee: { name: "Barbed Whip", kw: ["1-HANDED"] } } }
+      ];
+    } else if (type === 'default_hl') {
+      return [
+        { name: "Heretic Priest", cat: "Leader", baseMM: 32, move: 6, ranged: 1, melee: 2, armour: 1, wounds: 2, img: "images/heretic_priest.jpg", kw: ["COMMANDER", "DARK BLESSINGS"], equippedSlots: { ranged: { name: "Hellfire Pistol", kw: ["1-HANDED"] }, melee: { name: "Unholy Staff", kw: ["PARRY"] } } },
+        { name: "Anointed Champion", cat: "Elite", baseMM: 32, move: 6, ranged: 0, melee: 2, armour: 2, wounds: 2, img: "images/anointed_champion.jpg", kw: ["BLACK GRAIL PLAGUE"], equippedSlots: { melee: { name: "Greatsword", kw: ["CLEAVE 2"] } } },
+        { name: "Heretic Trooper", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 0, armour: 0, wounds: 1, img: "images/heretic_trooper.jpg", kw: ["LINE INFANTRY"], equippedSlots: { ranged: { name: "Submachine Gun", kw: ["AUTOMATIC 2"] } } },
+        { name: "Heretic Trooper", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 0, armour: 0, wounds: 1, img: "images/heretic_trooper.jpg", kw: ["LINE INFANTRY"], equippedSlots: { melee: { name: "Trench Sword", kw: ["PARRY"] } } }
+      ];
+    } else {
+      // Default: New Antioch
+      return [
+        { name: "Lieutenant of Antioch", cat: "Leader", baseMM: 32, move: 6, ranged: 1, melee: 1, armour: 1, wounds: 2, img: "images/lieutenant_new_antioch.jpg", kw: ["COMMANDER", "DEADEYE AIM"], equippedSlots: { ranged: { name: "Automatic Pistol", kw: ["AUTOMATIC 2"] }, melee: { name: "Trench Sword", kw: ["PARRY"] } } },
+        { name: "Sniper Priest", cat: "Specialist", baseMM: 25, move: 6, ranged: 2, melee: 0, armour: 0, wounds: 1, img: "images/sniper_priest.jpg", kw: ["SNIPER"], equippedSlots: { ranged: { name: "Heavy Sniper Rifle", kw: ["SNIPER"] } } },
+        { name: "Trench Trooper", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 0, armour: 0, wounds: 1, img: "images/trench_trooper.jpg", kw: ["LINE INFANTRY"], equippedSlots: { ranged: { name: "Bolt Action Rifle", kw: ["RELOAD"] } } },
+        { name: "Trench Trooper", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 0, armour: 0, wounds: 1, img: "images/trench_trooper.jpg", kw: ["LINE INFANTRY"], equippedSlots: { melee: { name: "Trench Shotgun", kw: ["CLOSE-QUARTERS"] } } }
+      ];
+    }
+  }
+
+  function createTokensFromRoster(roster, playerNum, startX) {
+    let tokens = [];
+    if (!roster || !Array.isArray(roster)) return tokens;
+
+    roster.forEach((m, idx) => {
+      let baseSize = m.baseMM || 25;
+      let radius = (baseSize / 2) * 1.15;
+      let startY = 120 + (idx * 110);
+
+      if (idx >= 5) {
+        startX += (playerNum === 1 ? 75 : -75);
+        startY = 120 + ((idx - 5) * 110);
+      }
+
+      tokens.push({
+        id: `p${playerNum}_${idx + 1}`,
+        player: playerNum,
+        name: m.name || "Trench Fighter",
+        img: m.img || (playerNum === 1 ? "images/lieutenant_new_antioch.jpg" : "images/heretic_priest.jpg"),
+        x: startX,
+        y: startY,
+        r: radius,
+        baseMM: baseSize,
+        wounds: m.wounds || 1,
+        maxWounds: m.wounds || 1,
+        move: m.move || 6,
+        ranged: m.ranged !== undefined ? m.ranged : 1,
+        melee: m.melee !== undefined ? m.melee : 1,
+        armour: m.armour !== undefined ? m.armour : 0,
+        bloodMarkers: 0,
+        blessingMarkers: 0,
+        isLeader: m.cat === "Leader" || idx === 0,
+        activated: false,
+        isMovingActive: false,
+        movedThisTurn: false,
+        actionsRemaining: 2,
+        status: "Active",
+        elev: 0,
+        cost: m.cost || (m.totalCost || 50),
+        cat: m.cat || "Trooper",
+        equippedSlots: m.equippedSlots || { ranged: null, melee: null, armour: null, shields: null, grenades: null, equipment: null },
+        baseKeywords: m.kw || (m.keywords || [])
+      });
+    });
+
+    return tokens;
+  }
+
   function deployWarbands() {
     let savedVault = [];
     try {
