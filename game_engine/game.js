@@ -695,6 +695,11 @@ document.addEventListener('DOMContentLoaded', () => {
     renderInspector();
   }
 
+  window.refreshVaultDropdowns = populateWarbandSelects;
+  window.deployWarbands = deployWarbands;
+  window.drawBoard = drawBoard;
+  window.resizeCanvasForHighDPI = resizeCanvasForHighDPI;
+
   // Terrain Tools
   document.querySelectorAll('.btn-terrain-tool').forEach(btn => {
     btn.addEventListener('click', () => {

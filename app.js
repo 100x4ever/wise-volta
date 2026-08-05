@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tabId === 'tabSandbox') {
       if (window.refreshVaultDropdowns) window.refreshVaultDropdowns();
       if (window.deployWarbands) window.deployWarbands();
+      setTimeout(() => {
+        if (window.resizeCanvasForHighDPI) window.resizeCanvasForHighDPI();
+        if (window.drawBoard) window.drawBoard();
+      }, 50);
     }
 
     if (tabId === 'tabProfile') {
