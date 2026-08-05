@@ -1,5 +1,6 @@
 /* Master Keyword Rules Codex Dictionary with Explicit PASSIVE vs ACTIVATED Classification across All Units, Subfactions, and Equipment */
-const masterCodex = {
+window.masterCodex = window.masterCodex || {};
+Object.assign(window.masterCodex, {
 
     "ANCHORITE CLOISTER": {
       cat: "Orthodox Mount Athos Craft",
@@ -524,9 +525,10 @@ const masterCodex = {
   "BLAST 3\"": { type: "passive", cat: "Area Hazard Trait", desc: "Passive Trait: Explosive attack hits all models within a 3-inch blast radius circle.", impact: "🛡️ Passive: 3\" Blast Radius Area Effect" },
   "BLAST 5\"": { type: "passive", cat: "Area Hazard Trait", desc: "Passive Trait: Explosive attack hits all models within a 5-inch blast radius circle.", impact: "🛡️ Passive: 5\" Blast Radius Area Effect" },
   "GAS HAZARD": { type: "passive", cat: "Toxic Hazard Trait", desc: "Passive Trait: Creates a persistent toxic gas cloud zone on the target impact location.", impact: "🛡️ Passive: Persistent Mustard Gas Cloud" },
-  "ARMOUR +1 inches: { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +1.", impact: "🛡️ Passive: +1 Base Armour Rating" },
-  "ARMOUR +2 inches: { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +2.", impact: "🛡️ Passive: +2 Base Armour Rating" },
+  "ARMOUR +1": { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +1.", impact: "🛡️ Passive: +1 Base Armour Rating" },
+  "ARMOUR +2": { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +2.", impact: "🛡️ Passive: +2 Base Armour Rating" },
   "SHIELD": { type: "passive", cat: "Defensive Passive Item", desc: "Passive Bonus: Grants +1 Armour rating against frontal ranged attacks.", impact: "🛡️ Passive: +1 Frontal Ranged Armour" },
   "GAS IMMUNE": { type: "passive", cat: "Protection Passive Trait", desc: "Passive Trait: Model is completely immune to toxic gas hazard damage on the board.", impact: "🛡️ Passive: Complete Gas Immunity" },
   "GAS MASK": { type: "passive", cat: "Protection Equipment", desc: "Passive Item: Grants complete immunity to mustard gas hazards.", impact: "🛡️ Passive: Mustard Gas Immunity" }
-};
+});
+const masterCodex = window.masterCodex;

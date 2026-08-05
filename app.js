@@ -260,7 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderUserProfile();
 
   // 100% COMPLETE EXPANDED MASTER CODEX (KEYWORDS, ACTIONS & EFFECTS)
-  const masterCodex = {
+  window.masterCodex = window.masterCodex || {};
+  Object.assign(window.masterCodex, {
     "MOVE": { cat: "Common Action", desc: "Standard movement action up to the model's Movement characteristic in inches.", impact: "Basic movement." },
     "CHARGE": { cat: "Common Action", desc: "Special movement action used to engage an enemy within 12 inches.", impact: "Enters melee base contact." },
     "SHOOT": { cat: "Common Action", desc: "Attack action using equipped ranged weapon.", impact: "Ranged hit roll." },
@@ -304,7 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
     "CLEAVE 1": { cat: "Armour Piercing", desc: "Reduces target Armour rating by 1.", impact: "-1 Target Armour." },
     "CLEAVE 2": { cat: "Armour Piercing", desc: "Reduces target Armour rating by 2.", impact: "-2 Target Armour." },
     "PARRY": { cat: "Defensive", desc: "Forces enemy attacker to re-roll highest hit die in melee.", impact: "Forces Attacker Re-roll." }
-  };
+  });
+  const masterCodex = window.masterCodex;
 
   const masterArmory = {
     ranged: [
@@ -1103,6 +1105,109 @@ document.addEventListener('DOMContentLoaded', () => {
       if (profileModalOverlay) profileModalOverlay.classList.add('hidden');
       if (txtHeaderProfileName) txtHeaderProfileName.textContent = 'LOG IN / REGISTER';
       if (txtHeaderProfileAvatar) txtHeaderProfileAvatar.textContent = '🎖️';
+    });
+  }
+
+  // 3-STEP PRE-MATCH SETUP WIZARD LOGIC
+  const btnWizardStep1 = document.getElementById('btnWizardStep1');
+  const btnWizardStep2 = document.getElementById('btnWizardStep2');
+  const btnWizardStep3 = document.getElementById('btnWizardStep3');
+
+  const panelWizardStep1 = document.getElementById('panelWizardStep1');
+  const panelWizardStep2 = document.getElementById('panelWizardStep2');
+  const panelWizardStep3 = document.getElementById('panelWizardStep3');
+
+  const btnNextToStep2 = document.getElementById('btnNextToStep2');
+  const btnNextToStep3 = document.getElementById('btnNextToStep3');
+  const btnBackToStep1 = document.getElementById('btnBackToStep1');
+  const btnBackToStep2 = document.getElementById('btnBackToStep2');
+  const btnStartWizardMatch = document.getElementById('btnStartWizardMatch');
+
+  function switchWizardStep(stepNum) {
+    if (panelWizardStep1) panelWizardStep1.style.display = stepNum === 1 ? 'block' : 'none';
+    if (panelWizardStep2) panelWizardStep2.style.display = stepNum === 2 ? 'block' : 'none';
+    if (panelWizardStep3) panelWizardStep3.style.display = stepNum === 3 ? 'block' : 'none';
+
+    [btnWizardStep1, btnWizardStep2, btnWizardStep3].forEach((b, idx) => {
+      if (b) {
+        if (idx + 1 === stepNum) {
+          b.classList.add('active');
+          b.style.borderColor = 'var(--gold-glow)';
+          b.style.background = 'rgba(229,193,88,0.2)';
+          b.style.color = '#fff';
+        } else {
+          b.classList.remove('active');
+          b.style.borderColor = '#333';
+          b.style.background = '#000';
+          b.style.color = '#aaa';
+        }
+      }
+    });
+
+    if (stepNum === 3) {
+      updateWizardSummary();
+    }
+  }
+
+  function updateWizardSummary() {
+    const selP1 = document.getElementById('selWizardP1Warband');
+    const selP2 = document.getElementById('selWizardP2Warband');
+    const selDoc1 = document.getElementById('selWizardP1Doctrine');
+    const selDoc2 = document.getElementById('selWizardP2Doctrine');
+    const selScen = document.getElementById('selWizardScenario');
+    const selMap = document.getElementById('selWizardMap');
+
+    const txtTitle = document.getElementById('txtWizardSummaryTitle');
+    const txtDetails = document.getElementById('txtWizardSummaryDetails');
+
+    let p1Text = selP1 && selP1.options.length > 0 ? selP1.options[selP1.selectedIndex]?.text : 'Player 1 Force';
+    let p2Text = selP2 && selP2.options.length > 0 ? selP2.options[selP2.selectedIndex]?.text : 'Player 2 Force';
+    let doc1Text = selDoc1 ? selDoc1.options[selDoc1.selectedIndex]?.text : 'Standard';
+    let doc2Text = selDoc2 ? selDoc2.options[selDoc2.selectedIndex]?.text : 'Standard';
+    let scenText = selScen ? selScen.options[selScen.selectedIndex]?.text : 'Random';
+    let mapText = selMap ? selMap.options[selMap.selectedIndex]?.text : 'Random';
+
+    if (txtTitle) txtTitle.textContent = `⚔️ ${p1Text} VS ${p2Text}`;
+    if (txtDetails) txtDetails.innerHTML = `<strong>SCENARIO:</strong> ${scenText} | <strong>MAP:</strong> ${mapText}<br><strong>P1 DOCTRINE:</strong> ${doc1Text} | <strong>P2 DOCTRINE:</strong> ${doc2Text}`;
+  }
+
+  if (btnWizardStep1) btnWizardStep1.addEventListener('click', () => switchWizardStep(1));
+  if (btnWizardStep2) btnWizardStep2.addEventListener('click', () => switchWizardStep(2));
+  if (btnWizardStep3) btnWizardStep3.addEventListener('click', () => switchWizardStep(3));
+
+  if (btnNextToStep2) btnNextToStep2.addEventListener('click', () => switchWizardStep(2));
+  if (btnNextToStep3) btnNextToStep3.addEventListener('click', () => switchWizardStep(3));
+  if (btnBackToStep1) btnBackToStep1.addEventListener('click', () => switchWizardStep(1));
+  if (btnBackToStep2) btnBackToStep2.addEventListener('click', () => switchWizardStep(2));
+
+  if (btnStartWizardMatch) {
+    btnStartWizardMatch.addEventListener('click', () => {
+      const selWScen = document.getElementById('selWizardScenario');
+      const selWMap = document.getElementById('selWizardMap');
+      const selMainScen = document.getElementById('selScenario');
+      const selMainMap = document.getElementById('selMapPack');
+
+      if (selWScen && selMainScen) {
+        if (selWScen.value === 'scen_random') {
+          const scens = ['scen_1', 'scen_2', 'scen_3', 'scen_4', 'scen_5', 'scen_6'];
+          selMainScen.value = scens[Math.floor(Math.random() * scens.length)];
+        } else {
+          selMainScen.value = selWScen.value;
+        }
+        selMainScen.dispatchEvent(new Event('change'));
+      }
+
+      if (selWMap && selMainMap) {
+        if (selWMap.value === 'map_random') {
+          const maps = ['map_1', 'map_2', 'map_3', 'map_4', 'map_5', 'map_6', 'map_7', 'map_8'];
+          selMainMap.value = maps[Math.floor(Math.random() * maps.length)];
+        } else {
+          selMainMap.value = selWMap.value;
+        }
+        selMainMap.dispatchEvent(new Event('change'));
+      }
+
+      if (window.deployWarbands) window.deployWarbands();
     });
   }
 

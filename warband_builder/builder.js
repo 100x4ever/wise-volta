@@ -2,7 +2,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // Master Keyword Rules Codex Dictionary
-  const masterCodex = {
+  window.masterCodex = window.masterCodex || {};
+  Object.assign(window.masterCodex, {
     "COMMANDER": {
       cat: "Warband Leadership",
       desc: "Model is an official Warband Commander. Grants an additional Activation Die to your warband pool at the start of each turn and enables a command aura radius.",
@@ -363,7 +364,8 @@ document.addEventListener('DOMContentLoaded', () => {
       desc: "Adds +1 Armour rating against frontal attacks.",
       impact: "+1 Frontal Armour"
     }
-  };
+  });
+  const masterCodex = window.masterCodex;
 
   // Master Unit Database Catalog
   

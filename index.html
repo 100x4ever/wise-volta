@@ -251,6 +251,113 @@
             </div>
           </header>
 
+          <!-- 3-STEP PRE-MATCH SETUP WIZARD PANEL -->
+          <div class="prematch-wizard-bar glass-card" id="prematchWizardBar" style="padding:10px 14px; margin:0 12px 10px 12px; border:1px solid var(--gold-glow); background:rgba(15,18,24,0.95);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h3 style="color:var(--gold-glow); font-family:var(--font-roman); margin:0; font-size:0.95rem;">🧙 PRE-MATCH SETUP WIZARD</h3>
+              <div style="display:flex; gap:6px;">
+                <button type="button" class="btn-step active" id="btnWizardStep1" style="padding:4px 10px; font-size:0.7rem; border:1px solid var(--gold-glow); background:rgba(229,193,88,0.2); color:#fff; cursor:pointer;">STEP 1: TEAMS & DOCTRINES</button>
+                <button type="button" class="btn-step" id="btnWizardStep2" style="padding:4px 10px; font-size:0.7rem; border:1px solid #333; background:#000; color:#aaa; cursor:pointer;">STEP 2: MAP & SCENARIO</button>
+                <button type="button" class="btn-step" id="btnWizardStep3" style="padding:4px 10px; font-size:0.7rem; border:1px solid #333; background:#000; color:#aaa; cursor:pointer;">STEP 3: DEPLOY & FIGHT</button>
+              </div>
+            </div>
+
+            <!-- Step 1 Panel: Warbands, Sins & Doctrines -->
+            <div id="panelWizardStep1" class="wizard-step-panel">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.75rem;">
+                <!-- Player 1 Config -->
+                <div style="background:#080a0e; border:1px solid #2a2f3a; padding:8px;">
+                  <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:4px;">PLAYER 1 WARBAND & DOCTRINE:</div>
+                  <select id="selWizardP1Warband" style="width:100%; padding:4px; background:#000; border:1px solid #444; color:#fff; margin-bottom:6px; font-size:0.7rem;"></select>
+                  <label style="font-size:0.68rem; color:var(--steel-grey); display:block; margin-bottom:2px;">FACTION DOCTRINE / SIN SELECTION:</label>
+                  <select id="selWizardP1Doctrine" style="width:100%; padding:4px; background:#000; border:1px solid var(--gold-glow); color:var(--gold-glow); font-size:0.7rem;">
+                    <option value="doctrine_none">None (Standard Warband)</option>
+                    <option value="sin_pride">😈 Sin of Pride (+1 Hit Roll Bonus)</option>
+                    <option value="sin_wrath">😈 Sin of Wrath (+1 Melee Cleave)</option>
+                    <option value="sin_greed">😈 Sin of Greed (+2 Blessing Markers)</option>
+                    <option value="sin_gluttony">😈 Sin of Gluttony (+1 Wound Capacity)</option>
+                    <option value="relic_banner">✝️ Gothic Blood Banner (+1 Courage Aura)</option>
+                    <option value="relic_martyr">✝️ Sacred Martyr (+1 Injury Die on Charges)</option>
+                    <option value="antioch_combined">🪖 Combined Arms (Initiative Tie Reroll)</option>
+                    <option value="sultan_takwin">🧪 Takwin Alchemy (Gas Immunity & Speed)</option>
+                  </select>
+                </div>
+
+                <!-- Player 2 Config -->
+                <div style="background:#080a0e; border:1px solid #2a2f3a; padding:8px;">
+                  <div style="color:#8ab4f8; font-weight:bold; margin-bottom:4px;">PLAYER 2 WARBAND & DOCTRINE:</div>
+                  <select id="selWizardP2Warband" style="width:100%; padding:4px; background:#000; border:1px solid #444; color:#fff; margin-bottom:6px; font-size:0.7rem;"></select>
+                  <label style="font-size:0.68rem; color:var(--steel-grey); display:block; margin-bottom:2px;">FACTION DOCTRINE / SIN SELECTION:</label>
+                  <select id="selWizardP2Doctrine" style="width:100%; padding:4px; background:#000; border:1px solid #3878b8; color:#8ab4f8; font-size:0.7rem;">
+                    <option value="doctrine_none">None (Standard Warband)</option>
+                    <option value="sin_pride">😈 Sin of Pride (+1 Hit Roll Bonus)</option>
+                    <option value="sin_wrath">😈 Sin of Wrath (+1 Melee Cleave)</option>
+                    <option value="sin_greed">😈 Sin of Greed (+2 Blessing Markers)</option>
+                    <option value="sin_gluttony">😈 Sin of Gluttony (+1 Wound Capacity)</option>
+                    <option value="relic_banner">✝️ Gothic Blood Banner (+1 Courage Aura)</option>
+                    <option value="relic_martyr">✝️ Sacred Martyr (+1 Injury Die on Charges)</option>
+                    <option value="antioch_combined">🪖 Combined Arms (Initiative Tie Reroll)</option>
+                    <option value="sultan_takwin">🧪 Takwin Alchemy (Gas Immunity & Speed)</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+                <button type="button" class="btn-primary" id="btnNextToStep2" style="font-size:0.75rem; padding:6px 14px;">PROCEED TO STEP 2: SCENARIO & MAP ➔</button>
+              </div>
+            </div>
+
+            <!-- Step 2 Panel: Scenario & Map Generator -->
+            <div id="panelWizardStep2" class="wizard-step-panel" style="display:none;">
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.75rem;">
+                <div style="background:#080a0e; border:1px solid #2a2f3a; padding:8px;">
+                  <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:4px;">MATCH TYPE & SCENARIO:</div>
+                  <select id="selWizardScenario" style="width:100%; padding:4px; background:#000; border:1px solid #444; color:#fff; font-size:0.7rem;">
+                    <option value="scen_random">🎲 RANDOM SCENARIO SELECTION</option>
+                    <option value="scen_1">1. Clash of Patrols (Central Relic)</option>
+                    <option value="scen_2">2. No Man's Land Breakthrough</option>
+                    <option value="scen_3">3. Relic Recovery (Artifact Extraction)</option>
+                    <option value="scen_4">4. Trench Siege & Bunker Assault</option>
+                    <option value="scen_5">5. Mustard Gas Extraction</option>
+                    <option value="scen_6">6. Bleeding Altar & Goetic Ritual</option>
+                  </select>
+                </div>
+
+                <div style="background:#080a0e; border:1px solid #2a2f3a; padding:8px;">
+                  <div style="color:var(--gold-glow); font-weight:bold; margin-bottom:4px;">BATTLEFIELD MAP & TERRAIN:</div>
+                  <select id="selWizardMap" style="width:100%; padding:4px; background:#000; border:1px solid #444; color:#fff; font-size:0.7rem;">
+                    <option value="map_random">🎲 GENERATE RANDOM MAP WITH TERRAIN</option>
+                    <option value="map_1">1. Frontline Trenches of Antioch</option>
+                    <option value="map_2">2. No Man's Land Crater Field</option>
+                    <option value="map_3">3. Ruined Cathedral Spire & Watchtowers</option>
+                    <option value="map_4">4. Mustard Gas Swamps of Verdun</option>
+                    <option value="map_5">5. Fortified Redoubt & Pillbox Complex</option>
+                    <option value="map_6">6. The Blood River Crossing</option>
+                    <option value="map_7">7. Shrine of the Bleeding Martyr</option>
+                    <option value="map_8">8. Hellfire Artillery Sector</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:8px;">
+                <button type="button" class="btn-secondary" id="btnBackToStep1" style="font-size:0.75rem; padding:6px 14px;">⬅ BACK TO STEP 1</button>
+                <button type="button" class="btn-primary" id="btnNextToStep3" style="font-size:0.75rem; padding:6px 14px;">PROCEED TO STEP 3: GENERATE & FIGHT ➔</button>
+              </div>
+            </div>
+
+            <!-- Step 3 Panel: Launch Match -->
+            <div id="panelWizardStep3" class="wizard-step-panel" style="display:none;">
+              <div style="background:#080a0e; border:1px dashed var(--gold-glow); padding:10px; text-align:center; margin-bottom:8px;">
+                <div style="color:var(--gold-glow); font-family:var(--font-roman); font-weight:bold; font-size:0.85rem;" id="txtWizardSummaryTitle">READY TO GENERATE MAP & DEPLOY WARBANDS</div>
+                <div style="font-size:0.72rem; color:var(--steel-grey); margin-top:4px;" id="txtWizardSummaryDetails">Click below to generate the battlefield map, spawn terrain, apply faction doctrines/sins, and deploy Player 1 vs Player 2 tokens.</div>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <button type="button" class="btn-secondary" id="btnBackToStep2" style="font-size:0.75rem; padding:6px 14px;">⬅ BACK TO STEP 2</button>
+                <button type="button" class="btn-primary" id="btnStartWizardMatch" style="font-size:0.85rem; padding:8px 20px; background:linear-gradient(180deg, #c62828, #8e0000); font-weight:bold; border-color:var(--gold-glow);">
+                  ⚔️ GENERATE MAP WITH PIECES & START MATCH ➔
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- Main Game Workspace -->
           <main class="game-workspace">
             <!-- Left Panel: Roster, Map Pack & Scenario Drawer -->

@@ -109,45 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Master Keyword Rules Codex Dictionary
-  const masterCodex = {
-    "COMMANDER": { type: "activated", cat: "Warband Leadership", desc: "Model is an official Warband Commander. Can spend 1 Action to issue a Command Order granting +1 Blessing or Aura boost to allies.", impact: "\u26a1 Activated: +1 Activation Die \u2022 Command Order Action" },
-    "DEADEYE AIM": { type: "activated", cat: "Specialist Action", desc: "Spends 1 Action to perform a precision AIM action, granting +2 to hit rolls on the subsequent Ranged attack.", impact: "\u26a1 Activated: +2 Hit Modifier when Aiming (Costs 1 Action)" },
-    "DIVINE GUIDANCE": { type: "activated", cat: "Miracle Ability", desc: "Spends 1 Action to invoke a holy miracle, granting +1 Blessing Marker or 1x Re-roll for your warband.", impact: "\u26a1 Activated: +1 Blessing Marker / Re-roll (Costs 1 Action)" },
-    "FIELD SURGEON": { type: "activated", cat: "Medic Action", desc: "Spends 1 Action to perform Treat Wounds on an adjacent wounded or Down allied model.", impact: "\u26a1 Activated: Heal 1 Wound on 4+ (Costs 1 Action)" },
-    "TREAT WOUNDS": { type: "activated", cat: "Medic Action", desc: "Spends 1 Action to heal 1 Wound on an adjacent allied model on a 4+ roll.", impact: "\u26a1 Activated: Heal 1 Wound on 4+ (Costs 1 Action)" },
-    "INFILTRATOR": { type: "activated", cat: "Tactical Deployment", desc: "Special deployment action allowing forward positioning outside 9 inches of enemy deployment zones during battle setup.", impact: "\u26a1 Activated: Forward Deployment >9\"" },
-    "DARK BLESSINGS": { type: "activated", cat: "Heretic Leadership", desc: "Spends 1 Action to channel unholy blessings from the Pit, adding +1 Blood Marker to your pool.", impact: "\u26a1 Activated: +1 Blood Marker Pool (Costs 1 Action)" },
-    "PROPHECY OF DOOM": { type: "activated", cat: "Trench Pilgrim Miracle", desc: "Spends 1 Action to utter a terrifying prophecy, forcing an enemy model within 12\" to make an immediate Courage test.", impact: "\u26a1 Activated: Force Enemy Courage Test (Costs 1 Action)" },
-    "ALCHEMY ELIXIR": { type: "activated", cat: "Sultanate Specialist", desc: "Spends 1 Action to brew a quick alchemical stimulant, granting +2 Movement to an adjacent model for 1 turn.", impact: "\u26a1 Activated: +2\" Speed Boost to Ally (Costs 1 Action)" },
-    "DEMO CHARGE": { type: "activated", cat: "Explosive Action", desc: "Spends 1 Action to place or throw a heavy explosive charge destroying trench walls and bunker structures.", impact: "\u26a1 Activated: Demolish Terrain Feature (Costs 1 Action)" },
-
-    "SNIPER": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Model automatically ignores long-range hit penalties beyond 12 inches when firing sniper rifles.", impact: "\ud83d\udee1\ufe0f Passive: Always Ignores Range Penalties" },
-    "TRENCH RAID": { type: "passive", cat: "Elite Passive Trait", desc: "Passive Trait: Model automatically gains +1 Attack die when charging across trench walls or sandbags.", impact: "\ud83d\udee1\ufe0f Passive: +1 Attack Die on Trench Charge" },
-    "SHOCK TROOPER": { type: "passive", cat: "Specialist Passive Trait", desc: "Passive Trait: Model automatically ignores movement penalties in mud, barbed wire, and trench sludge.", impact: "\ud83d\udee1\ufe0f Passive: Always Ignores Difficult Terrain" },
-    "LINE INFANTRY": { type: "passive", cat: "Trooper Passive Rule", desc: "Passive Rule: Standard line unit. Automatically gains +1 Courage when within 3 inches of allied Line Infantry.", impact: "\ud83d\udee1\ufe0f Passive: +1 Courage near Line Allies" },
-    "GRIM DISCIPLINE": { type: "passive", cat: "Trooper Passive Rule", desc: "Passive Rule: Automatically grants 1 free re-roll on a failed Morale check once per battle.", impact: "\ud83d\udee1\ufe0f Passive: 1x Automatic Morale Re-roll" },
-    "HEAVY CONSTRUCT": { type: "passive", cat: "Monstrous Unit Trait", desc: "Passive Trait: Giant construct with increased Wound capacity. Automatically immune to Knockdown & Down status.", impact: "\ud83d\udee1\ufe0f Passive: Knockdown & Down Immunity" },
-    "BLACK GRAIL PLAGUE": { type: "passive", cat: "Unholy Passive Hazard", desc: "Passive Trait: Melee hits automatically inflict Contagion markers causing end-of-turn damage to enemies.", impact: "\ud83d\udee1\ufe0f Passive: Automatic Contagion on Melee Hit" },
-    "REGENERATION": { type: "passive", cat: "Monster Passive Ability", desc: "Passive Trait: Automatically rolls at the start of each turn to heal 1 Wound on a 4+ roll.", impact: "\ud83d\udee1\ufe0f Passive: Start of Turn 4+ Heal" },
-    "MARTYR": { type: "passive", cat: "Pilgrim Passive Trait", desc: "Passive Trait: When this model is taken Out of Action, all adjacent allies automatically gain +1 Courage and +1 Blessing.", impact: "\ud83d\udee1\ufe0f Passive: Death Blessing to Adjacent Allies" },
-    "AZAB WARRIOR": { type: "passive", cat: "Sultanate Passive Rule", desc: "Passive Trait: Gains +1 Armour rating when standing inside cover terrain.", impact: "\ud83d\udee1\ufe0f Passive: +1 Armour in Cover" },
-    "HEAVY": { type: "passive", cat: "Equipment Passive Restriction", desc: "Passive Restriction: Model cannot Move and Shoot in the same activation turn without setting up.", impact: "\ud83d\udee1\ufe0f Passive: No Move & Shoot in Same Turn" },
-    "2-HANDED": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon requires both hands to operate. Model cannot equip a shield.", impact: "\ud83d\udee1\ufe0f Passive: Requires 2 Hands \u2022 No Shield" },
-    "1-HANDED": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon operates in one hand. Compatible with a shield or secondary pistol.", impact: "\ud83d\udee1\ufe0f Passive: 1 Handed \u2022 Compatible with Shield" },
-    "PARRY": { type: "passive", cat: "Defensive Passive Trait", desc: "Passive Trait: When defending in melee combat, enemy attacker is automatically forced to re-roll their highest hit die.", impact: "\ud83d\udee1\ufe0f Passive: Enemy Re-rolls Highest Hit Die" },
-    "CLEAVE 1": { type: "passive", cat: "Armour Piercing Passive", desc: "Passive Trait: Automatically reduces enemy target's Armour rating by 1 point on hits.", impact: "\ud83d\udee1\ufe0f Passive: -1 Enemy Armour Rating" },
-    "CLEAVE 2": { type: "passive", cat: "Armour Piercing Passive", desc: "Passive Trait: Automatically reduces enemy target's Armour rating by 2 points on hits.", impact: "\ud83d\udee1\ufe0f Passive: -2 Enemy Armour Rating" },
-    "AUTOMATIC 2": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon automatically fires 2 shots during a single Shoot action.", impact: "\ud83d\udee1\ufe0f Passive: 2 Shots per Shoot Action" },
-    "AUTOMATIC 3": { type: "passive", cat: "Weapon Passive Trait", desc: "Passive Trait: Weapon automatically fires 3 shots during a single Shoot action.", impact: "\ud83d\udee1\ufe0f Passive: 3 Shots per Shoot Action" },
-    "BLAST 3\"": { type: "passive", cat: "Area Hazard Trait", desc: "Passive Trait: Explosive attack hits all models within a 3-inch blast radius circle.", impact: "\ud83d\udee1\ufe0f Passive: 3\" Blast Radius Area Effect" },
-    "BLAST 5\"": { type: "passive", cat: "Area Hazard Trait", desc: "Passive Trait: Explosive attack hits all models within a 5-inch blast radius circle.", impact: "\ud83d\udee1\ufe0f Passive: 5\" Blast Radius Area Effect" },
-    "GAS HAZARD": { type: "passive", cat: "Toxic Hazard Trait", desc: "Passive Trait: Creates a persistent toxic gas cloud zone on the target impact location.", impact: "\ud83d\udee1\ufe0f Passive: Persistent Mustard Gas Cloud" },
-    "ARMOUR +1": { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +1.", impact: "\ud83d\udee1\ufe0f Passive: +1 Base Armour Rating" },
-    "ARMOUR +2": { type: "passive", cat: "Defensive Passive Bonus", desc: "Passive Bonus: Automatically increases model's base Armour rating by +2.", impact: "\ud83d\udee1\ufe0f Passive: +2 Base Armour Rating" },
-    "SHIELD": { type: "passive", cat: "Defensive Passive Item", desc: "Passive Bonus: Grants +1 Armour rating against frontal ranged attacks.", impact: "\ud83d\udee1\ufe0f Passive: +1 Frontal Ranged Armour" },
-    "GAS IMMUNE": { type: "passive", cat: "Protection Passive Trait", desc: "Passive Trait: Model is completely immune to toxic gas hazard damage on the board.", impact: "\ud83d\udee1\ufe0f Passive: Complete Gas Immunity" },
-    "GAS MASK": { type: "passive", cat: "Protection Equipment", desc: "Passive Item: Grants complete immunity to mustard gas hazards.", impact: "\ud83d\udee1\ufe0f Passive: Mustard Gas Immunity" }
-  };
+  const masterCodex = window.masterCodex || {};
 
   // 8 MAP PACK PRESETS
   const mapPackPresets = {
@@ -501,139 +463,80 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function populateWarbandSelects() {
-    if (!selWarbandP1 || !selWarbandP2) return;
     let savedVault = JSON.parse(localStorage.getItem('tc_warband_vault') || '[]');
     
-    let currP1 = selWarbandP1.value;
-    let currP2 = selWarbandP2.value;
+    let selects = [
+      document.getElementById('selWarbandP1'),
+      document.getElementById('selWarbandP2'),
+      document.getElementById('selWizardP1Warband'),
+      document.getElementById('selWizardP2Warband')
+    ].filter(Boolean);
 
-    selWarbandP1.innerHTML = '';
-    selWarbandP2.innerHTML = '';
+    selects.forEach(s => {
+      let curr = s.value;
+      s.innerHTML = '';
 
-    if (savedVault.length > 0) {
-      savedVault.forEach((v, idx) => {
-        let opt1 = document.createElement('option');
-        opt1.value = `vault_${idx}`;
-        opt1.textContent = `🏆 [VAULT] ${v.name} (${v.spent}D)`;
-        selWarbandP1.appendChild(opt1);
+      if (savedVault.length > 0) {
+        savedVault.forEach((v, idx) => {
+          let opt = document.createElement('option');
+          opt.value = `vault_${idx}`;
+          opt.textContent = `🏆 [VAULT] ${v.name} (${v.spent}D)`;
+          s.appendChild(opt);
+        });
+      }
 
-        let opt2 = document.createElement('option');
-        opt2.value = `vault_${idx}`;
-        opt2.textContent = `🏆 [VAULT] ${v.name} (${v.spent}D)`;
-        selWarbandP2.appendChild(opt2);
+      let defaults = [
+        { id: "default_na", name: "Order of Antioch (New Antioch)" },
+        { id: "default_tp", name: "Procession of the Cross (Trench Pilgrims)" },
+        { id: "default_hl", name: "Black Grail Host (Heretic Legions)" },
+        { id: "default_is", name: "Alchemist Force (Iron Sultanate)" },
+        { id: "default_cs", name: "Court of the Seven-Headed Serpent" }
+      ];
+
+      defaults.forEach(d => {
+        let opt = document.createElement('option');
+        opt.value = d.id;
+        opt.textContent = d.name;
+        s.appendChild(opt);
       });
-    }
 
-    let defaults = [
-      { id: "default_na", name: "Order of Antioch (New Antioch)" },
-      { id: "default_tp", name: "Procession of the Cross (Trench Pilgrims)" },
-      { id: "default_hl", name: "Black Grail Host (Heretic Legions)" },
-      { id: "default_is", name: "Alchemist Force (Iron Sultanate)" },
-      { id: "default_cs", name: "Court of the Seven-Headed Serpent" }
-    ];
-
-    defaults.forEach(d => {
-      let opt1 = document.createElement('option');
-      opt1.value = d.id;
-      opt1.textContent = d.name;
-      selWarbandP1.appendChild(opt1);
-
-      let opt2 = document.createElement('option');
-      opt2.value = d.id;
-      opt2.textContent = d.name;
-      selWarbandP2.appendChild(opt2);
+      if (curr) s.value = curr;
     });
-
-    if (currP1) selWarbandP1.value = currP1;
-    if (currP2) selWarbandP2.value = currP2;
   }
 
   window.refreshVaultDropdowns = populateWarbandSelects;
 
-  btnDeployBoth.addEventListener('click', deployWarbands);
-
-  function getDefaultRoster(type) {
-    if (type === 'default_tp') {
-      return [
-        { name: "War Prophet", cat: "Leader", baseMM: 32, move: 6, ranged: 1, melee: 2, armour: 1, wounds: 2, img: "images/war_prophet.jpg", kw: ["COMMANDER", "PROPHECY OF DOOM"], equippedSlots: { melee: { name: "Unholy Staff", kw: ["PARRY"] }, equipment: { name: "Gothic Blood Banner", kw: ["+1 COURAGE"] } } },
-        { name: "Castigator", cat: "Elite", baseMM: 32, move: 6, ranged: 0, melee: 3, armour: 1, wounds: 2, img: "images/castigator.jpg", kw: ["CLEAVE 2"], equippedSlots: { melee: { name: "Greatsword", kw: ["CLEAVE 2"] } } },
-        { name: "Martyr Penitent", cat: "Specialist", baseMM: 25, move: 6, ranged: 0, melee: 2, armour: 0, wounds: 1, img: "images/martyr_penitent.jpg", kw: [], equippedSlots: { melee: { name: "Trench Axe", kw: ["CLEAVE 1"] } } },
-        { name: "Trench Pilgrim", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 1, armour: 0, wounds: 1, img: "images/trench_pilgrim.jpg", kw: [], equippedSlots: { melee: { name: "Trench Knife", kw: ["1-HANDED"] } } }
-      ];
-    } else if (type === 'default_is') {
-      return [
-        { name: "Jabirean Alchemist", cat: "Leader", baseMM: 32, move: 6, ranged: 2, melee: 1, armour: 1, wounds: 2, img: "images/jabirean_alchemist.jpg", kw: ["COMMANDER"], equippedSlots: { ranged: { name: "Hellfire Pistol", kw: ["UNHOLY"] }, melee: { name: "Takuba Scimitar", kw: ["PARRY"] } } },
-        { name: "Takuba Swordsman", cat: "Elite", baseMM: 25, move: 6, ranged: 0, melee: 3, armour: 1, wounds: 1, img: "images/takuba_swordsman.jpg", kw: ["PARRY", "CLEAVE 1"], equippedSlots: { melee: { name: "Takuba Scimitar", kw: ["PARRY"] } } },
-        { name: "Azab Warrior", cat: "Trooper", baseMM: 25, move: 6, ranged: 1, melee: 1, armour: 0, wounds: 1, img: "images/azab_warrior.jpg", kw: [], equippedSlots: { ranged: { name: "Bolt-Action Rifle", kw: ["2-HANDED"] } } }
-      ];
-    } else if (type === 'default_cs') {
-      return [
-        { name: "Serpent Sorcerer", cat: "Leader", baseMM: 32, move: 6, ranged: 2, melee: 1, armour: 1, wounds: 2, img: "images/serpent_sorcerer.jpg", kw: ["COMMANDER", "GOETIC SORCERY"], equippedSlots: { grenades: { name: "Gas Grenades", kw: ["GAS HAZARD"] } } },
-        { name: "Takuba Swordsman", cat: "Elite", baseMM: 25, move: 6, ranged: 0, melee: 3, armour: 1, wounds: 1, img: "images/takuba_swordsman.jpg", kw: ["PARRY"], equippedSlots: {} }
-      ];
-    } else if (type === 'default_hl') {
-      return [
-        { name: "Heretic Priest", cat: "Leader", baseMM: 32, move: 6, ranged: 1, melee: 2, armour: 1, wounds: 2, img: "images/heretic_priest.jpg", kw: ["COMMANDER", "DARK BLESSINGS"], equippedSlots: { ranged: { name: "Hellfire Pistol", kw: ["1-HANDED"] }, melee: { name: "Unholy Staff", kw: ["PARRY"] } } },
-        { name: "Death Commando", cat: "Elite", baseMM: 25, move: 7, ranged: 2, melee: 2, armour: 1, wounds: 1, img: "images/death_commando.jpg", kw: ["INFILTRATOR"], equippedSlots: { ranged: { name: "Submachine Gun", kw: ["AUTOMATIC 2"] } } },
-        { name: "Lord of Tumours", cat: "Monster", baseMM: 50, move: 5, ranged: 0, melee: 3, armour: 2, wounds: 4, img: "images/lord_of_tumours.jpg", kw: ["BLACK GRAIL PLAGUE", "REGENERATION"], equippedSlots: { melee: { name: "Greatsword", kw: ["CLEAVE 1"] } } }
-      ];
-    } else {
-      // default_na (New Antioch)
-      return [
-        { name: "Lieutenant", cat: "Leader", baseMM: 32, move: 6, ranged: 1, melee: 1, armour: 1, wounds: 2, img: "images/lieutenant_new_antioch.jpg", kw: ["COMMANDER", "INHERENT LEADERSHIP"], equippedSlots: { ranged: { name: "Service Pistol", kw: ["1-HANDED"] }, melee: { name: "Trench Sword", kw: ["PARRY"] }, armour: { name: "Body Armour", kw: ["ARMOUR +1"] } } },
-        { name: "Sniper Priest", cat: "Specialist", baseMM: 25, move: 6, ranged: 2, melee: -1, armour: 0, wounds: 1, img: "images/sniper_priest.jpg", kw: ["DEADEYE AIM", "SNIPER"], equippedSlots: { ranged: { name: "Sniper Rifle", kw: ["SNIPER"] } } },
-        { name: "Stosstruppen Veteran", cat: "Elite", baseMM: 25, move: 6, ranged: 1, melee: 2, armour: 1, wounds: 1, img: "images/stosstruppen_veteran.jpg", kw: ["TRENCH RAID", "SHOCK TROOPER"], equippedSlots: { ranged: { name: "Submachine Gun", kw: ["AUTOMATIC 2"] } } },
-        { name: "Trench Trooper", cat: "Trooper", baseMM: 25, move: 6, ranged: 1, melee: 0, armour: 0, wounds: 1, img: "images/trench_trooper.jpg", kw: ["LINE INFANTRY", "GRIM DISCIPLINE"], equippedSlots: { ranged: { name: "Bolt-Action Rifle", kw: ["2-HANDED"] } } }
-      ];
-    }
-  }
-
-  function createTokensFromRoster(roster, playerNum, startX) {
-    let tokens = [];
-    if (!roster || !Array.isArray(roster)) return tokens;
-
-    roster.forEach((m, idx) => {
-      let baseSize = m.baseMM || 25;
-      let radius = (baseSize / 2) * 1.15;
-      let startY = 120 + (idx * 110);
-
-      if (idx >= 5) {
-        startX += (playerNum === 1 ? 75 : -75);
-        startY = 120 + ((idx - 5) * 110);
+  function applyDoctrineToTokens(tokens, doctrineKey, playerNum) {
+    if (!tokens || tokens.length === 0 || !doctrineKey || doctrineKey === 'doctrine_none') return;
+    tokens.forEach(t => {
+      if (!t.kw) t.kw = [];
+      if (doctrineKey === 'sin_pride') {
+        t.ranged = (t.ranged || 0) + 1;
+        t.kw.push("SIN OF PRIDE (+1 Hit)");
+      } else if (doctrineKey === 'sin_wrath') {
+        t.melee = (t.melee || 0) + 1;
+        t.kw.push("SIN OF WRATH (+1 Melee)");
+      } else if (doctrineKey === 'sin_gluttony') {
+        t.wounds = (t.wounds || 1) + 1;
+        t.maxWounds = (t.maxWounds || 1) + 1;
+        t.kw.push("SIN OF GLUTTONY (+1 Wound)");
+      } else if (doctrineKey === 'sin_greed') {
+        t.kw.push("SIN OF GREED (+2 Blessing)");
+      } else if (doctrineKey === 'relic_banner') {
+        t.kw.push("GOTHIC BLOOD BANNER (+1 Courage)");
+      } else if (doctrineKey === 'relic_martyr') {
+        t.kw.push("SACRED MARTYR (+1 Injury Die)");
+      } else if (doctrineKey === 'antioch_combined') {
+        t.kw.push("COMBINED ARMS");
+      } else if (doctrineKey === 'sultan_takwin') {
+        t.move = (t.move || 6) + 1;
+        t.kw.push("TAKWIN ALCHEMY (+1 Speed)");
       }
-
-      tokens.push({
-        id: `p${playerNum}_${idx + 1}`,
-        player: playerNum,
-        name: m.name || "Trench Fighter",
-        img: m.img || (playerNum === 1 ? "images/lieutenant_new_antioch.jpg" : "images/heretic_priest.jpg"),
-        x: startX,
-        y: startY,
-        r: radius,
-        baseMM: baseSize,
-        wounds: m.wounds || 1,
-        maxWounds: m.wounds || 1,
-        move: m.move || 6,
-        ranged: m.ranged !== undefined ? m.ranged : 1,
-        melee: m.melee !== undefined ? m.melee : 1,
-        armour: m.armour !== undefined ? m.armour : 0,
-        bloodMarkers: 0,
-        blessingMarkers: 0,
-        isLeader: m.cat === "Leader" || idx === 0,
-        activated: false,
-        isMovingActive: false,
-        movedThisTurn: false,
-        actionsRemaining: 2,
-        status: "Active",
-        elev: 0,
-        cost: m.cost || (m.totalCost || 50),
-        cat: m.cat || "Trooper",
-        equippedSlots: m.equippedSlots || { ranged: null, melee: null, armour: null, shields: null, grenades: null, equipment: null },
-        baseKeywords: m.kw || (m.keywords || [])
-      });
     });
 
-    return tokens;
+    if (doctrineKey === 'sin_greed') {
+      if (playerNum === 1) poolBlessing += 2;
+    }
   }
 
   function deployWarbands() {
@@ -644,10 +547,13 @@ document.addEventListener('DOMContentLoaded', () => {
       savedVault = [];
     }
 
-    let elP1 = document.getElementById('selWarbandP1');
-    let elP2 = document.getElementById('selWarbandP2');
+    let elP1 = document.getElementById('selWizardP1Warband') || document.getElementById('selWarbandP1');
+    let elP2 = document.getElementById('selWizardP2Warband') || document.getElementById('selWarbandP2');
     let val1 = elP1 ? elP1.value : 'default_na';
     let val2 = elP2 ? elP2.value : 'default_hl';
+
+    let doc1 = document.getElementById('selWizardP1Doctrine')?.value || 'doctrine_none';
+    let doc2 = document.getElementById('selWizardP2Doctrine')?.value || 'doctrine_none';
 
     let rosterP1 = [];
     let rosterP2 = [];
@@ -677,6 +583,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let tokensP1 = createTokensFromRoster(rosterP1, 1, 100);
     let tokensP2 = createTokensFromRoster(rosterP2, 2, 740);
 
+    applyDoctrineToTokens(tokensP1, doc1, 1);
+    applyDoctrineToTokens(tokensP2, doc2, 2);
+
     unitTokens = [...tokensP1, ...tokensP2];
 
     selectedToken = null;
@@ -688,7 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let nameP1 = val1.startsWith('vault_') ? (savedVault[parseInt(val1.replace('vault_',''),10)]?.name || 'Vault Warband') : 'Player 1 Force';
     let nameP2 = val2.startsWith('vault_') ? (savedVault[parseInt(val2.replace('vault_',''),10)]?.name || 'Vault Warband') : 'Player 2 Force';
 
-    logEvent(`[DEPLOYMENT] ${nameP1} (${tokensP1.length} models) vs ${nameP2} (${tokensP2.length} models) deployed to Trench Battlefield!`, "sys");
+    logEvent(`[DEPLOYMENT] ${nameP1} (${tokensP1.length} models, Doctrine: ${doc1}) vs ${nameP2} (${tokensP2.length} models, Doctrine: ${doc2}) deployed to Trench Battlefield!`, "sys");
 
     resizeCanvasForHighDPI();
     drawBoard();
