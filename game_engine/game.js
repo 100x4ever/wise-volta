@@ -1420,29 +1420,25 @@ Use your Movement action to Charge into melee contact first!`);
       </div>
     `;
 
-    let _tmp_el = document.getElementById('btnPlusBlood');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('btnPlusBlood')?.addEventListener('click', () => {
       u.bloodMarkers = (u.bloodMarkers || 0) + 1;
       renderInspector();
       drawBoard();
     });
 
-    let _tmp_el = document.getElementById('btnMinusBlood');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('btnMinusBlood')?.addEventListener('click', () => {
       u.bloodMarkers = Math.max(0, (u.bloodMarkers || 0) - 1);
       renderInspector();
       drawBoard();
     });
 
-    let _tmp_el = document.getElementById('btnPlusBlessing');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('btnPlusBlessing')?.addEventListener('click', () => {
       u.blessingMarkers = (u.blessingMarkers || 0) + 1;
       renderInspector();
       drawBoard();
     });
 
-    let _tmp_el = document.getElementById('btnMinusBlessing');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('btnMinusBlessing')?.addEventListener('click', () => {
       u.blessingMarkers = Math.max(0, (u.blessingMarkers || 0) - 1);
       renderInspector();
       drawBoard();
@@ -1455,8 +1451,7 @@ Use your Movement action to Charge into melee contact first!`);
       });
     });
 
-    let _tmp_el = document.getElementById('slotRangedTrigger');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('slotRangedTrigger')?.addEventListener('click', () => {
       if (u.id !== activeUnitId) {
         alert(`Guardrail Block: It is Player ${activePlayerTurn}'s turn or another unit is active!`);
         return;
@@ -1502,8 +1497,7 @@ Use your Movement action to Charge into melee contact first!`);
       });
     }
 
-    let _tmp_el = document.getElementById('slotMeleeTrigger');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('slotMeleeTrigger')?.addEventListener('click', () => {
       if (u.id !== activeUnitId) {
         alert(`Guardrail Block: It is Player ${activePlayerTurn}'s turn or another unit is active!`);
         return;
@@ -1520,8 +1514,7 @@ Use your Movement action to Charge into melee contact first!`);
       logEvent(`${u.name} selected ${u.equippedSlots.melee.name} for melee strike. Click an enemy target within 1.5" on the map.`, "sys");
     });
 
-    let _tmp_el = document.getElementById('btnCardActivate');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('btnCardActivate')?.addEventListener('click', () => {
       if (!canActivate && !u.activated) {
         alert(`Alternating Turn Guardrail: It is Player ${activePlayerTurn}'s turn to activate a unit!`);
         return;
@@ -1537,8 +1530,7 @@ Use your Movement action to Charge into melee contact first!`);
       drawBoard();
     });
 
-    let _tmp_el = document.getElementById('btnCardMove');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('btnCardMove')?.addEventListener('click', () => {
       if (u.id !== activeUnitId) {
         alert("Guardrail Block: Only the currently activated unit can move!");
         return;
@@ -1550,8 +1542,7 @@ Use your Movement action to Charge into melee contact first!`);
       drawBoard();
     });
 
-    let _tmp_el = document.getElementById('btnCardDone');
-    if (_tmp_el) _tmp_el.addEventListener('click', () => {
+    document.getElementById('btnCardDone')?.addEventListener('click', () => {
       if (u.id !== activeUnitId) return;
       finishUnitActivation(u);
     });
@@ -1944,7 +1935,7 @@ Use your Movement action to Charge into melee contact first!`);
   // BULLETPROOF EVENT DELEGATION FOR MODEL CARD SLOT PILLS (GRENADES, RANGED, MELEE)
   let inspectorEl = document.getElementById('inspectorPanel');
   if (inspectorEl) {
-    if (inspectorEl) inspectorEl.addEventListener('click', (e) => {
+    inspectorEl.addEventListener('click', (e) => {
       let pill = e.target.closest('.card-slot-pill');
       if (!pill) return;
 
