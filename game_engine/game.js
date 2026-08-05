@@ -307,30 +307,31 @@ document.addEventListener('DOMContentLoaded', () => {
     currentScenarioKey = scenKey;
     let scen = scenariosDict[scenKey] || scenariosDict["scen_1"];
 
-    scenTitle.textContent = scen.title;
-    scenObjective.textContent = scen.objective;
-    scenDeed.textContent = scen.deed;
+    if (scenTitle) scenTitle.textContent = scen.title;
+    if (scenObjective) scenObjective.textContent = scen.objective;
+    if (scenDeed) scenDeed.textContent = scen.deed;
 
     logEvent(`Loaded Scenario: ${scen.title}. ${scen.objective}`, "sys");
     drawBoard();
   }
 
-  selScenario.addEventListener('change', (e) => loadScenario(e.target.value));
-  chkShowDeployment.addEventListener('change', () => drawBoard());
+  if (selScenario) selScenario.addEventListener('change', (e) => loadScenario(e.target.value));
+  if (chkShowDeployment) chkShowDeployment.addEventListener('change', () => drawBoard());
 
-  btnAddVpP1.addEventListener('click', () => {
+  if (btnAddVpP1) btnAddVpP1.addEventListener('click', () => {
     vpPlayer1++;
-    vpPlayer1El.textContent = vpPlayer1;
-    logEvent(`\ud83c\udfc6 Player 1 awarded +1 Victory Point! (Total: ${vpPlayer1} VP)`, "sys");
+    if (vpPlayer1El) vpPlayer1El.textContent = vpPlayer1;
+    logEvent(`🏆 Player 1 awarded +1 Victory Point! (Total: ${vpPlayer1} VP)`, "sys");
   });
 
-  btnAddVpP2.addEventListener('click', () => {
+  if (btnAddVpP2) btnAddVpP2.addEventListener('click', () => {
     vpPlayer2++;
-    vpPlayer2El.textContent = vpPlayer2;
-    logEvent(`\ud83c\udfc6 Player 2 awarded +1 Victory Point! (Total: ${vpPlayer2} VP)`, "sys");
+    if (vpPlayer2El) vpPlayer2El.textContent = vpPlayer2;
+    logEvent(`🏆 Player 2 awarded +1 Victory Point! (Total: ${vpPlayer2} VP)`, "sys");
   });
 
   function updateActivePlayerHUD() {
+    if (!hudActivePlayer) return;
     if (activePlayerTurn === 1) {
       hudActivePlayer.textContent = "PLAYER 1 TURN (NEW ANTIOCH)";
       hudActivePlayer.style.color = varColor('--blood-bright');
@@ -344,8 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let preset = mapPackPresets[mapKey] || mapPackPresets["map_1"];
     currentMapKey = mapKey;
 
-    txtMapTitle.textContent = preset.title;
-    txtMapModifiers.textContent = preset.modifiers;
+    if (txtMapTitle) txtMapTitle.textContent = preset.title;
+    if (txtMapModifiers) txtMapModifiers.textContent = preset.modifiers;
     terrainObjects = JSON.parse(JSON.stringify(preset.terrain));
 
     bgImage.src = getImgPath(preset.bg);
@@ -355,11 +356,11 @@ document.addEventListener('DOMContentLoaded', () => {
     drawBoard();
   }
 
-  selMapPreset.addEventListener('change', (e) => {
+  if (selMapPreset) selMapPreset.addEventListener('change', (e) => {
     loadMapPreset(e.target.value);
   });
 
-  btnRandomMap.addEventListener('click', () => {
+  if (btnRandomMap) btnRandomMap.addEventListener('click', () => {
     let keys = Object.keys(mapPackPresets);
     let randomKey = keys[Math.floor(Math.random() * keys.length)];
     selMapPreset.value = randomKey;
@@ -375,19 +376,19 @@ document.addEventListener('DOMContentLoaded', () => {
       impact: `\ud83d\udee1\ufe0f Passive: ${kwName} active modifier`
     };
 
-    codexKwName.textContent = kwName.toUpperCase();
-    codexCategory.textContent = entry.cat.toUpperCase();
-    codexDescription.textContent = entry.desc;
-    codexImpact.textContent = entry.impact;
+    if (codexKwName) codexKwName.textContent = kwName.toUpperCase();
+    if (codexCategory) codexCategory.textContent = entry.cat.toUpperCase();
+    if (codexDescription) codexDescription.textContent = entry.desc;
+    if (codexImpact) codexImpact.textContent = entry.impact;
 
-    if (entry.type === "activated") {
+    if (entry.type === "activated" && btnActivateAbilityEffect) {
       btnActivateAbilityEffect.style.display = "block";
-      btnActivateAbilityEffect.textContent = "\u26a1 INITIATE / ACTIVATE ABILITY EFFECT (COSTS 1 ACTION)";
-    } else {
+      btnActivateAbilityEffect.textContent = "⚡ INITIATE / ACTIVATE ABILITY EFFECT (COSTS 1 ACTION)";
+    } else if (btnActivateAbilityEffect) {
       btnActivateAbilityEffect.style.display = "none";
     }
 
-    codexModalOverlay.classList.remove('hidden');
+    if (codexModalOverlay) codexModalOverlay.classList.remove('hidden');
   }
 
   function closeCodex() {
@@ -399,60 +400,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnActivateAbilityEffect) {
     btnActivateAbilityEffect.addEventListener('click', () => {
-    if (!activeCodexKw) return;
-    let u = selectedToken;
-    let uName = u ? u.name : "Model";
+      if (!activeCodexKw) return;
+      let u = selectedToken;
+      let uName = u ? u.name : "Model";
 
-    if (u && (!u.activated || u.actionsRemaining <= 0)) {
-      alert("Unit must be ACTIVATED and have Actions Remaining (Spend 1 Action) to use this ability!");
-      return;
-    }
+      if (u && (!u.activated || u.actionsRemaining <= 0)) {
+        alert("Unit must be ACTIVATED and have Actions Remaining (Spend 1 Action) to use this ability!");
+        return;
+      }
 
-    if (activeCodexKw.toUpperCase() === "FIELD SURGEON" || activeCodexKw.toUpperCase() === "TREAT WOUNDS") {
-      if (u && u.wounds < u.maxWounds) {
-        u.wounds = Math.min(u.maxWounds, u.wounds + 1);
-        if (u.status === "Down") u.status = "Active";
-        u.bloodMarkers = Math.max(0, (u.bloodMarkers || 0) - 1);
-        u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
-        logEvent(`\u26a1 [ACTIVATED ABILITY] ${uName} performed FIELD SURGEON: Healed 1 Wound and removed 1 Blood Marker! (1 Action spent)`, "sys");
+      if (activeCodexKw.toUpperCase() === "FIELD SURGEON" || activeCodexKw.toUpperCase() === "TREAT WOUNDS") {
+        if (u && u.wounds < u.maxWounds) {
+          u.wounds = Math.min(u.maxWounds, u.wounds + 1);
+          if (u.status === "Down") u.status = "Active";
+          u.bloodMarkers = Math.max(0, (u.bloodMarkers || 0) - 1);
+          u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
+          logEvent(`⚡ [ACTIVATED ABILITY] ${uName} performed FIELD SURGEON: Healed 1 Wound and removed 1 Blood Marker! (1 Action spent)`, "sys");
+        } else {
+          u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
+          logEvent(`⚡ [ACTIVATED ABILITY] ${uName} performed FIELD SURGEON treatment on adjacent squadmate. (1 Action spent)`, "sys");
+        }
+      } else if (activeCodexKw.toUpperCase() === "DEADEYE AIM") {
+        if (u) {
+          u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
+          u.blessingMarkers = (u.blessingMarkers || 0) + 1;
+        }
+        logEvent(`⚡ [ACTIVATED ABILITY] ${uName} activated DEADEYE AIM: Added +1 Blessing Marker to unit! (1 Action spent)`, "sys");
+      } else if (activeCodexKw.toUpperCase() === "DIVINE GUIDANCE") {
+        if (u) {
+          u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
+          u.blessingMarkers = (u.blessingMarkers || 0) + 1;
+        }
+        poolBlessing++;
+        if (poolBlessingEl) poolBlessingEl.textContent = poolBlessing;
+        logEvent(`⚡ [ACTIVATED ABILITY] ${uName} invoked DIVINE GUIDANCE: +1 Blessing Marker added to unit & pool! (1 Action spent)`, "sys");
+      } else if (activeCodexKw.toUpperCase() === "COMMANDER") {
+        if (u) {
+          u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
+          u.blessingMarkers = (u.blessingMarkers || 0) + 1;
+        }
+        poolBlessing++;
+        if (poolBlessingEl) poolBlessingEl.textContent = poolBlessing;
+        logEvent(`⚡ [ACTIVATED ABILITY] ${uName} issued COMMAND ORDER: +1 Blessing Marker & Command Aura activated! (1 Action spent)`, "sys");
+      } else if (activeCodexKw.toUpperCase() === "DARK BLESSINGS") {
+        if (u) {
+          u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
+          u.bloodMarkers = (u.bloodMarkers || 0) + 1;
+        }
+        poolBlood++;
+        if (poolBloodEl) poolBloodEl.textContent = poolBlood;
+        logEvent(`⚡ [ACTIVATED ABILITY] ${uName} channeled DARK BLESSINGS: +1 Blood Marker added to unit & pool! (1 Action spent)`, "sys");
+      } else if (activeCodexKw.toUpperCase() === "INFILTRATOR") {
+        if (u) u.isMovingActive = true;
+        logEvent(`⚡ [ACTIVATED ABILITY] ${uName} activated INFILTRATOR: Unlocked tactical forward movement!`, "sys");
       } else {
-        u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
-        logEvent(`\u26a1 [ACTIVATED ABILITY] ${uName} performed FIELD SURGEON treatment on adjacent squadmate. (1 Action spent)`, "sys");
-      }
-    } else if (activeCodexKw.toUpperCase() === "DEADEYE AIM") {
-      if (u) {
-        u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
-        u.blessingMarkers = (u.blessingMarkers || 0) + 1;
-      }
-      logEvent(`\u26a1 [ACTIVATED ABILITY] ${uName} activated DEADEYE AIM: Added +1 Blessing Marker to unit! (1 Action spent)`, "sys");
-    } else if (activeCodexKw.toUpperCase() === "DIVINE GUIDANCE") {
-      if (u) {
-        u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
-        u.blessingMarkers = (u.blessingMarkers || 0) + 1;
-      }
-      poolBlessing++;
-      poolBlessingEl.textContent = poolBlessing;
-      logEvent(`\u26a1 [ACTIVATED ABILITY] ${uName} invoked DIVINE GUIDANCE: +1 Blessing Marker added to unit & pool! (1 Action spent)`, "sys");
-    } else if (activeCodexKw.toUpperCase() === "COMMANDER") {
-      if (u) {
-        u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
-        u.blessingMarkers = (u.blessingMarkers || 0) + 1;
-      }
-      poolBlessing++;
-      poolBlessingEl.textContent = poolBlessing;
-      logEvent(`\u26a1 [ACTIVATED ABILITY] ${uName} issued COMMAND ORDER: +1 Blessing Marker & Command Aura activated! (1 Action spent)`, "sys");
-    } else if (activeCodexKw.toUpperCase() === "DARK BLESSINGS") {
-      if (u) {
-        u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
-        u.bloodMarkers = (u.bloodMarkers || 0) + 1;
-      }
-      poolBlood++;
-      poolBloodEl.textContent = poolBlood;
-      logEvent(`\u26a1 [ACTIVATED ABILITY] ${uName} channeled DARK BLESSINGS: +1 Blood Marker added to unit & pool! (1 Action spent)`, "sys");
-    } else if (activeCodexKw.toUpperCase() === "INFILTRATOR") {
-      if (u) u.isMovingActive = true;
-      logEvent(`\u26a1 [ACTIVATED ABILITY] ${uName} activated INFILTRATOR: Unlocked tactical forward movement!`, "sys");
-    } else {
       if (u) u.actionsRemaining = Math.max(0, u.actionsRemaining - 1);
       logEvent(`\u26a1 [ACTIVATED ABILITY] ${uName} activated ${activeCodexKw.toUpperCase()} effect on battlefield! (1 Action spent)`, "sys");
     }
@@ -646,7 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  btnClearBoard.addEventListener('click', () => {
+  if (btnClearBoard) btnClearBoard.addEventListener('click', () => {
     if (confirm("Reset the entire battlefield board?")) {
       unitTokens = [];
       terrainObjects = [];
@@ -661,7 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let p1Shaken = false;
   let p2Shaken = false;
 
-  btnNextPhase.addEventListener('click', () => {
+  if (btnNextPhase) btnNextPhase.addEventListener('click', () => {
     currentPhaseIndex++;
     if (currentPhaseIndex >= phases.length) {
       currentPhaseIndex = 0;
@@ -726,8 +727,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderInspector();
   });
 
-  btnAddBlood.addEventListener('click', () => { poolBlood++; poolBloodEl.textContent = poolBlood; });
-  btnAddBlessing.addEventListener('click', () => { poolBlessing++; poolBlessingEl.textContent = poolBlessing; });
+  if (btnAddBlood) btnAddBlood.addEventListener('click', () => { poolBlood++; poolBloodEl.textContent = poolBlood; });
+  if (btnAddBlessing) btnAddBlessing.addEventListener('click', () => { poolBlessing++; poolBlessingEl.textContent = poolBlessing; });
 
   let toolGrenade = document.getElementById('toolGrenade');
 
@@ -1332,25 +1333,29 @@ Use your Movement action to Charge into melee contact first!`);
       </div>
     `;
 
-    document.getElementById('btnPlusBlood').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('btnPlusBlood');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       u.bloodMarkers = (u.bloodMarkers || 0) + 1;
       renderInspector();
       drawBoard();
     });
 
-    document.getElementById('btnMinusBlood').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('btnMinusBlood');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       u.bloodMarkers = Math.max(0, (u.bloodMarkers || 0) - 1);
       renderInspector();
       drawBoard();
     });
 
-    document.getElementById('btnPlusBlessing').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('btnPlusBlessing');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       u.blessingMarkers = (u.blessingMarkers || 0) + 1;
       renderInspector();
       drawBoard();
     });
 
-    document.getElementById('btnMinusBlessing').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('btnMinusBlessing');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       u.blessingMarkers = Math.max(0, (u.blessingMarkers || 0) - 1);
       renderInspector();
       drawBoard();
@@ -1363,7 +1368,8 @@ Use your Movement action to Charge into melee contact first!`);
       });
     });
 
-    document.getElementById('slotRangedTrigger').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('slotRangedTrigger');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       if (u.id !== activeUnitId) {
         alert(`Guardrail Block: It is Player ${activePlayerTurn}'s turn or another unit is active!`);
         return;
@@ -1409,7 +1415,8 @@ Use your Movement action to Charge into melee contact first!`);
       });
     }
 
-    document.getElementById('slotMeleeTrigger').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('slotMeleeTrigger');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       if (u.id !== activeUnitId) {
         alert(`Guardrail Block: It is Player ${activePlayerTurn}'s turn or another unit is active!`);
         return;
@@ -1426,7 +1433,8 @@ Use your Movement action to Charge into melee contact first!`);
       logEvent(`${u.name} selected ${u.equippedSlots.melee.name} for melee strike. Click an enemy target within 1.5" on the map.`, "sys");
     });
 
-    document.getElementById('btnCardActivate').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('btnCardActivate');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       if (!canActivate && !u.activated) {
         alert(`Alternating Turn Guardrail: It is Player ${activePlayerTurn}'s turn to activate a unit!`);
         return;
@@ -1442,7 +1450,8 @@ Use your Movement action to Charge into melee contact first!`);
       drawBoard();
     });
 
-    document.getElementById('btnCardMove').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('btnCardMove');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       if (u.id !== activeUnitId) {
         alert("Guardrail Block: Only the currently activated unit can move!");
         return;
@@ -1454,7 +1463,8 @@ Use your Movement action to Charge into melee contact first!`);
       drawBoard();
     });
 
-    document.getElementById('btnCardDone').addEventListener('click', () => {
+    let _tmp_el = document.getElementById('btnCardDone');
+    if (_tmp_el) _tmp_el.addEventListener('click', () => {
       if (u.id !== activeUnitId) return;
       finishUnitActivation(u);
     });
@@ -1832,8 +1842,8 @@ Use your Movement action to Charge into melee contact first!`);
     combatModalOverlay.classList.add('hidden');
   }
 
-  btnCloseCombatModal.addEventListener('click', closeCombatModal);
-  btnCloseCombatBtn.addEventListener('click', closeCombatModal);
+  if (btnCloseCombatModal) btnCloseCombatModal.addEventListener('click', closeCombatModal);
+  if (btnCloseCombatBtn) btnCloseCombatBtn.addEventListener('click', closeCombatModal);
 
   function logEvent(msg, type = "sys") {
     let entry = document.createElement('div');
@@ -1847,7 +1857,7 @@ Use your Movement action to Charge into melee contact first!`);
   // BULLETPROOF EVENT DELEGATION FOR MODEL CARD SLOT PILLS (GRENADES, RANGED, MELEE)
   let inspectorEl = document.getElementById('inspectorPanel');
   if (inspectorEl) {
-    inspectorEl.addEventListener('click', (e) => {
+    if (inspectorEl) inspectorEl.addEventListener('click', (e) => {
       let pill = e.target.closest('.card-slot-pill');
       if (!pill) return;
 
