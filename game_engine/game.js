@@ -499,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: "default_na", name: "Order of Antioch (New Antioch)" },
         { id: "default_tp", name: "Procession of the Cross (Trench Pilgrims)" },
         { id: "default_hl", name: "Black Grail Host (Heretic Legions)" },
+        { id: "default_bg", name: "Cult of the Black Grail" },
         { id: "default_is", name: "Alchemist Force (Iron Sultanate)" },
         { id: "default_cs", name: "Court of the Seven-Headed Serpent" }
       ];
@@ -573,6 +574,13 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Serpent Sorcerer", cat: "Leader", baseMM: 32, move: 6, ranged: 1, melee: 2, armour: 1, wounds: 2, img: "images/serpent_sorcerer.jpg", kw: ["COMMANDER", "GOETIC SORCERY"], equippedSlots: { melee: { name: "Ritual Dagger", kw: ["POISON BLADES"] } } },
         { name: "Takuba Swordsman", cat: "Elite", baseMM: 32, move: 7, ranged: 0, melee: 2, armour: 1, wounds: 2, img: "images/takuba_swordsman.jpg", kw: ["TRENCH RAID"], equippedSlots: { melee: { name: "Takuba Sword", kw: ["PARRY"] } } },
         { name: "Yoke Fiend", cat: "Trooper", baseMM: 25, move: 6, ranged: 0, melee: 0, armour: 0, wounds: 1, img: "images/yoke_fiend.jpg", kw: ["WRETCHED"], equippedSlots: { melee: { name: "Barbed Whip", kw: ["1-HANDED"] } } }
+      ];
+    } else if (type === 'default_bg') {
+      return [
+        { name: "Choregus of the Black Grail", cat: "Leader", baseMM: 40, move: 5, ranged: 0, melee: 3, armour: 2, wounds: 3, img: "images/lord_of_tumours.jpg", kw: ["COMMANDER", "BLACK GRAIL PLAGUE"], equippedSlots: { melee: { name: "Plague Scythe", kw: ["CLEAVE 2"] } } },
+        { name: "Pit Locust Swarm", cat: "Flyer Specialist", baseMM: 32, move: 10, ranged: 1, melee: 2, armour: 1, wounds: 2, img: "images/pit_locust.jpg", kw: ["FLIGHT", "POISON STINGER"], equippedSlots: { melee: { name: "Chitinous Stingers", kw: ["POISON"] } } },
+        { name: "Plague Knight", cat: "Elite", baseMM: 32, move: 5, ranged: 0, melee: 2, armour: 2, wounds: 2, img: "images/plague_knight.jpg", kw: ["ARMOUR +2", "REGENERATION"], equippedSlots: { melee: { name: "Plague Greatsword", kw: ["CLEAVE 1"] } } },
+        { name: "Plague Trooper", cat: "Trooper", baseMM: 25, move: 6, ranged: 1, melee: 1, armour: 0, wounds: 1, img: "images/heretic_trooper.jpg", kw: ["LINE INFANTRY", "INFECTED"], equippedSlots: { ranged: { name: "Blight Rifle", kw: ["RANGED 18\""] } } }
       ];
     } else if (type === 'default_hl') {
       return [

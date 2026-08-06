@@ -2911,50 +2911,98 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
 
-  // Comprehensive Master Unit Catalog across all 5 Factions and Subfactions
-  const masterUnits = {
+  // Sub-Faction & Doctrine Mapping across all 6 Official Trench Companion Factions
+  const subfactionsDict = {
     new_antioch: [
-      { id: "UNIT_NA_LIEUTENANT", name: "Lieutenant of New Antioch", cat: "Leader", cost: 70, max: 1, isLeader: true, img: "images/lieutenant_new_antioch.jpg", fullStats: "MOVE: 6" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["COMMANDER", "INHERENT LEADERSHIP"], equip: ["Automatic Pistol", "Trench Sword", "Body Armour"] },
-      { id: "UNIT_NA_SNIPER_PRIEST", name: "Sniper Priest", cat: "Specialist", cost: 50, max: 2, isLeader: false, img: "images/sniper_priest.jpg", fullStats: "MOVE: 6" | RANGED: +2 | MELEE: -1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["DEADEYE AIM", "DIVINE GUIDANCE", "SNIPER"], equip: ["Bolt-Action Sniper Rifle"] },
-      { id: "UNIT_NA_STOSSTRUPPEN_VETERAN", name: "Prussian Stosstruppen Veteran", cat: "Elite", cost: 60, max: 4, isLeader: false, img: "images/stosstruppen_veteran.jpg", fullStats: "MOVE: 6" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["TRENCH RAID", "SHOCK TROOPER"], equip: ["Submachine Gun", "Trench Knife", "Body Armour"] },
-      { id: "UNIT_NA_TRENCH_TROOPER", name: "Trench Trooper", cat: "Trooper", cost: 35, max: 12, isLeader: false, img: "images/trench_trooper.jpg", fullStats: "MOVE: 6" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["LINE INFANTRY", "GRIM DISCIPLINE"], equip: ["Bolt-Action Rifle", "Trench Knife"] },
-      { id: "UNIT_NA_TRENCH_DOCTOR", name: "Trench Doctor (Medic)", cat: "Specialist", cost: 45, max: 2, isLeader: false, img: "images/trench_doctor.jpg", fullStats: "MOVE: 6" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["FIELD SURGEON", "TREAT WOUNDS", "MEDIC"], equip: ["Field Surgeon Kit", "Service Pistol"] },
-      { id: "UNIT_NA_MECHANIZED", name: "Mechanized Heavy Infantry", cat: "Heavy Elite", cost: 75, max: 3, isLeader: false, img: "images/mechanized_infantry.jpg", fullStats: "MOVE: 5" | RANGED: +1 | MELEE: +1 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["HEAVY", "ARMOUR +2"], equip: ["Heavy Machine Gun", "Heavy Plate"] },
-      { id: "UNIT_NA_CHAPLAIN", name: "Trench Chaplain", cat: "Specialist", cost: 55, max: 1, isLeader: false, img: "images/trench_chaplain.jpg", fullStats: "MOVE: 6" | RANGED: +0 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["HOLY FERVOUR", "DIVINE GUIDANCE"], equip: ["Trench Shotgun", "Mace of Antioch"] },
-      { id: "UNIT_NA_PAPAL_GUARD", name: "Papal States Guard", cat: "Elite Guard", cost: 65, max: 3, isLeader: false, img: "images/papal_states_guard.jpg", fullStats: "MOVE: 6" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 1 | COURAGE: 9+", baseKeywords: ["SHIELD", "PARRY", "ARMOUR +2"], equip: ["Papal Halberd", "Trench Shield", "Heavy Armor"] }
+      { id: "na_standard", name: "Principality of New Antioch (Line Force)" },
+      { id: "na_papal", name: "Papal States Intervention Force" },
+      { id: "na_eire", name: "Eire Rangers" },
+      { id: "na_stosstruppen", name: "Stoßtruppen of the Free State of Prussia" },
+      { id: "na_alba", name: "Kingdom of Alba Assault Detachment" },
+      { id: "na_abyssinia", name: "Expeditionary Forces of Abyssinia" },
+      { id: "na_red_brigade", name: "The Red Brigade" }
     ],
     trench_pilgrims: [
-      { id: "UNIT_TP_WAR_PROPHET", name: "Trench Pilgrim War Prophet", cat: "Leader", cost: 70, max: 1, isLeader: true, img: "images/war_prophet.jpg", fullStats: "MOVE: 6" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+", baseKeywords: ["COMMANDER", "HOLY FERVOUR", "ZEALOT"], equip: ["Trench Shotgun", "Trench Club"] },
-      { id: "UNIT_TP_COMMUNICANT", name: "Communicant Giant", cat: "Heavy Elite", cost: 100, max: 1, isLeader: false, img: "images/communicant_giant.jpg", fullStats: "MOVE: 6" | RANGED: -1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 8+", baseKeywords: ["HEAVY CONSTRUCT", "MONSTROUS STRENGTH"], equip: ["Greatsword", "Body Armour"] },
-      { id: "UNIT_TP_MARTYR", name: "Martyr Penitent", cat: "Trooper", cost: 30, max: 6, isLeader: false, img: "images/martyr_penitent.jpg", fullStats: "MOVE: 6" | RANGED: -1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 10+", baseKeywords: ["BLOOD SACRIFICE", "FANATIC", "MARTYRDOM"], equip: ["Demo Charge", "Flagellant Flail"] },
-      { id: "UNIT_TP_PILGRIM", name: "Trench Pilgrim", cat: "Trooper", cost: 25, max: 15, isLeader: false, img: "images/trench_pilgrim.jpg", fullStats: "MOVE: 6" | RANGED: +0 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["ZEALOT", "LINE INFANTRY"], equip: ["Bolt-Action Rifle", "Club"] },
-      { id: "UNIT_TP_TRENCH_DOG", name: "War Hound / Trench Dog", cat: "Beast Support", cost: 20, max: 4, isLeader: false, img: "images/trench_dog.jpg", fullStats: "MOVE: 8" | RANGED: - | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+", baseKeywords: ["BEAST", "TRENCH RAID"], equip: ["Vicious Biting Fangs"] },
-      { id: "UNIT_TP_SAINT", name: "Desecrated Relic Saint", cat: "Relic Construct", cost: 85, max: 1, isLeader: false, img: "images/desecrated_saint.jpg", fullStats: "MOVE: 5" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 10+", baseKeywords: ["HOLY FERVOUR", "ARMOUR +2"], equip: ["Relic Sword", "Gothic Banner"] }
+      { id: "tp_standard", name: "Processions of the Trench Pilgrims (Standard)" },
+      { id: "tp_sacred_affliction", name: "Procession of the Sacred Affliction" },
+      { id: "tp_tenth_plague", name: "Cavalcade of the Tenth Plague" },
+      { id: "tp_saint_methodius", name: "War Pilgrimage of Saint Methodius" }
     ],
     heretic_legions: [
-      { id: "UNIT_HL_LORD_TUMOURS", name: "Heretic Lord of Tumours", cat: "Leader", cost: 80, max: 1, isLeader: true, img: "images/lord_of_tumours.jpg", fullStats: "MOVE: 5" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+", baseKeywords: ["COMMANDER", "BLACK GRAIL PLAGUE", "REGENERATION"], equip: ["Cleaver of Tumours", "Plague Carapace"] },
-      { id: "UNIT_HL_WARLOCK", name: "Goetic Warlock", cat: "Specialist", cost: 65, max: 2, isLeader: false, img: "images/goetic_warlock.jpg", fullStats: "MOVE: 6" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["GOETIC SORCERY", "DIVINE GUIDANCE"], equip: ["Hellfire Wand", "Ritual Dagger"] },
-      { id: "UNIT_HL_PLAGUE_KNIGHT", name: "Black Grail Plague Knight", cat: "Elite", cost: 70, max: 3, isLeader: false, img: "images/plague_knight.jpg", fullStats: "MOVE: 5" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["DISEASE AURA", "ARMOUR +2", "REGENERATION"], equip: ["Plague Greatsword", "Heavy Plate"] },
-      { id: "UNIT_HL_KNIGHT_AVARICE", name: "Knight of Avarice", cat: "Elite", cost: 75, max: 2, isLeader: false, img: "images/knight_of_avarice.jpg", fullStats: "MOVE: 5" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["ARMOUR +2", "PARRY"], equip: ["Gilded Heavy Shotgun", "Gilded Mace"] },
-      { id: "UNIT_HL_HERETIC_TROOPER", name: "Heretic Trooper", cat: "Trooper", cost: 30, max: 12, isLeader: false, img: "images/heretic_trooper.jpg", fullStats: "MOVE: 6" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+", baseKeywords: ["LINE INFANTRY", "FANATIC"], equip: ["Bolt-Action Rifle", "Bayonet"] },
-      { id: "UNIT_HL_YOKE_FIEND", name: "Yoke Fiend", cat: "Beast Beast", cost: 40, max: 3, isLeader: false, img: "images/yoke_fiend.jpg", fullStats: "MOVE: 7" | RANGED: - | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["BEAST", "RENDING LIMBS"], equip: ["Barbed Chains"] },
-      { id: "UNIT_HL_THRALL", name: "Wretched Thrall", cat: "Chaff Trooper", cost: 15, max: 20, isLeader: false, img: "images/wretched_thrall.jpg", fullStats: "MOVE: 5" | RANGED: -1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 5+", baseKeywords: ["LINE INFANTRY"], equip: ["Rusty Blade"] }
+      { id: "hl_standard", name: "Heretic Legion (Standard Force)" },
+      { id: "hl_naval_raiders", name: "Heretic Naval Raiders" },
+      { id: "hl_trench_ghosts", name: "Trench Ghosts" },
+      { id: "hl_knights_avarice", name: "Knights of Avarice" }
+    ],
+    black_grail: [
+      { id: "bg_standard", name: "Cult of the Black Grail (Standard)" },
+      { id: "bg_hegemon", name: "Dirge of the Great Hegemon" },
+      { id: "bg_great_hunger", name: "The Great Hunger" }
     ],
     iron_sultanate: [
-      { id: "UNIT_IS_ALCHEMIST", name: "Jabirean Alchemist", cat: "Leader", cost: 75, max: 1, isLeader: true, img: "images/jabirean_alchemist.jpg", fullStats: "MOVE: 6" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["COMMANDER", "GAS HAZARD", "GAS IMMUNE"], equip: ["Alchemical Flamethrower", "Scimitar", "Gas Mask"] },
-      { id: "UNIT_IS_LION", name: "Lion of Jabir", cat: "Heavy Beast", cost: 90, max: 1, isLeader: false, img: "images/lion_of_jabir.jpg", fullStats: "MOVE: 7" | RANGED: - | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+", baseKeywords: ["MONSTROUS STRENGTH", "ARMOUR +2"], equip: ["Alchemical Claws"] },
-      { id: "UNIT_IS_JANISSARY", name: "Janissary Heavy Rifleman", cat: "Elite", cost: 55, max: 4, isLeader: false, img: "images/janissary.jpg", fullStats: "MOVE: 6" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["SNIPER", "LINE INFANTRY"], equip: ["Heavy Rifle", "Kilij Sword"] },
-      { id: "UNIT_IS_AZAB", name: "Azab Warrior", cat: "Trooper", cost: 30, max: 12, isLeader: false, img: "images/azab_warrior.jpg", fullStats: "MOVE: 6" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["LINE INFANTRY"], equip: ["Musket", "Dagger"] },
-      { id: "UNIT_IS_TAKUBA", name: "Takuba Swordsman", cat: "Elite Melee", cost: 50, max: 4, isLeader: false, img: "images/takuba_swordsman.jpg", fullStats: "MOVE: 7" | RANGED: - | MELEE: +3 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["TRENCH RAID", "PARRY"], equip: ["Takuba Broadsword"] },
-      { id: "UNIT_IS_SAPPER", name: "Wall Guard Sapper", cat: "Specialist", cost: 45, max: 2, isLeader: false, img: "images/wall_guard_sapper.jpg", fullStats: "MOVE: 5" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["IGNORE COVER", "BLAST 4"], equip: ["Demolition Satchel", "Sapper Shield"] }
+      { id: "is_standard", name: "The Iron Sultanate (Standard Wall-Guard)" },
+      { id: "is_fidai", name: "Fidai of Alamut - Cabal of Assassins" },
+      { id: "is_house_wisdom", name: "House of Wisdom" },
+      { id: "is_iron_wall", name: "Defenders of the Iron Wall" }
     ],
-    court_serpent: [
-      { id: "UNIT_CS_AMBASSADOR", name: "Serpent Ambassador", cat: "Leader", cost: 80, max: 1, isLeader: true, img: "images/serpent_ambassador.jpg", fullStats: "MOVE: 6" | RANGED: +1 | MELEE: +3 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+", baseKeywords: ["COMMANDER", "VENOMOUS"], equip: ["Poisoned Rapier", "Serpent Pistol"] },
-      { id: "UNIT_CS_ASSASSIN", name: "Fidai Assassin", cat: "Elite Assassin", cost: 65, max: 2, isLeader: false, img: "images/fidai_assassin.jpg", fullStats: "MOVE: 8" | RANGED: +1 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["SHOCK TROOPER", "VENOMOUS"], equip: ["Dual Poison Daggers"] },
-      { id: "UNIT_CS_SORCERER", name: "Serpent Sorcerer", cat: "Specialist", cost: 60, max: 2, isLeader: false, img: "images/serpent_sorcerer.jpg", fullStats: "MOVE: 6" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["GOETIC SORCERY"], equip: ["Serpent Magic Staff"] },
-      { id: "UNIT_CS_HYDRA", name: "Hydra Construct", cat: "Heavy Monster", cost: 110, max: 1, isLeader: false, img: "images/hydra_construct.jpg", fullStats: "MOVE: 6" | RANGED: +1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 4 | COURAGE: 9+", baseKeywords: ["HEAVY CONSTRUCT", "RENDING LIMBS"], equip: ["Hydra Melee Heads"] },
-      { id: "UNIT_CS_LOCUST", name: "Pit Locust Swarm", cat: "Flyer Specialist", cost: 50, max: 3, isLeader: false, img: "images/pit_locust.jpg", fullStats: "MOVE: 10" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["FLIGHT", "POISON STINGER"], equip: ["Chitinous Stingers"] },
-      { id: "UNIT_CS_BULL", name: "Brazen Bull Siege Engine", cat: "Monstrous Construct", cost: 120, max: 1, isLeader: false, img: "images/brazen_bull.jpg", fullStats: "MOVE: 5" | RANGED: +1 | MELEE: +4 | ARMOUR: 3 | WOUNDS: 4 | COURAGE: 10+", baseKeywords: ["HEAVY CONSTRUCT", "MONSTROUS STRENGTH"], equip: ["Molten Furnace Horns"] }
+    serpent_court: [
+      { id: "cs_standard", name: "Court of the Seven-Headed Serpent" }
+    ]
+  };
+
+  // Comprehensive Master Unit Catalog across all 6 Factions and 17 Doctrines
+  const masterUnits = {
+    new_antioch: [
+      { id: "UNIT_NA_LIEUTENANT", name: "Lieutenant of New Antioch", cat: "Leader", cost: 70, max: 1, isLeader: true, img: "images/lieutenant_new_antioch.jpg", fullStats: "MOVE: 6\" | RANGED: +2 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["COMMANDER", "INHERENT LEADERSHIP"], equip: ["Automatic Pistol", "Trench Sword", "Body Armour"] },
+      { id: "UNIT_NA_SNIPER_PRIEST", name: "Sniper Priest", cat: "Specialist", cost: 50, max: 2, isLeader: false, img: "images/sniper_priest.jpg", fullStats: "MOVE: 6\" | RANGED: +2 | MELEE: -1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["DEADEYE AIM", "DIVINE GUIDANCE", "SNIPER"], equip: ["Bolt-Action Sniper Rifle"] },
+      { id: "UNIT_NA_STOSSTRUPPEN_VETERAN", name: "Prussian Stosstruppen Veteran", cat: "Elite", cost: 60, max: 4, isLeader: false, img: "images/stosstruppen_veteran.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["TRENCH RAID", "SHOCK TROOPER"], equip: ["Submachine Gun", "Trench Knife", "Body Armour"] },
+      { id: "UNIT_NA_TRENCH_TROOPER", name: "Trench Trooper", cat: "Trooper", cost: 35, max: 12, isLeader: false, img: "images/trench_trooper.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["LINE INFANTRY", "GRIM DISCIPLINE"], equip: ["Bolt-Action Rifle", "Trench Knife"] },
+      { id: "UNIT_NA_TRENCH_DOCTOR", name: "Trench Doctor (Medic)", cat: "Specialist", cost: 45, max: 2, isLeader: false, img: "images/trench_doctor.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["FIELD SURGEON", "TREAT WOUNDS", "MEDIC"], equip: ["Field Surgeon Kit", "Service Pistol"] },
+      { id: "UNIT_NA_MECHANIZED", name: "Mechanized Heavy Infantry", cat: "Heavy Elite", cost: 75, max: 3, isLeader: false, img: "images/mechanized_infantry.jpg", fullStats: "MOVE: 5\" | RANGED: +1 | MELEE: +1 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["HEAVY", "ARMOUR +2"], equip: ["Heavy Machine Gun", "Heavy Plate"] },
+      { id: "UNIT_NA_CHAPLAIN", name: "Trench Chaplain", cat: "Specialist", cost: 55, max: 1, isLeader: false, img: "images/trench_chaplain.jpg", fullStats: "MOVE: 6\" | RANGED: +0 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["HOLY FERVOUR", "DIVINE GUIDANCE"], equip: ["Trench Shotgun", "Mace of Antioch"] },
+      { id: "UNIT_NA_PAPAL_GUARD", name: "Papal States Guard", cat: "Elite Guard", cost: 65, max: 3, isLeader: false, img: "images/papal_states_guard.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 1 | COURAGE: 9+", baseKeywords: ["SHIELD", "PARRY", "ARMOUR +2"], equip: ["Papal Halberd", "Trench Shield", "Heavy Armor"] }
+    ],
+    trench_pilgrims: [
+      { id: "UNIT_TP_WAR_PROPHET", name: "Trench Pilgrim War Prophet", cat: "Leader", cost: 70, max: 1, isLeader: true, img: "images/war_prophet.jpg", fullStats: "MOVE: 6\" | RANGED: +0 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+", baseKeywords: ["COMMANDER", "HOLY FERVOUR", "ZEALOT"], equip: ["Trench Shotgun", "Trench Club"] },
+      { id: "UNIT_TP_ANCHORITE", name: "Anchorite Shrine", cat: "Monstrous Shrine", cost: 140, max: 1, isLeader: false, img: "images/anchorite_shrine.jpg", fullStats: "MOVE: 6\" | RANGED: 0D | MELEE: +2D | ARMOUR: -3 | WOUNDS: 3 | COURAGE: 10+", baseKeywords: ["NEGATE SHRAPNEL", "FEAR", "STRONG", "NEGATE HEAVY", "TOUGH", "PILGRIM", "BROKEN ON THE WHEEL"], equip: ["Catherine Wheel", "Bonebreaker Mace"] },
+      { id: "UNIT_TP_PRISONER", name: "Ecclesiastic Prisoner", cat: "Chaff / Sacrificial", cost: 25, max: 5, isLeader: false, img: "images/wretched_thrall.jpg", fullStats: "MOVE: 5\" | RANGED: -1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 5+", baseKeywords: ["SACRIFICIAL VICTIM", "LINE INFANTRY"], equip: ["Heavy Chains"] },
+      { id: "UNIT_TP_COMMUNICANT", name: "Communicant Giant", cat: "Heavy Elite", cost: 100, max: 1, isLeader: false, img: "images/communicant_giant.jpg", fullStats: "MOVE: 6\" | RANGED: -1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 8+", baseKeywords: ["HEAVY CONSTRUCT", "MONSTROUS STRENGTH"], equip: ["Greatsword", "Body Armour"] },
+      { id: "UNIT_TP_MARTYR", name: "Martyr Penitent", cat: "Trooper", cost: 30, max: 6, isLeader: false, img: "images/martyr_penitent.jpg", fullStats: "MOVE: 6\" | RANGED: -1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 10+", baseKeywords: ["BLOOD SACRIFICE", "FANATIC", "MARTYRDOM"], equip: ["Demo Charge", "Flagellant Flail"] },
+      { id: "UNIT_TP_PILGRIM", name: "Trench Pilgrim", cat: "Trooper", cost: 25, max: 15, isLeader: false, img: "images/trench_pilgrim.jpg", fullStats: "MOVE: 6\" | RANGED: +0 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["ZEALOT", "LINE INFANTRY"], equip: ["Bolt-Action Rifle", "Club"] },
+      { id: "UNIT_TP_TRENCH_DOG", name: "War Hound / Trench Dog", cat: "Beast Support", cost: 20, max: 4, isLeader: false, img: "images/trench_dog.jpg", fullStats: "MOVE: 8\" | RANGED: - | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+", baseKeywords: ["BEAST", "TRENCH RAID"], equip: ["Vicious Biting Fangs"] },
+      { id: "UNIT_TP_SAINT", name: "Desecrated Relic Saint", cat: "Relic Construct", cost: 85, max: 1, isLeader: false, img: "images/desecrated_saint.jpg", fullStats: "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 10+", baseKeywords: ["HOLY FERVOUR", "ARMOUR +2"], equip: ["Relic Sword", "Gothic Banner"] }
+    ],
+    heretic_legions: [
+      { id: "UNIT_HL_LORD_TUMOURS", name: "Heretic Lord of Tumours", cat: "Leader", cost: 80, max: 1, isLeader: true, img: "images/lord_of_tumours.jpg", fullStats: "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+", baseKeywords: ["COMMANDER", "BLACK GRAIL PLAGUE", "REGENERATION"], equip: ["Cleaver of Tumours", "Plague Carapace"] },
+      { id: "UNIT_HL_WARLOCK", name: "Goetic Warlock", cat: "Specialist", cost: 65, max: 2, isLeader: false, img: "images/goetic_warlock.jpg", fullStats: "MOVE: 6\" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["GOETIC SORCERY", "DIVINE GUIDANCE"], equip: ["Hellfire Wand", "Ritual Dagger"] },
+      { id: "UNIT_HL_PLAGUE_KNIGHT", name: "Black Grail Plague Knight", cat: "Elite", cost: 70, max: 3, isLeader: false, img: "images/plague_knight.jpg", fullStats: "MOVE: 5\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["DISEASE AURA", "ARMOUR +2", "REGENERATION"], equip: ["Plague Greatsword", "Heavy Plate"] },
+      { id: "UNIT_HL_KNIGHT_AVARICE", name: "Knight of Avarice", cat: "Elite", cost: 75, max: 2, isLeader: false, img: "images/knight_of_avarice.jpg", fullStats: "MOVE: 5\" | RANGED: +1 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["ARMOUR +2", "PARRY"], equip: ["Gilded Heavy Shotgun", "Gilded Mace"] },
+      { id: "UNIT_HL_HERETIC_TROOPER", name: "Heretic Trooper", cat: "Trooper", cost: 30, max: 12, isLeader: false, img: "images/heretic_trooper.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+", baseKeywords: ["LINE INFANTRY", "FANATIC"], equip: ["Bolt-Action Rifle", "Bayonet"] },
+      { id: "UNIT_HL_YOKE_FIEND", name: "Yoke Fiend", cat: "Beast Beast", cost: 40, max: 3, isLeader: false, img: "images/yoke_fiend.jpg", fullStats: "MOVE: 7\" | RANGED: - | MELEE: +2 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["BEAST", "RENDING LIMBS"], equip: ["Barbed Chains"] },
+      { id: "UNIT_HL_THRALL", name: "Wretched Thrall", cat: "Chaff Trooper", cost: 15, max: 20, isLeader: false, img: "images/wretched_thrall.jpg", fullStats: "MOVE: 5\" | RANGED: -1 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 5+", baseKeywords: ["LINE INFANTRY"], equip: ["Rusty Blade"] }
+    ],
+    black_grail: [
+      { id: "UNIT_BG_CHOREGUS", name: "Choregus of the Black Grail", cat: "Leader", cost: 85, max: 1, isLeader: true, img: "images/lord_of_tumours.jpg", fullStats: "MOVE: 5\" | RANGED: +0 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+", baseKeywords: ["COMMANDER", "BLACK GRAIL PLAGUE", "DIRGE OF HEGEMON"], equip: ["Plague Scythe", "Blighted Bell"] },
+      { id: "UNIT_BG_PIT_LOCUST", name: "Pit Locust Swarm", cat: "Flyer Specialist", cost: 95, max: 2, isLeader: false, img: "images/pit_locust.jpg", fullStats: "MOVE: 10\" | RANGED: +1 | MELEE: +2 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["FLIGHT", "POISON STINGER", "FLYING HORROR"], equip: ["Chitinous Stingers", "Corrosive Vomit"] },
+      { id: "UNIT_BG_HERALD", name: "Herald of Beelzebub", cat: "Specialist", cost: 75, max: 2, isLeader: false, img: "images/goetic_warlock.jpg", fullStats: "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["GOETIC SORCERY", "FLYING HORROR"], equip: ["Blight Staff", "Plague Dagger"] },
+      { id: "UNIT_BG_PLAGUE_KNIGHT", name: "Black Grail Plague Knight", cat: "Elite", cost: 70, max: 3, isLeader: false, img: "images/plague_knight.jpg", fullStats: "MOVE: 5\" | RANGED: +0 | MELEE: +2 | ARMOUR: 2 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["DISEASE AURA", "ARMOUR +2", "REGENERATION"], equip: ["Plague Greatsword", "Heavy Plate"] },
+      { id: "UNIT_BG_PLAGUE_HERETIC", name: "Plague Trooper", cat: "Trooper", cost: 30, max: 12, isLeader: false, img: "images/heretic_trooper.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 6+", baseKeywords: ["LINE INFANTRY", "INFECTED"], equip: ["Blight Rifle", "Rusty Bayonet"] }
+    ],
+    iron_sultanate: [
+      { id: "UNIT_IS_ALCHEMIST", name: "Jabirean Alchemist", cat: "Leader", cost: 75, max: 1, isLeader: true, img: "images/jabirean_alchemist.jpg", fullStats: "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["COMMANDER", "GAS HAZARD", "GAS IMMUNE"], equip: ["Alchemical Flamethrower", "Scimitar", "Gas Mask"] },
+      { id: "UNIT_IS_LION", name: "Lion of Jabir", cat: "Heavy Beast", cost: 90, max: 1, isLeader: false, img: "images/lion_of_jabir.jpg", fullStats: "MOVE: 7\" | RANGED: - | MELEE: +3 | ARMOUR: 2 | WOUNDS: 3 | COURAGE: 9+", baseKeywords: ["MONSTROUS STRENGTH", "ARMOUR +2"], equip: ["Alchemical Claws"] },
+      { id: "UNIT_IS_JANISSARY", name: "Janissary Heavy Rifleman", cat: "Elite", cost: 55, max: 4, isLeader: false, img: "images/janissary.jpg", fullStats: "MOVE: 6\" | RANGED: +2 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["SNIPER", "LINE INFANTRY"], equip: ["Heavy Rifle", "Kilij Sword"] },
+      { id: "UNIT_IS_AZAB", name: "Azab Warrior", cat: "Trooper", cost: 30, max: 12, isLeader: false, img: "images/azab_warrior.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["LINE INFANTRY"], equip: ["Musket", "Dagger"] },
+      { id: "UNIT_IS_TAKUBA", name: "Takuba Swordsman", cat: "Elite Melee", cost: 50, max: 4, isLeader: false, img: "images/takuba_swordsman.jpg", fullStats: "MOVE: 7\" | RANGED: - | MELEE: +3 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["TRENCH RAID", "PARRY"], equip: ["Takuba Broadsword"] },
+      { id: "UNIT_IS_SAPPER", name: "Wall Guard Sapper", cat: "Specialist", cost: 45, max: 2, isLeader: false, img: "images/wall_guard_sapper.jpg", fullStats: "MOVE: 5\" | RANGED: +1 | MELEE: +1 | ARMOUR: 1 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["IGNORE COVER", "BLAST 4"], equip: ["Demolition Satchel", "Sapper Shield"] }
+    ],
+    serpent_court: [
+      { id: "UNIT_CS_AMBASSADOR", name: "Serpent Ambassador", cat: "Leader", cost: 80, max: 1, isLeader: true, img: "images/serpent_ambassador.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +3 | ARMOUR: 1 | WOUNDS: 2 | COURAGE: 9+", baseKeywords: ["COMMANDER", "VENOMOUS"], equip: ["Poisoned Rapier", "Serpent Pistol"] },
+      { id: "UNIT_CS_ASSASSIN", name: "Fidai Assassin", cat: "Elite Assassin", cost: 65, max: 2, isLeader: false, img: "images/fidai_assassin.jpg", fullStats: "MOVE: 8\" | RANGED: +1 | MELEE: +3 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 8+", baseKeywords: ["SHOCK TROOPER", "VENOMOUS"], equip: ["Dual Poison Daggers"] },
+      { id: "UNIT_CS_SORCERER", name: "Serpent Sorcerer", cat: "Specialist", cost: 60, max: 2, isLeader: false, img: "images/serpent_sorcerer.jpg", fullStats: "MOVE: 6\" | RANGED: +2 | MELEE: +0 | ARMOUR: 0 | WOUNDS: 2 | COURAGE: 8+", baseKeywords: ["GOETIC SORCERY"], equip: ["Serpent Magic Staff"] },
+      { id: "UNIT_CS_HYDRA", name: "Hydra Construct", cat: "Heavy Monster", cost: 110, max: 1, isLeader: false, img: "images/hydra_construct.jpg", fullStats: "MOVE: 6\" | RANGED: +1 | MELEE: +3 | ARMOUR: 2 | WOUNDS: 4 | COURAGE: 9+", baseKeywords: ["HEAVY CONSTRUCT", "RENDING LIMBS"], equip: ["Hydra Melee Heads"] },
+      { id: "UNIT_CS_LOCUST", name: "Pit Locust Swarm", cat: "Flyer Specialist", cost: 50, max: 3, isLeader: false, img: "images/pit_locust.jpg", fullStats: "MOVE: 10\" | RANGED: +1 | MELEE: +1 | ARMOUR: 0 | WOUNDS: 1 | COURAGE: 7+", baseKeywords: ["FLIGHT", "POISON STINGER"], equip: ["Chitinous Stingers"] },
+      { id: "UNIT_CS_BULL", name: "Brazen Bull Siege Engine", cat: "Monstrous Construct", cost: 120, max: 1, isLeader: false, img: "images/brazen_bull.jpg", fullStats: "MOVE: 5\" | RANGED: +1 | MELEE: +4 | ARMOUR: 3 | WOUNDS: 4 | COURAGE: 10+", baseKeywords: ["HEAVY CONSTRUCT", "MONSTROUS STRENGTH"], equip: ["Molten Furnace Horns"] }
     ]
   };
 
@@ -3060,8 +3108,17 @@ document.addEventListener('DOMContentLoaded', () => {
     renderVault();
   });
 
-  selFaction.addEventListener('change', renderCatalog);
-  selBudget.addEventListener('change', updateRosterAudit);
+  function updateSubfactionOptions() {
+    if (!selFaction || !selSubfaction) return;
+    let fKey = selFaction.value;
+    let subs = subfactionsDict[fKey] || [];
+    selSubfaction.innerHTML = subs.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+    renderCatalog();
+  }
+
+  if (selFaction) selFaction.addEventListener('change', updateSubfactionOptions);
+  if (selSubfaction) selSubfaction.addEventListener('change', renderCatalog);
+  if (selBudget) selBudget.addEventListener('change', updateRosterAudit);
 
   // Open Codex Modal Function
   function openCodex(kwName) {
@@ -3634,3 +3691,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   updateSinPledgeVisibility();
+  if (typeof updateSubfactionOptions === 'function') updateSubfactionOptions();
+});
